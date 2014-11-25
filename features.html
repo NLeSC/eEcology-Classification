@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8">	
+    <head>    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">                
+    </head>
+    <body>
+        <div class="container">            
+            <h1 id="list-of-standard-features">List of standard features</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th>Feature name</th>
+                      <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>mean_x</td>
+                      <td>The mean of the x value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>mean_y</td>
+                      <td>The mean of the y value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>mean_z</td>
+                      <td>The mean of the z value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>std_x</td>
+                      <td>The standard deviation of the x value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>std_y</td>
+                      <td>The standard deviation of the y value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>std_z</td>
+                      <td>The standard deviation of the z value over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>mean_pitch</td>
+                      <td>The mean value of the pitch over the accelerometer points in the segment. The pitch is defined as atan2(x, sqrt(y^2 + z^2)) in degrees.</td>
+                    </tr>
+                    <tr>
+                      <td>std_pitch</td>
+                      <td>The standard deviation of the pitch over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>mean_roll</td>
+                      <td>The mean value of the roll over the accelerometer points in the segment. The pitch is defined as atan2(y, sqrt(x^2 + z^2)) in degrees.</td>
+                    </tr>
+                    <tr>
+                      <td>std_roll</td>
+                      <td>The standard deviation of the roll over the accelerometer points in the segment.</td>
+                    </tr>
+                    <tr>
+                      <td>correlation_xy</td>
+                      <td>The Pearson’s correlation between the signal of x and the signal of y.</td>
+                    </tr>
+                    <tr>
+                      <td>correlation_yz</td>
+                      <td>The Pearson’s correlation between the signal of y and the signal of z.</td>
+                    </tr>
+                    <tr>
+                      <td>correlation_xz</td>
+                      <td>The Pearson’s correlation between the signal of x and the signal of z.</td>
+                    </tr>
+                    <tr>
+                      <td>gps_speed</td>
+                      <td>The speed as measured by the GPS device.</td>
+                    </tr>
+                    <tr>
+                      <td>meanabsder_x</td>
+                      <td>The mean of the absolute value of the derivative of x. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                    </tr>
+                    <tr>
+                      <td>meanabsder_y</td>
+                      <td>The mean of the absolute value of the derivative of y. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                    </tr>
+                    <tr>
+                      <td>meanabsder_z</td>
+                      <td>The mean of the absolute value of the derivative of z. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                    </tr>
+                    <tr>
+                      <td>noise_x</td>
+                      <td>Measure of the noise in x signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                    </tr>
+                    <tr>
+                      <td>noise_y</td>
+                      <td>Measure of the noise in y signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                    </tr>
+                    <tr>
+                      <td>noise_z</td>
+                      <td>Measure of the noise in z signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                    </tr>
+                    <tr>
+                      <td>noise/absder_x</td>
+                      <td>Noise in signal of x divided by the mean of the absolute derivative of x. This is effectively the quotient between noise_x and meanabsder_x.</td>
+                    </tr>
+                    <tr>
+                      <td>noise/absder_y</td>
+                      <td>Noise in signal of y divided by the mean of the absolute derivative of y. This is effectively the quotient between noise_y and meanabsder_y.</td>
+                    </tr>
+                    <tr>
+                      <td>noise/absder_z</td>
+                      <td>Noise in signal of z divided by the mean of the absolute derivative of z. This is effectively the quotient between noise_z and meanabsder_z.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreq_x</td>
+                      <td>The fundamental frequency of the x signal. It is defined as the frequency belonging to the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the signal. A <a href="http://en.wikipedia.org/wiki/Window_function#Hamming_window">Hamming window</a> is used. The windowed signal is <a href="http://dsp.stackexchange.com/questions/741/why-should-i-zero-pad-a-signal-before-taking-the-fourier-transform">zero padded</a>. The number of bins used can be configured.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreq_y</td>
+                      <td>The fundamental frequency of the y signal.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreq_z</td>
+                      <td>The fundamental frequency of the z signal.</td>
+                    </tr>
+                    <tr>
+                      <td>odba</td>
+                      <td>Overall dynamic body acceleration. A measure that can be used as a <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0031187">proxy for for energy expenditure</a>.</td>
+                    </tr>
+                    <tr>
+                      <td>vedba</td>
+                      <td>Vector of dynamic body acceleration. A measure that can be used as a <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0031187">proxy for for energy expenditure</a>.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqcorr_x</td>
+                      <td>Pearson correlation of signal x with a generated sine wave with equal mean, and the fundamental frequency of x as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqcorr_y</td>
+                      <td>Pearson correlation of signal y with a generated sine wave with equal mean, and the fundamental frequency of y as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqcorr_z</td>
+                      <td>Pearson correlation of signal z with a generated sine wave with equal mean, and the fundamental frequency of z as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqmagnitude_x</td>
+                      <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the x signal.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqmagnitude_y</td>
+                      <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the y signal.</td>
+                    </tr>
+                    <tr>
+                      <td>fundfreqmagnitude_z</td>
+                      <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the z signal.</td>
+                    </tr>
+                    <tr>
+                      <td>raw</td>
+                      <td>The raw input. The keyword raw will add all values of x, y and z to the features. This is rather a feature group than a single feature.</td>
+                    </tr>
+                    <tr>
+                      <td>first_x</td>
+                      <td>The first (raw) value of the x signal.</td>
+                    </tr>
+                    <tr>
+                      <td>first_y</td>
+                      <td>The first (raw) value of the y signal.</td>
+                    </tr>
+                    <tr>
+                      <td>first_z</td>
+                      <td>The first (raw) value of the z signal.</td>
+                    </tr>
+                    <tr>
+                      <td>measurement_classifier</td>
+                      <td>Each measurement classified individually by a specific classifier. This is again a feature group rather than a single feature. A classifier for this feature can be set in the configuration file. The features is a normalized histogram of measurements that were put in each class. To train a classifier for this role, use features first_x, first_y, first_z and gps_speed.</td>
+                    </tr>
+                    <tr>
+                      <td>stepresponse</td>
+                      <td>The maximum response of the x signal (with its mean subtracted) to the convolution with kernel shaped as the smoothed average of several x signals of a Vulture stepping. The resulting kernel: [-0.0667, 0.1463, 0.3886, 0.4430, 0.3763, 0.3213, 0.2795, 0.2016, 0.0878, -0.0424, -0.1720, -0.2821, -0.3319, -0.2668]</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
