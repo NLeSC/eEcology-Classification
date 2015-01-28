@@ -208,7 +208,7 @@ public class FeatureExtractorFactory {
             featureSet.addAll(featuresList);
             if (featureSet.size() != featuresList.size()) {
                 throw new IllegalArgumentException(
-                        "The list of selected features contains duplicates. Each feature is only allowed once.");
+                        "The list of selected features contains duplicates. Each feature is allowed only once.");
             }
         }
         return featuresList;
