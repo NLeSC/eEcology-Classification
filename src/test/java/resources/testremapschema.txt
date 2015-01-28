@@ -1,0 +1,6 @@
+1 Feeding 1,2
+2 Walk 3
+3 Stand 4
+4 Preen 5
+5 Fly 6,7,8
+6 Other 9

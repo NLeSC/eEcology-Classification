@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    {{>commondependencies}}
+    <link rel="stylesheet" type="text/css" href="css/featurescatterplots.css">    
+</head>
+<body>
+    <div class="container-fluid" >
+        <div id="menu">{{>menu}}</div>
+        <div id="loading" class="loading">
+            <span class="fa fa-spinner fa-spin"></span>     
+        </div>
+        <div id="loaderror" class="bg-info hidden">
+            <h1>No data loaded.</h1>
+            To be able to inspect the data in the feature space, a job that outputs the features first needs to be run. <a href="http://nlesc.github.io/eEcology-Classification/#Featureoutput" target="_blank"><span class="fa fa-info-circle"></span></a>             
+        </div>
+        <div id="content" class="hidden">
+          <fieldset id="features" class="col-md-8"> 
+            <legend>Features</legend>
+            <ul id="featurelist" class="checkbox-grid"/>
+          </fieldset>
+          <fieldset id="options" class="col-md-4"> 
+            <legend>Options</legend>
+            <label>Subsample percentage <input id="subsamplepercentage" onblur="onPercentageChange()" onchange="onPercentageChange()"/></label> 
+          </fieldset>
+          <fieldset id="labels" class="col-md-4"> 
+            <legend>Labels</legend>
+            <ul id="labellist" class="checkbox-grid"/>
+          </fieldset>
+          <fieldset id="plots" class="col-md-12"> 
+              <legend>Feature scatter plots</span></legend>
+          </fieldset> 
+        </div>
+    </div>
+         
+    
+</body>
+
+<script src="js/featurescatterplots.js"></script>

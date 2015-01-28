@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    <div class="container theme-showcase">
+        <h1>Input</h1>
+        This is some test text.
+        <div class="form-group">
+            <label for="annotateddata">Annotated data</label>
+            <input id="annotateddata" type="file" >
+            <p class="help-block">This should be a control with which multiple files can be uploaded</p>
+        </div>
+        <div class="form-group">
+            <label for="unannotateddata">Unannotated data</label>
+            <input id="unannotateddata" type="file" >
+            <p class="help-block">This should be a control with which multiple files can be uploaded</p>
+        </div>
+        <div class="checkbox">
+            <label for="removenancheckbox">
+                <input type="checkbox" id="removenancheckbox"/> Remove measurements containing NaN (Not a Number)
+            </label>
+            <p class="help-block">Should they be removed?</p>
+        </div>
+        <div class="form-group">
+            <label for="schemafile">Schema file</label>
+            <input id="schemafile" type="file" >
+        </div>
+        <div class="form-group">
+            <label for="classifierfile">Classifier</label>
+            <input id="classifierfile" type="file" >
+        </div>        
+        <div class="checkbox">
+            <label for="splitdatacheckbox">
+                <input type="checkbox" id="splitdatacheckbox"/>Execute data splitting process
+            </label>
+        </div>    
+        <div class="checkbox">
+            <label for="traincheckbox">
+                <input type="checkbox" id="traincheckbox"/>Execute train process
+            </label>
+        </div>    
+        <div class="checkbox">
+            <label for="testcheckbox">
+                <input type="checkbox" id="testcheckbox"/>Execute test process
+            </label>
+        </div>    
+        <div class="checkbox">
+            <label for="classifycheckbox">
+                <input type="checkbox" id="classifycheckbox"/>Execute classification process
+            </label>
+        </div>    
+        <div class="checkbox">
+            <label for="outputcsvcheckbox">
+                <input type="checkbox" id="outputcsvcheckbox"/>Execute output features csv process
+            </label>
+        </div>   
+        <button id="submitbutton" type="submit" class="btn btn-default">Submit</button> 
+    </div>
+</body>
+<script>
+$("#submitbutton").click(function(){
+  var a = 1+1;
+  $.get("http://localhost:8080/hello-world?name=chris",
+  function(data,status){
+    alert("Data: " + data + "\nStatus: " + status);
+  });
+});
+</script>

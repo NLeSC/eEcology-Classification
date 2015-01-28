@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    {{>commondependencies}}
+</head>
+<body>
+    <div class="container theme-showcase" >
+        <div id="menu">{{>menu}}</div>       
+
+        <div class="container ">
+            <h1>Automatic classification results</h1>
+            <p class="lead">After annotating a dataset, a classifier can be trained on part of the data. This part of the annotated dataset is then called a train set. The resulting classifier can then be tested on the remaining dataset, called a test set. Links below show different aspects of the test results.</p>    
+        </div>
+
+        <div class="container ">
+          <div class="row">
+            <div class="col-md-5">
+                <a href="featurescatterplots.html" class="btn btn-lg">Features</a>
+                <p>
+                    Explore the different features of the data. See which features are able to separate the classes of the data and which ones seem redundant.
+                </p>
+            </div>
+            <div class="col-md-5">
+                <a href="treevisualization.html" class="btn btn-lg">Tree</a>
+                <p>
+                    If the classifier that was trained is a decision tree, it can be viewed here. The features and there corresponding thresholds can be inspected at each node. Branches can be collapsed to keep a good overview.
+                </p>
+            </div>
+            <div class="col-md-5">
+                <a href="testreport.html" class="btn btn-lg">Test report</a>
+                <p>
+                    See details about the performance of the trained classifier on a known test set. Here the among other, the error rate and confusion matrix can be found.
+                </p>
+            </div>
+            <div class="col-md-5">
+                <a href="misclassifications.html" class="btn btn-lg">Misclassifications</a>
+                <p>
+                    Inspect instances in the test set that were incorrectly classified. Misclassifications are shown both as raw data and as feature values. Also, they can be filtered on predicted or actual classes or the device the data was recorded on. 
+                </p>
+            </div>
+          </div    
+        </div>   
+    </div>
+</body>
+

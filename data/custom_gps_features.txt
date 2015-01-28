@@ -1,0 +1,5 @@
+meanlong; meanlong
+meanlat; meanlat
+meanalt; meanalt
+stdalt; stdalt
+stdlonglat; sqrt((stdlong * stdlong) + (stdlat * stdlat))

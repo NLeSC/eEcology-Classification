@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    {{>commondependencies}}
+    <link rel="stylesheet" href="css/treevisualization.css">    
+</head>
+<body>
+    <div id="tooltip" class="tooltip">    
+    </div>
+    <div class="container-fluid" >
+        <div id="menu">{{>menu}}</div>
+        <div id="content" class="hidden">       
+            <div id="tree"></div>
+        </div>
+        <div id="loaderror" class="bg-info hidden">
+            <h1>No tree data loaded.</h1>
+            Only a trained decision tree can be visualized. Train a classifier that outputs a decision tree to visualize it here. <a href="http://nlesc.github.io/eEcology-Classification/#Training" target="_blank"><span class="fa fa-info-circle"></span></a>             
+        </div>
+        <div id="loading" class="loading">
+            <span class="fa fa-spinner fa-spin"></span>     
+        </div>       
+        <script type="text/javascript" src="js/treevisualization.js"></script>
+    </div>    
+</body>
+

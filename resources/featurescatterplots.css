@@ -1,0 +1,55 @@
+svg {
+  font: 10px sans-serif;
+  padding: 10px;
+}
+
+.axis,
+.frame {
+  shape-rendering: crispEdges;
+}
+
+.axis line {
+  stroke: #ddd;
+}
+
+.axis path {
+  display: none;
+}
+
+.frame {
+  fill: none;
+  stroke: #aaa;
+}
+
+circle {
+  fill-opacity: .7;
+}
+
+circle.hidden-circle {
+  fill: #ccc !important;
+}
+
+.extent {
+  fill: #000;
+  fill-opacity: .125;
+  stroke: #fff;
+}
+
+fieldset ul {
+	-moz-column-count: 4;
+    -webkit-column-count: 4;
+    margin: auto;
+    list-style-type: none;
+}
+
+div.tooltip {   
+  position: absolute;           
+  text-align: center; 
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: #eee;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}

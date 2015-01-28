@@ -1,0 +1,10 @@
+// This is a comment with an empty line afterwards
+1 ActiveFeeding 0.50 0.50 0.50
+2 Eat-peck 1.00 0.00 0.00
+3 Walk 0.75 0.00 0.75
+4 Stand 0.00 0.00 1.00
+5 Preen 0.00 0.50 0.00
+6 ShortFlight 0.60 0.60 0.00
+7 Flap 0.40 0.40 0.00
+8 SoarGlide 0.40 0.40 0.40
+9 Other 0.60 0.60 1.00

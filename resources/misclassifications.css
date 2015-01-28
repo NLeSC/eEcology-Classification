@@ -1,0 +1,33 @@
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+line {
+    stroke: black;
+}
+
+path.accx{
+  stroke: red;
+}
+
+path.accy{
+  stroke: blue;
+}
+
+path.accz{
+  stroke: green;
+}
+
+
+.description {	        
+    font-size: 8pt;
+}
+   
+fieldset ul {
+    -moz-column-count: 5;
+    -webkit-column-count: 5;
+    margin: auto;
+    list-style-type: none;
+}

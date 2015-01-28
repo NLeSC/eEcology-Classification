@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="utf-8">	  
+	<head>
+	    <title>Misclassifications</title>
+        {{>commondependencies}}
+        <link rel="stylesheet" href="css/misclassifications.css">        
+  <style>
+    </style>
+	</head>
+	 
+	<body>        
+        <div class="container-fluid" >
+            <div id="menu">{{>menu}}</div>
+            <div id="loaderror" class="bg-info hidden">
+                <h1>No data loaded.</h1>
+                First test a trained classifier on a test set to see which instances where misclassified. <a href="http://nlesc.github.io/eEcology-Classification/#Testing" target="_blank"><span class="fa fa-info-circle"></span></a>             
+            </div>
+            <div id="loading" class="loading">
+                <span class="fa fa-spinner fa-spin"></span>     
+            </div> 
+            <div id="content" class="hidden">            
+              <fieldset class="col-md-4">                 
+                  <legend>Device id</legend>
+                  <ul id="trackers"></ul>
+              </fieldset>
+           
+              <fieldset class="col-md-4"> 
+                  <legend>Actual classes</legend>
+                  <ul id="labels"></ul>
+              </fieldset>
+  
+              <fieldset class="col-md-4"> 
+                  <legend>Predicted classes</legend>
+                  <ul id="predictions"></ul>
+              </fieldset>
+          
+              <fieldset class="col-md-12">
+                  <legend>Misclassifications</legend>
+                      <script src="js/misclassifications.js"></script>
+                  <div id="segments"></div>
+              </fieldset>
+            </div>
+        </div>
+	</body>
+</html>  

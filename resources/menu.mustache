@@ -1,0 +1,50 @@
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+  <div class="container-fluid">            
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>      
+    </div>            
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav" id="pages">             
+      </ul>            
+    </div>
+  </div>
+</nav>
+<script>
+var pages = {
+		"Start":"start.html",
+        "Features" :"featurescatterplots.html",
+        "Tree visualization" : "treevisualization.html",
+        "Test report": "testreport.html",
+        "Misclassifications":"misclassifications.html"
+    };
+	
+	var url = window.location.pathname;
+	var filename = url.substring(url.lastIndexOf('/')+1);
+	
+    var keys = Object.keys(pages);
+    
+	d3
+		.select("#pages")
+        .selectAll("li")
+		.data(keys)
+		.enter()
+		.append("li")
+        .attr("class", function(d){
+            if (filename == pages[d]){
+                return "active";
+            }
+            return "";
+        })
+		.append("a")
+		.text(function(d){
+            return d
+        })
+        .attr("href", function(d){
+            return pages[d];
+        });
+</script>

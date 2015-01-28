@@ -1,0 +1,28 @@
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1px;  
+}
+
+.link {
+  fill: none;  
+}
+
+.node text.featurevalue {
+  fill: #555;
+}
+
+.tooltip {   
+  position: absolute;           
+  text-align: center; 
+  height: 28px;                 
+  padding: 2px;
+  background: #eee;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
