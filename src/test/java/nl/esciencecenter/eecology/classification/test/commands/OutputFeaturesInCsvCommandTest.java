@@ -6,6 +6,10 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +22,7 @@ import nl.esciencecenter.eecology.classification.segmentloading.IndependentMeasu
 import nl.esciencecenter.eecology.classification.segmentloading.Segment;
 
 import org.joda.time.DateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,14 +32,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OutputFeaturesInCsvCommandTest {
     private OutputFeaturesInCsvCommand outputFeaturesCommand;
     private ObjectMapper objectMapper;
-    private final String testFileLocation = "src/test/java/resources/testoutput";
+    private final Path testFileLocation = Paths.get("src/test/java/resources/testoutput");
 
     @Test
     public void execute_zeroSegments_noExceptionThrown() {
         // Arrange
         try {
             expect(objectMapper.readValue(isA(File.class), isA(TypeReference.class))).andReturn(new LinkedList<Segment>())
-                    .anyTimes();
+            .anyTimes();
         } catch (Exception e) {
         }
         replay(objectMapper);
@@ -81,7 +86,11 @@ public class OutputFeaturesInCsvCommandTest {
                 return;
             }
         });
+    }
 
+    @After
+    public void cleanUp() throws IOException {
+        Files.deleteIfExists(testFileLocation);
     }
 
     private PathManager getPathManager() {
@@ -89,8 +98,8 @@ public class OutputFeaturesInCsvCommandTest {
         expect(pathManager.getTrainSetPath()).andReturn("");
         expect(pathManager.getTrainSetPath()).andReturn("");
         expect(pathManager.getTestSetPath()).andReturn("");
-        expect(pathManager.getFeaturesCsvPath()).andReturn(testFileLocation);
-        expect(pathManager.getSchemaJsonPath()).andReturn(testFileLocation);
+        expect(pathManager.getFeaturesCsvPath()).andReturn(testFileLocation.toString());
+        expect(pathManager.getSchemaJsonPath()).andReturn(testFileLocation.toString());
         expect(pathManager.getValidationSetPath()).andReturn("");
         replay(pathManager);
         return pathManager;
