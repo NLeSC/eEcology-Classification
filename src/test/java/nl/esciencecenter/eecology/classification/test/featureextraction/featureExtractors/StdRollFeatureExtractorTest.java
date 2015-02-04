@@ -18,7 +18,7 @@ public class StdRollFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
@@ -31,7 +31,7 @@ public class StdRollFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 1);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -48,7 +48,7 @@ public class StdRollFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 2 } });
         z = new DoubleMatrix(new double[][] { { 3 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -72,7 +72,7 @@ public class StdRollFeatureExtractorTest extends FeatureExtractorTest {
                 return new DoubleMatrix(new double[][] { { 1, 5 } }); // std = sqrt(4+4 / 1) = sqrt(8)
             }
         });
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { Math.sqrt(8) } });
 
         // Act

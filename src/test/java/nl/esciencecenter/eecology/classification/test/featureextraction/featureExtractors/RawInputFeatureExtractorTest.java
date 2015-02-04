@@ -14,7 +14,7 @@ import org.junit.Test;
 
 /**
  * @author christiaan
- * 
+ *
  */
 public class RawInputFeatureExtractorTest extends FeatureExtractorTest {
     private final int testSegmentSize = 2;
@@ -27,7 +27,7 @@ public class RawInputFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 0 } });
         z = new DoubleMatrix(new double[][] { { 2, 1 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0, 1, 1, 0, 2, 1 } });
 
         // Act

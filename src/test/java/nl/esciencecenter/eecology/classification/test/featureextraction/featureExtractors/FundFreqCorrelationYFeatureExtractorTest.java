@@ -17,7 +17,7 @@ public class FundFreqCorrelationYFeatureExtractorTest extends FundFreqCorrelatio
         DoubleMatrix x = new DoubleMatrix(y.rows, y.columns);
         DoubleMatrix z = new DoubleMatrix(y.rows, y.columns);
         DoubleMatrix gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments formattedSegments = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments formattedSegments = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix result = featureExtractor.extractFeatures(formattedSegments);
@@ -33,7 +33,7 @@ public class FundFreqCorrelationYFeatureExtractorTest extends FundFreqCorrelatio
         DoubleMatrix z = new DoubleMatrix(random);
         DoubleMatrix y = new DoubleMatrix(z.rows, z.columns);
         DoubleMatrix gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments formattedSegments = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments formattedSegments = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix result = featureExtractor.extractFeatures(formattedSegments);

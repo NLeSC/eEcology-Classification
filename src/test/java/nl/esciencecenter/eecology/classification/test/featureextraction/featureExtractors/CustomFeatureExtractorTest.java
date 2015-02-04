@@ -269,7 +269,8 @@ public class CustomFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix latitude = new DoubleMatrix(latitudeData);
         DoubleMatrix longitude = new DoubleMatrix(longitudeData);
         DoubleMatrix altitude = new DoubleMatrix(altitudeData);
-        FormattedSegments segments = new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp);
+        FormattedSegments segments = createFormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp);
         return segments;
     }
+
 }

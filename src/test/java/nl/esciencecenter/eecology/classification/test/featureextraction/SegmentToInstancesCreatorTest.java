@@ -19,6 +19,7 @@ import nl.esciencecenter.eecology.classification.segmentloading.IndependentMeasu
 import nl.esciencecenter.eecology.classification.segmentloading.Segment;
 
 import org.jblas.DoubleMatrix;
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -80,7 +81,7 @@ public class SegmentToInstancesCreatorTest {
 
     private void setDependencyExpectationsAndLetFeatureExtractorReturnFeaturesIn(List<Segment> segments, DoubleMatrix featuresIn) {
         DoubleMatrix m = new DoubleMatrix(0, 0);
-        FormattedSegments formattedSegments = new FormattedSegments(m, m, m, m);
+        FormattedSegments formattedSegments = new FormattedSegments(m, m, m, m, new DateTime[0][0], new int[0][0]);
         expect(segmentFormatter.format(segments)).andReturn(formattedSegments);
         replay(segmentFormatter);
 

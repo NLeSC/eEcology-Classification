@@ -67,6 +67,7 @@ public class PathManager {
     private final String jobStyleSubPath = "css";
     private final String jobCodeSubPath = "js";
     private final String outputSubPath = "output";
+    private final String mapFeaturesPath = "externalfeatures";
 
     public String getTreeGraphPath() {
         return getJoinedPath(getJobDataPath(), treeGraphPath);
@@ -118,6 +119,10 @@ public class PathManager {
 
     public String getClassifierPath() {
         return getJoinedPath(getDataPath(), classifierPath);
+    }
+
+    public String getMapFeaturesPath() {
+        return getJoinedPath(getDataPath(), mapFeaturesPath);
     }
 
     public String getMeasurementClassifierPath() {

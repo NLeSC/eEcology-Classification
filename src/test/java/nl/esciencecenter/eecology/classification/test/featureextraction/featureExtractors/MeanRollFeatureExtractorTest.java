@@ -18,7 +18,7 @@ public class MeanRollFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
@@ -31,7 +31,7 @@ public class MeanRollFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 1);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0, 0, 0 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -48,7 +48,7 @@ public class MeanRollFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 2 } });
         z = new DoubleMatrix(new double[][] { { 3 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 32.3115 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -67,7 +67,7 @@ public class MeanRollFeatureExtractorTest extends FeatureExtractorTest {
         z = new DoubleMatrix(new double[][] { { 5, 6 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
 
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 31.3909 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -86,7 +86,7 @@ public class MeanRollFeatureExtractorTest extends FeatureExtractorTest {
 
         gpsSpeed = new DoubleMatrix(x.rows, 1);
 
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 59.6030 }, { 44.6460 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);

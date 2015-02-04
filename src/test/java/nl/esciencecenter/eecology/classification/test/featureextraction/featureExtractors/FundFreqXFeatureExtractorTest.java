@@ -32,7 +32,7 @@ public class FundFreqXFeatureExtractorTest extends FundFreqFeatureExtractorTest 
         String expectationSerialization = "[[8.0],[4.333333333333333],[5.0],[7.666666666666667],[6.333333333333333],[8.0],[2.6666666666666665],[5.0],[1.0],[5.333333333333333],[4.666666666666667],[5.333333333333333],[9.666666666666666],[5.666666666666667],[8.333333333333334],[9.333333333333334],[8.0],[8.666666666666666],[1.3333333333333333],[8.666666666666666]]";
         DoubleMatrix x = new DoubleMatrix(deserialize(xSerialization));
         DoubleMatrix expected = new DoubleMatrix(deserialize(expectationSerialization));
-        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, new DoubleMatrix());
+        FormattedSegments formattedSegments = createFormattedSegments(x, x, x, new DoubleMatrix());
 
         // Act
         DoubleMatrix result = featureExtractor.extractFeatures(formattedSegments);
@@ -55,7 +55,7 @@ public class FundFreqXFeatureExtractorTest extends FundFreqFeatureExtractorTest 
     }
 
     private void printSerialization(DoubleMatrix x) throws JsonProcessingException, IOException, JsonParseException,
-            JsonMappingException {
+    JsonMappingException {
         ObjectMapper mapper = new ObjectMapper();
         String xStr = mapper.writeValueAsString(x.toArray2());
         System.out.println(xStr);

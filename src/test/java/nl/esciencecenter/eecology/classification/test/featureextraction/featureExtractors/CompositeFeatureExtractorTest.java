@@ -56,7 +56,7 @@ public class CompositeFeatureExtractorTest extends FeatureExtractorTest {
         CompositeFeatureExtractor compositeFeatureExtractor = (CompositeFeatureExtractor) featureExtractor;
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = gpsSpeed = new DoubleMatrix(2, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 1, 2, 3 }, { 4, 5, 6 } });
 
         FeatureExtractor childExtractor = createMock(FeatureExtractor.class);
@@ -77,7 +77,7 @@ public class CompositeFeatureExtractorTest extends FeatureExtractorTest {
         CompositeFeatureExtractor compositeFeatureExtractor = (CompositeFeatureExtractor) featureExtractor;
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = gpsSpeed = new DoubleMatrix(2, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix halveExpected = new DoubleMatrix(new double[][] { { 1, 2, 3 }, { 4, 5, 6 } });
         DoubleMatrix expected = DoubleMatrix.concatHorizontally(halveExpected, halveExpected);
 

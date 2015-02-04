@@ -18,7 +18,7 @@ public class AltitudeFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix a = new DoubleMatrix(1, 3);
         DoubleMatrix altitude = new DoubleMatrix(new double[][] { { 0, expected, 0 } });
         DateTime[][] t = new DateTime[1][3];
-        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, a, a, a, altitude, t);
+        FormattedSegments formattedSegments = createFormattedSegments(x, x, x, a, a, a, altitude, t);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(formattedSegments);

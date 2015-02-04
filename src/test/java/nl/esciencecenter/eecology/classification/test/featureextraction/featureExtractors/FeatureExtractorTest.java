@@ -15,6 +15,8 @@ import org.junit.Test;
 public abstract class FeatureExtractorTest {
     protected FeatureExtractor featureExtractor;
     protected final double errorMargin = 0.0001;
+    protected final DateTime defaultTestDateTime = new DateTime(2015, 2, 2, 13, 58, 59);
+    protected final int defaultDeviceId = 0;
 
     @Test
     public void extractFeatures_emptyInput_emptyOutput() {
@@ -34,7 +36,7 @@ public abstract class FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -54,8 +56,8 @@ public abstract class FeatureExtractorTest {
         latitude = new DoubleMatrix(x.rows, 1);
         longitude = new DoubleMatrix(x.rows, 1);
         altitude = new DoubleMatrix(x.rows, 1);
-        DateTime[][] timeStamp = new DateTime[x.rows][1];
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp);
+        DateTime[][] timeStamp = getDefaultTimeStamps(x.rows, 1);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp);
         DoubleMatrix xDup = x.dup();
         DoubleMatrix yDup = y.dup();
         DoubleMatrix zDup = z.dup();
@@ -123,8 +125,31 @@ public abstract class FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(0, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         return input;
+    }
+
+    protected FormattedSegments createFormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed) {
+        int[][] deviceId = new int[gpsSpeed.rows][gpsSpeed.columns];
+        DateTime[][] timeStamp = getDefaultTimeStamps(gpsSpeed.rows, gpsSpeed.columns);
+        return new FormattedSegments(x, y, z, gpsSpeed, timeStamp, deviceId);
+    }
+
+    private DateTime[][] getDefaultTimeStamps(int rows, int columns) {
+        DateTime[][] timeStamp = new DateTime[rows][columns];
+        for (int i = 0; i < timeStamp.length; i++) {
+            DateTime[] currentTimeStamp = timeStamp[i];
+            for (int j = 0; j < currentTimeStamp.length; j++) {
+                currentTimeStamp[j] = new DateTime(defaultTestDateTime);
+            }
+        }
+        return timeStamp;
+    }
+
+    protected FormattedSegments createFormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed,
+            DoubleMatrix latitude, DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp) {
+        int[][] deviceId = new int[gpsSpeed.rows][gpsSpeed.columns];
+        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp, deviceId);
     }
 
 }

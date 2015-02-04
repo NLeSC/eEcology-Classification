@@ -17,7 +17,7 @@ public class StdLocationZFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -32,7 +32,7 @@ public class StdLocationZFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 1);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
 
         // Act
@@ -51,7 +51,7 @@ public class StdLocationZFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 2 } });
         z = new DoubleMatrix(new double[][] { { 3 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
 
         // Act
@@ -70,7 +70,7 @@ public class StdLocationZFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 5 } });
         z = new DoubleMatrix(new double[][] { { 6, 8 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { Math.sqrt(2 / 1) } });
 
         // Act
@@ -89,7 +89,7 @@ public class StdLocationZFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 5 }, { 1, 3 } });
         z = new DoubleMatrix(new double[][] { { 6, 8 }, { 5, 7 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { Math.sqrt(2 / 1) }, { Math.sqrt(2 / 1) } });
 
         // Act

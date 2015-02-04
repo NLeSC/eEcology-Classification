@@ -14,14 +14,16 @@ public class FormattedSegments {
     private DoubleMatrix altitude;
 
     private DateTime[][] timeStamp;
+    private int[][] deviceId;
 
-    public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed) {
-        this(x, y, z, gpsSpeed, new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0),
-                new DateTime[0][0]);
+    public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DateTime[][] timeStamp,
+            int[][] deviceId) {
+        this(x, y, z, gpsSpeed, new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0), timeStamp,
+                deviceId);
     }
 
     public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DoubleMatrix latitude,
-            DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp) {
+            DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp, int[][] deviceId) {
         setX(x);
         setY(y);
         setZ(z);
@@ -30,6 +32,7 @@ public class FormattedSegments {
         setLongitude(longitude);
         setAltitude(altitude);
         setTimeStamp(timeStamp);
+        setDeviceId(deviceId);
     }
 
     public DoubleMatrix getX() {
@@ -100,7 +103,16 @@ public class FormattedSegments {
         return timeStamp;
     }
 
+    public int[][] getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(int[][] deviceId) {
+        this.deviceId = deviceId;
+    }
+
     public void setTimeStamp(DateTime[][] timeStamp) {
         this.timeStamp = timeStamp;
     }
+
 }

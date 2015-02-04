@@ -17,7 +17,7 @@ public class MeanLocationYFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
@@ -30,7 +30,7 @@ public class MeanLocationYFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 1);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -47,7 +47,7 @@ public class MeanLocationYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 2 } });
         z = new DoubleMatrix(new double[][] { { 3 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 2 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -64,7 +64,7 @@ public class MeanLocationYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 3 } });
         z = new DoubleMatrix(new double[][] { { 2, 4 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 2 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -81,7 +81,7 @@ public class MeanLocationYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 3 }, { 4, 6 } });
         z = new DoubleMatrix(new double[][] { { 2, 4 }, { 5, 7 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 2 }, { 5 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);

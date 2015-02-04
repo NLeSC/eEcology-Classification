@@ -20,12 +20,12 @@ public class NoisePerAbsDerYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1 } });
         z = new DoubleMatrix(new double[][] { { 1 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(input);
 
-        // Assert        
+        // Assert
         assertEquals(0, features.get(0, 0), errorMargin);
     }
 
@@ -37,12 +37,12 @@ public class NoisePerAbsDerYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 3 } });
         z = new DoubleMatrix(new double[][] { { 1, 1 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(input);
 
-        // Assert        
+        // Assert
         assertEquals(0, features.get(0, 0), errorMargin);
     }
 
@@ -54,12 +54,12 @@ public class NoisePerAbsDerYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 7, 3, 5 } });
         z = new DoubleMatrix(new double[][] { { 1, 1, 1 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(input);
 
-        // Assert        
+        // Assert
         assertEquals(1, features.get(0, 0), errorMargin);
     }
 
@@ -71,12 +71,12 @@ public class NoisePerAbsDerYFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 1, 1 } });
         z = new DoubleMatrix(new double[][] { { 1, 1, 1 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(input);
 
-        // Assert        
+        // Assert
         assertTrue(Double.isNaN(features.get(0, 0)) == false);
     }
 

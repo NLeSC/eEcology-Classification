@@ -17,7 +17,7 @@ public class GpsSpeedFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(new double[][] { new double[] { 5 } });
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
@@ -32,7 +32,7 @@ public class GpsSpeedFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix a = new DoubleMatrix(1, 3);
         DoubleMatrix gpsSpeed = new DoubleMatrix(new double[][] { { 0, expected, 0 } });
         DateTime[][] t = new DateTime[1][3];
-        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, gpsSpeed, a, a, a, t);
+        FormattedSegments formattedSegments = createFormattedSegments(x, x, x, gpsSpeed, a, a, a, t);
 
         // Act
         DoubleMatrix features = featureExtractor.extractFeatures(formattedSegments);

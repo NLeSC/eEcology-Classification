@@ -25,6 +25,7 @@ public class SegmentFormatter {
     private DoubleMatrix longitude;
     private DoubleMatrix altitude;
     private DateTime[][] timeStamp;
+    private int[][] deviceId;
 
     /**
      * Converts windows (or segments of measurements) to data that is ready to be used for feature extraction.
@@ -40,7 +41,7 @@ public class SegmentFormatter {
         int gpsRecordColumnCount = getGpsRecordCountPerSegment(segments);
         instantiateGpsRecordDataFields(segmentRowCount, gpsRecordColumnCount);
         fillGpsRecordDataFields(segments, segmentRowCount, gpsRecordColumnCount);
-        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp);
+        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp, deviceId);
     }
 
     private int getGpsRecordCountPerSegment(List<Segment> segments) {
@@ -68,6 +69,7 @@ public class SegmentFormatter {
         longitude = new DoubleMatrix(rowCount, columnCount);
         altitude = new DoubleMatrix(rowCount, columnCount);
         timeStamp = new DateTime[rowCount][columnCount];
+        deviceId = new int[rowCount][columnCount];
     }
 
     private void fillAccelerometerDataFields(List<Segment> segments, int rowCount, int columnCount) {
@@ -93,6 +95,7 @@ public class SegmentFormatter {
                 longitude.put(segmentRow, gpsRecordColumn, currentGpsRecord.getLongitude());
                 altitude.put(segmentRow, gpsRecordColumn, currentGpsRecord.getAltitude());
                 timeStamp[segmentRow][gpsRecordColumn] = currentGpsRecord.getTimeStamp();
+                deviceId[segmentRow][gpsRecordColumn] = currentGpsRecord.getDeviceId();
             }
         }
     }

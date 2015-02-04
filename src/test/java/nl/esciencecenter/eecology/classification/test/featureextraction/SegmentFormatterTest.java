@@ -129,6 +129,44 @@ public class SegmentFormatterTest {
     }
 
     @Test
+    public void format_1WindowWith1Measurements_outputHasCorrectDeviceId() {
+        // Arrange
+        List<Segment> segments = new LinkedList<Segment>();
+        List<IndependentMeasurement> measurements = new LinkedList<IndependentMeasurement>();
+        int deviceId = 7;
+        IndependentMeasurement measurement = new IndependentMeasurement();
+        measurements.add(measurement);
+        Segment segment = new Segment(measurements);
+        segment.setDeviceId(deviceId);
+        segments.add(segment);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(deviceId, output.getDeviceId()[0][0], errorMargin);
+    }
+
+    @Test
+    public void format_1WindowWith1Measurements_outputHasCorrectTimeStamp() {
+        // Arrange
+        List<Segment> segments = new LinkedList<Segment>();
+        List<IndependentMeasurement> measurements = new LinkedList<IndependentMeasurement>();
+        IndependentMeasurement measurement = new IndependentMeasurement();
+        measurements.add(measurement);
+        Segment segment = new Segment(measurements);
+        DateTime expected = new DateTime(2015, 1, 29, 16, 27, 30);
+        segment.setTimeStamp(expected);
+        segments.add(segment);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getTimeStamp()[0][0]);
+    }
+
+    @Test
     public void format_gpsRecordSegment_correctAltitude() {
         // Arrange
         List<Segment> segments = new LinkedList<>();
@@ -190,6 +228,21 @@ public class SegmentFormatterTest {
 
         // Assert
         assertEquals(expected, output.getTimeStamp()[0][0]);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctId() {
+        // Arrange
+        List<Segment> segments = new LinkedList<>();
+        int expected = 15;
+        GpsRecord main = new GpsRecord(expected, new DateTime(2014, 8, 14, 11, 44, 30));
+        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getDeviceId()[0][0]);
     }
 
     @Before

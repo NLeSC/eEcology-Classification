@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import nl.esciencecenter.eecology.classification.featureextraction.FormattedSegments;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.FirstXFeatureExtractor;
-import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MeanExtractor;
-import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MeanLocationXFeatureExtractor;
 
 import org.jblas.DoubleMatrix;
 import org.junit.Before;
@@ -18,7 +16,7 @@ public class FirstXFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 0);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
@@ -31,7 +29,7 @@ public class FirstXFeatureExtractorTest extends FeatureExtractorTest {
         DoubleMatrix x, y, z, gpsSpeed;
         x = y = z = new DoubleMatrix(1, 1);
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -48,7 +46,7 @@ public class FirstXFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 2 } });
         z = new DoubleMatrix(new double[][] { { 3 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 1 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
@@ -56,7 +54,6 @@ public class FirstXFeatureExtractorTest extends FeatureExtractorTest {
         double error = output.sub(expected).norm2();
         assertTrue(error < errorMargin);
     }
-
 
     @Test
     public void extractFeatures_2SequenceVectors_correctOutput() {
@@ -66,13 +63,13 @@ public class FirstXFeatureExtractorTest extends FeatureExtractorTest {
         y = new DoubleMatrix(new double[][] { { 1, 3 }, { 4, 6 } });
         z = new DoubleMatrix(new double[][] { { 2, 4 }, { 5, 7 } });
         gpsSpeed = new DoubleMatrix(x.rows, 1);
-        FormattedSegments input = new FormattedSegments(x, y, z, gpsSpeed);
+        FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
         DoubleMatrix expected = new DoubleMatrix(new double[][] { { 0 }, { 3 } });
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);
         // Assert
         double error = output.sub(expected).norm2();
-        assertTrue( error < errorMargin);
+        assertTrue(error < errorMargin);
     }
 
     @Before
