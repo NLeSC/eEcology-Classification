@@ -148,7 +148,6 @@ public class MessagePrintingExceptionHandlerTest {
         messagePrintingExceptionHandler.handle(exception, path);
 
         // Assert
-        System.out.print(errContent.toString());
         assertTrue(errContent.toString().contains("measurement_classifier_path"));
     }
 
