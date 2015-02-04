@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import nl.esciencecenter.eecology.classification.dataaccess.CustomFeatureExtractorLoader;
+import nl.esciencecenter.eecology.classification.dataaccess.MapFeatureExtractorLoader;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.AltitudeFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.CompositeFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.CorrelationXYFeatureExtractor;
@@ -64,6 +65,8 @@ import com.google.inject.name.Named;
 public class FeatureExtractorFactory {
     @Inject
     CustomFeatureExtractorLoader customFeatureExtractorLoader;
+    @Inject
+    MapFeatureExtractorLoader mapFeatureExtractorLoader;
 
     private final List<String> featureNames;
     private final NoiseXFeatureExtractor noiseXFeatureExtractor;
@@ -186,6 +189,10 @@ public class FeatureExtractorFactory {
         this.customFeatureExtractorLoader = customFeatureExtractorLoader;
     }
 
+    public void setMapFeatureExtractorLoader(MapFeatureExtractorLoader mapFeatureExtractorLoader) {
+        this.mapFeatureExtractorLoader = mapFeatureExtractorLoader;
+    }
+
     public FeatureExtractor getFeatureExtractor() {
         CompositeFeatureExtractor compositeFeatureExtractor = new CompositeFeatureExtractor();
 
@@ -249,10 +256,22 @@ public class FeatureExtractorFactory {
         for (FeatureExtractor customFeatureExtractor : customFeatureExtractorLoader.getCustomFeatureExtractors()) {
             String customFeatureExtractorName = customFeatureExtractor.getName();
             if (featureMap.containsKey(customFeatureExtractorName)) {
-                String message = "The custom feature extractor name '" + customFeatureExtractorName + "' is not unique.";
-                throw new InvalidCustomFeatureExtractorNameException(message);
+                String message = "The custom feature extractor name '" + customFeatureExtractorName
+                        + "' is not unique. Please rename it.";
+                throw new DuplicateFeatureExtractorNameException(message);
             } else {
                 featureMap.put(customFeatureExtractorName, customFeatureExtractor);
+            }
+        }
+
+        for (FeatureExtractor mapFeatureExtractor : mapFeatureExtractorLoader.getMapFeatureExtractors()) {
+            String mapFeatureExtractorName = mapFeatureExtractor.getName();
+            if (featureMap.containsKey(mapFeatureExtractorName)) {
+                String message = "The externally loaded feature's name '" + mapFeatureExtractorName
+                        + "' is not unique. Please rename it.";
+                throw new DuplicateFeatureExtractorNameException(message);
+            } else {
+                featureMap.put(mapFeatureExtractorName, mapFeatureExtractor);
             }
         }
         return featureMap;

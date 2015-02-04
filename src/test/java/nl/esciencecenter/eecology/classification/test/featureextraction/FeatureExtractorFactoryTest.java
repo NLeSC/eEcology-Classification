@@ -4,14 +4,17 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import nl.esciencecenter.eecology.classification.dataaccess.CustomFeatureExtractorLoader;
+import nl.esciencecenter.eecology.classification.dataaccess.MapFeatureExtractorLoader;
+import nl.esciencecenter.eecology.classification.featureextraction.DuplicateFeatureExtractorNameException;
 import nl.esciencecenter.eecology.classification.featureextraction.FeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.FeatureExtractorFactory;
-import nl.esciencecenter.eecology.classification.featureextraction.InvalidCustomFeatureExtractorNameException;
 import nl.esciencecenter.eecology.classification.featureextraction.UnknownFeatureExtractorTypeException;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.AltitudeFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.CompositeFeatureExtractor;
@@ -32,6 +35,7 @@ import nl.esciencecenter.eecology.classification.featureextraction.featureextrac
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.FundFreqYFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.FundFreqZFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.GpsSpeedFeatureExtractor;
+import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MapFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MeanAbsDerXFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MeanAbsDerYFeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.MeanAbsDerZFeatureExtractor;
@@ -97,7 +101,7 @@ public class FeatureExtractorFactoryTest {
         features.add("mean_x");
 
         // Act
-        FeatureExtractorFactory featureExtractorFactory = getTestFeatureExtractorFactory(features);
+        getTestFeatureExtractorFactory(features);
     }
 
     @Test
@@ -130,7 +134,7 @@ public class FeatureExtractorFactoryTest {
         assertEquals(1, childCount);
     }
 
-    @Test(expected = InvalidCustomFeatureExtractorNameException.class)
+    @Test(expected = DuplicateFeatureExtractorNameException.class)
     public void getFeatureExtractor_customFeatureExtractorWithConflictingName_throwException() {
         // Arrange
         LinkedList<String> selectedFeatures = new LinkedList<String>();
@@ -143,6 +147,49 @@ public class FeatureExtractorFactoryTest {
         expect(customFeatureExtractorLoader.getCustomFeatureExtractors()).andReturn(featureExtractorList).anyTimes();
         replay(customFeatureExtractorLoader);
         testFeatureExtractorFactory.setCustomFeatureExtractorLoader(customFeatureExtractorLoader);
+
+        // Act
+        testFeatureExtractorFactory.getFeatureExtractor();
+
+        // Assert
+    }
+
+    @Test
+    public void getFeatureExtractor_1mapFeatureExtractor_mapFeatureExtractorIsReturned() {
+        // Arrange
+        LinkedList<String> selectedFeatures = new LinkedList<String>();
+        selectedFeatures.add("test_map_feature");
+        FeatureExtractorFactory testFeatureExtractorFactory = getTestFeatureExtractorFactory(selectedFeatures);
+        MapFeatureExtractorLoader mapFeatureExtractorLoader = createNiceMock(MapFeatureExtractorLoader.class);
+        LinkedList<FeatureExtractor> featureExtractorList = new LinkedList<FeatureExtractor>();
+        FeatureExtractor mapFeatureExtractor = new MapFeatureExtractor("test_map_feature", new HashMap<String, Double>());
+        featureExtractorList.add(mapFeatureExtractor);
+        expect(mapFeatureExtractorLoader.getMapFeatureExtractors()).andReturn(featureExtractorList).anyTimes();
+        replay(mapFeatureExtractorLoader);
+        testFeatureExtractorFactory.setMapFeatureExtractorLoader(mapFeatureExtractorLoader);
+
+        // Act
+        CompositeFeatureExtractor featureExtractor = (CompositeFeatureExtractor) testFeatureExtractorFactory
+                .getFeatureExtractor();
+
+        // Assert
+        assertEquals(1, featureExtractor.getChildFeatureExtractors().size());
+        assertTrue(featureExtractor.getChildFeatureExtractors().contains(mapFeatureExtractor));
+    }
+
+    @Test(expected = DuplicateFeatureExtractorNameException.class)
+    public void getFeatureExtractor_mapFeatureExtractorWithConflictingName_throwException() {
+        // Arrange
+        LinkedList<String> selectedFeatures = new LinkedList<String>();
+        selectedFeatures.add("mean_x");
+        FeatureExtractorFactory testFeatureExtractorFactory = getTestFeatureExtractorFactory(selectedFeatures);
+        MapFeatureExtractorLoader mapFeatureExtractorLoader = createNiceMock(MapFeatureExtractorLoader.class);
+        LinkedList<FeatureExtractor> featureExtractorList = new LinkedList<FeatureExtractor>();
+        FeatureExtractor duplicateFeatureExtractor = new MapFeatureExtractor("mean_x", new HashMap<String, Double>());
+        featureExtractorList.add(duplicateFeatureExtractor);
+        expect(mapFeatureExtractorLoader.getMapFeatureExtractors()).andReturn(featureExtractorList).anyTimes();
+        replay(mapFeatureExtractorLoader);
+        testFeatureExtractorFactory.setMapFeatureExtractorLoader(mapFeatureExtractorLoader);
 
         // Act
         testFeatureExtractorFactory.getFeatureExtractor();
@@ -217,6 +264,11 @@ public class FeatureExtractorFactoryTest {
                 .anyTimes();
         replay(customFeatureExtractorLoader);
         featureExtractorFactory.setCustomFeatureExtractorLoader(customFeatureExtractorLoader);
+
+        MapFeatureExtractorLoader mapFeatureExtractorLoader = createNiceMock(MapFeatureExtractorLoader.class);
+        expect(mapFeatureExtractorLoader.getMapFeatureExtractors()).andReturn(new LinkedList<FeatureExtractor>()).anyTimes();
+        replay(mapFeatureExtractorLoader);
+        featureExtractorFactory.setMapFeatureExtractorLoader(mapFeatureExtractorLoader);
         return featureExtractorFactory;
     }
 }

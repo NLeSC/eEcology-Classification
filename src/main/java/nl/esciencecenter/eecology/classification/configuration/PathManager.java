@@ -34,6 +34,9 @@ public class PathManager {
     @Named("measurement_classifier_path")
     private String measurementClassifierPath;
     @Inject
+    @Named("externally_calculated_feature_value_csv_path")
+    private String mapFeaturesPath;
+    @Inject
     @Named("label_schema_remapping_path")
     private String labelRemapperPath;
     @Inject
@@ -67,7 +70,6 @@ public class PathManager {
     private final String jobStyleSubPath = "css";
     private final String jobCodeSubPath = "js";
     private final String outputSubPath = "output";
-    private final String mapFeaturesPath = "externalfeatures";
 
     public String getTreeGraphPath() {
         return getJoinedPath(getJobDataPath(), treeGraphPath);
