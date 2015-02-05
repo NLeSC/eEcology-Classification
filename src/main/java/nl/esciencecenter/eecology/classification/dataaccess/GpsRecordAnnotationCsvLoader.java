@@ -3,6 +3,7 @@ package nl.esciencecenter.eecology.classification.dataaccess;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,10 @@ import org.supercsv.prefs.CsvPreference;
  *
  */
 public class GpsRecordAnnotationCsvLoader implements GpsRecordAnnotationLoader {
+    private final String idColumnHeader = "id";
+    private final String timeStampColumnHeader = "ts";
+    private final String classColumnHeader = "class";
+
     /**
      * Reads in a csv file from disc and returns a list of GpsFix objects.
      *
@@ -38,32 +43,62 @@ public class GpsRecordAnnotationCsvLoader implements GpsRecordAnnotationLoader {
                     + csvFileName + ").", e);
         }
 
-        List<GpsRecordAnnotation> results = readGpsFixesFromFile(fileReader);
+        List<GpsRecordAnnotation> results = readGpsFixesFromFile(fileReader, csvFileName);
 
         return results;
     }
 
-    private List<GpsRecordAnnotation> readGpsFixesFromFile(FileReader fileReader) {
+    private List<GpsRecordAnnotation> readGpsFixesFromFile(FileReader fileReader, String csvFileName) {
         List<GpsRecordAnnotation> results = new LinkedList<GpsRecordAnnotation>();
         CsvBeanReader beanReader = new CsvBeanReader(fileReader, CsvPreference.STANDARD_PREFERENCE);
         try {
             String[] headers = beanReader.getHeader(true);
-
-            GpsRecordAnnotation gpsFix = null;
-            do {
-                gpsFix = beanReader.read(GpsRecordAnnotation.class, headers, getProcessors());
-                if (gpsFix != null) {
-                    results.add(gpsFix);
-                }
-
-            } while (gpsFix != null);
-
-            beanReader.close();
-            fileReader.close();
+            if (hasIncorrectHeaders(headers)) {
+                closeReaders(fileReader, beanReader);
+                throw getUnableToReadFileExceptionCauseOfHeaders(csvFileName);
+            }
+            getGpsFixesFromReader(results, beanReader, headers);
+            closeReaders(fileReader, beanReader);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new UnableToReadGpsFixesFileException("", e);
         }
         return results;
+    }
+
+    private UnableToReadGpsFixesFileException getUnableToReadFileExceptionCauseOfHeaders(String csvFileName) {
+        StringBuilder message = new StringBuilder();
+        message.append("The csv file containing the gps fixes '");
+        message.append(csvFileName);
+        message.append("' doesn't contain correct column headers.");
+        UnableToReadGpsFixesFileException unableToReadGpsFixesFileException = new UnableToReadGpsFixesFileException(
+                message.toString(), null);
+        return unableToReadGpsFixesFileException;
+    }
+
+    private void closeReaders(FileReader fileReader, CsvBeanReader beanReader) throws IOException {
+        beanReader.close();
+        fileReader.close();
+    }
+
+    private boolean hasIncorrectHeaders(String[] headers) {
+        boolean hasIdHeader = Arrays.asList(headers).stream().anyMatch(h -> h.equalsIgnoreCase(idColumnHeader));
+        boolean hasTimeStampHeader = Arrays.asList(headers).stream().anyMatch(h -> h.equalsIgnoreCase(timeStampColumnHeader));
+        boolean hasClassHeader = Arrays.asList(headers).stream().anyMatch(h -> h.equalsIgnoreCase(classColumnHeader));
+        boolean hasCorrectHeaders = hasIdHeader && hasTimeStampHeader && hasClassHeader;
+        boolean hasIncorrectHeaders = hasCorrectHeaders == false;
+        return hasIncorrectHeaders;
+    }
+
+    private void getGpsFixesFromReader(List<GpsRecordAnnotation> results, CsvBeanReader beanReader, String[] headers)
+            throws IOException {
+        GpsRecordAnnotation gpsFix = null;
+        do {
+            gpsFix = beanReader.read(GpsRecordAnnotation.class, headers, getProcessors());
+            if (gpsFix != null) {
+                results.add(gpsFix);
+            }
+
+        } while (gpsFix != null);
     }
 
     private CellProcessor[] getProcessors() {
