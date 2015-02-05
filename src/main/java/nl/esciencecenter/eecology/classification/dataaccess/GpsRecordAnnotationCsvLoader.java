@@ -59,10 +59,20 @@ public class GpsRecordAnnotationCsvLoader implements GpsRecordAnnotationLoader {
             }
             getGpsFixesFromReader(results, beanReader, headers);
             closeReaders(fileReader, beanReader);
-        } catch (IOException e) {
-            throw new UnableToReadGpsFixesFileException("", e);
+        } catch (IOException | NullPointerException e) {
+            throw getUnableToReadFileExceptionCauseUnknown(csvFileName, e);
         }
         return results;
+    }
+
+    private UnableToReadGpsFixesFileException getUnableToReadFileExceptionCauseUnknown(String csvFileName, Exception e) {
+        StringBuilder message = new StringBuilder();
+        message.append("The csv file containing the gps fixes '");
+        message.append(csvFileName);
+        message.append("' could not be read.");
+        UnableToReadGpsFixesFileException unableToReadGpsFixesFileException = new UnableToReadGpsFixesFileException(
+                message.toString(), e);
+        return unableToReadGpsFixesFileException;
     }
 
     private UnableToReadGpsFixesFileException getUnableToReadFileExceptionCauseOfHeaders(String csvFileName) {

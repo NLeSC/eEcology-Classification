@@ -18,7 +18,7 @@ public class GpsRecordAnnotationCsvLoaderTest {
     private final Path path = Paths.get("src/test/java/resources/gpsfixloading/");
     private final Path testFilePath = path.resolve("testgpsfixes.csv");
     private final Path testFileWithoutHeadersPath = path.resolve("testgpsfixeswitoutheaders.csv");
-    private final Path testFileCausingNullReference = path.resolve("gull1annotations.csv");
+    private final Path testFileEmptyPath = path.resolve("emptyfile.csv");
     private GpsRecordAnnotationCsvLoader gpsRecordAnnotationCsvLoader;
 
     @Test
@@ -57,7 +57,7 @@ public class GpsRecordAnnotationCsvLoaderTest {
     @Test(expected = UnableToReadGpsFixesFileException.class)
     public void load_fileCausingNullReference_failGracefully() {
         // Act
-        List<GpsRecordAnnotation> results = gpsRecordAnnotationCsvLoader.load(testFileCausingNullReference.toString());
+        List<GpsRecordAnnotation> results = gpsRecordAnnotationCsvLoader.load(testFileEmptyPath.toString());
 
         // Assert
         assertEquals(2, results.get(0).getAnnotation());
