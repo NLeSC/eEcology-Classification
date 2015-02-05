@@ -56,6 +56,18 @@ public class MapFeatureExtractorLoaderTest {
         assertEquals(0, mapFeatureExtractors.size());
     }
 
+    @Test
+    public void getMapFeatureExtractors_pathIsIdenticalToDataFolder_zeroResults() {
+        // Arrange
+        setTestFilePathAndDataPath(testPath.toString(), testPath.toString());
+
+        // Act
+        List<FeatureExtractor> mapFeatureExtractors = mapFeatureExtractorLoader.getMapFeatureExtractors();
+
+        // Assert
+        assertEquals(0, mapFeatureExtractors.size());
+    }
+
     @Test(expected = MapFeatureExtractorFileNotFoundException.class)
     public void getMapFeatureExtractors_pathIsNonExistent_throwError() {
         // Arrange
@@ -140,7 +152,12 @@ public class MapFeatureExtractorLoaderTest {
     }
 
     private void setTestFilePath(String fileName) {
+        setTestFilePathAndDataPath(fileName, testPath.toString());
+    }
+
+    private void setTestFilePathAndDataPath(String fileName, String dataPath) {
         expect(pathManager.getMapFeaturesPath()).andReturn(fileName).anyTimes();
+        expect(pathManager.getDataPath()).andReturn(dataPath).anyTimes();
         replay(pathManager);
     }
 

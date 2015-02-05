@@ -167,6 +167,11 @@ public class PathManager {
         return getJoinedPath(jobBasePath, outputSubPath);
     }
 
+    public String getDataPath() {
+        String path = jobDirIsDataDir ? jobBasePath : dataPath;
+        return getPath(path);
+    }
+
     private String getJoinedPath(String basePath, String subPath) {
         String base = getPath(basePath);
         return base + File.separator + getPath(subPath);
@@ -174,10 +179,6 @@ public class PathManager {
 
     private String getPath(String path) {
         return path.trim();
-    }
-
-    private String getDataPath() {
-        return jobDirIsDataDir ? jobBasePath : dataPath;
     }
 
     protected List<String> getDataPathList(String pathString) {

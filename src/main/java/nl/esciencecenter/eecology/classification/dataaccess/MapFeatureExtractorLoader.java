@@ -37,7 +37,7 @@ public class MapFeatureExtractorLoader {
     public List<FeatureExtractor> getMapFeatureExtractors() {
 
         String mapFeaturesPath = pathManager.getMapFeaturesPath();
-        if (mapFeaturesPath == null || mapFeaturesPath.equals("")) {
+        if (mapFeaturesPath == null || mapFeaturesPath.equals("") || mapFeaturesPath.equals(pathManager.getDataPath())) {
             return new LinkedList<>();
         }
 
