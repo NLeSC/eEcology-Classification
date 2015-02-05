@@ -1,6 +1,6 @@
 package nl.esciencecenter.eecology.classification.configuration;
 
-import java.io.File;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class PathManager {
     private String measurementClassifierPath;
     @Inject
     @Named("externally_calculated_feature_value_csv_path")
-    private String mapFeaturesPath;
+    protected String mapFeaturesPath;
     @Inject
     @Named("label_schema_remapping_path")
     private String labelRemapperPath;
@@ -65,7 +65,7 @@ public class PathManager {
     private final String classificationTuplesPath = "classifications.csv";
     private final String featuresCsvPath = "featurescomplete.csv";
     private final String schemaJsonPath = "schema.json";
-    private final String dataPath = "data";
+    protected String dataPath = "data";
     private final String jobDataSubPath = "data";
     private final String jobStyleSubPath = "css";
     private final String jobCodeSubPath = "js";
@@ -174,11 +174,11 @@ public class PathManager {
 
     private String getJoinedPath(String basePath, String subPath) {
         String base = getPath(basePath);
-        return base + File.separator + getPath(subPath);
+        return Paths.get(base).resolve(getPath(subPath)).toString();
     }
 
     private String getPath(String path) {
-        return path.trim();
+        return Paths.get(path.trim()).toString();
     }
 
     protected List<String> getDataPathList(String pathString) {

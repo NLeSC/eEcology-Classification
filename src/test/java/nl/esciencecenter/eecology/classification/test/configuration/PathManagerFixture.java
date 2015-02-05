@@ -17,6 +17,14 @@ public class PathManagerFixture extends PathManager {
         this.schemaPath = schemaPath;
     }
 
+    public void setMapFeaturesPath(String mapFeaturesPath) {
+        this.mapFeaturesPath = mapFeaturesPath;
+    }
+
+    public void setDataPath(String dataPath) {
+        this.dataPath = dataPath;
+    }
+
     @Override
     public List<String> getDataPathList(String pathString) {
         return super.getDataPathList(pathString);

@@ -101,6 +101,20 @@ public class PathManagerTest {
         assertEquals(expected, output);
     }
 
+    @Test
+    public void getMapFeaturesPath_emptyPathSet_returnDataDirWithoutTrailingSlash() {
+        // Arrange
+        pathManager.setMapFeaturesPath("");
+        pathManager.setDataPath("data");
+        String expected = "data";
+
+        // Act
+        String output = pathManager.getMapFeaturesPath();
+
+        // Assert
+        assertEquals(expected, output);
+    }
+
     @Before
     public void setUp() {
         pathManager = new PathManagerFixture();
