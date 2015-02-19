@@ -89,7 +89,8 @@ public class MapFeatureExtractorLoader {
         if (isDeviceId(header)) {
             processor = new ParseInt();
         } else if (isTimeStamp(header)) {
-            processor = new JodaTimeCellProcessor(Constants.DATE_TIME_PATTERN_ISO8601);
+            processor = new JodaTimeCellProcessor().withSupportForPattern(Constants.DATE_TIME_PATTERN_ISO8601)
+                    .withSupportForPattern(Constants.DATE_TIME_PATTERN_POSTGRES);
         } else {
             processor = new ParseDouble();
         }

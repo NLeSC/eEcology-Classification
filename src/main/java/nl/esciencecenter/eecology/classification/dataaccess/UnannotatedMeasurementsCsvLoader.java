@@ -90,7 +90,7 @@ public class UnannotatedMeasurementsCsvLoader extends MeasurementsLoader {
 
     private CellProcessor[] getProcessors() {
         return new CellProcessor[] { new ParseInt(), // device id
-                new JodaTimeCellProcessor(Constants.DATE_TIME_PATTERN_POSTGRES), // timestamp
+                new JodaTimeCellProcessor().withSupportForPattern(Constants.DATE_TIME_PATTERN_POSTGRES), // timestamp
                 new ConvertNullTo(Double.NaN, new ParseDouble()), // speed
                 new ConvertNullTo(Double.NaN, new ParseDouble()), // longitude
                 new ConvertNullTo(Double.NaN, new ParseDouble()), // latitude

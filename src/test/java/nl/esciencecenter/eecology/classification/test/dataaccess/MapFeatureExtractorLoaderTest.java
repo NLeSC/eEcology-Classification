@@ -26,7 +26,8 @@ import org.junit.Test;
 public class MapFeatureExtractorLoaderTest {
 
     private final Path testPath = Paths.get("src/test/java/resources/mapfeatures");
-    private final Path features2Path = testPath.resolve("2features.csv");
+    private final Path features2Path = testPath.resolve("2featuresIso8601.csv");
+    private final Path featuresPostgresDateTimeFormatPath = testPath.resolve("2featuresPostgres.csv");
 
     private MapFeatureExtractorLoader mapFeatureExtractorLoader;
     private PathManager pathManager;
@@ -127,11 +128,10 @@ public class MapFeatureExtractorLoaderTest {
         // Arrange
         setTestFilePath(features2Path.toString());
         DoubleMatrix x = new DoubleMatrix(2, 0);
-        DoubleMatrix g = new DoubleMatrix(2, 0);
         DateTime[][] timeStamps = { { new DateTime(2015, 2, 2, 9, 46, DateTimeZone.UTC) },
                 { new DateTime(2015, 2, 2, 9, 47, DateTimeZone.UTC) } };
         int[][] deviceIds = { { 48 }, { 43 } };
-        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, g, g, g, g, timeStamps, deviceIds);
+        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, x, x, x, x, timeStamps, deviceIds);
 
         // Act
         List<FeatureExtractor> mapFeatureExtractors = mapFeatureExtractorLoader.getMapFeatureExtractors();
@@ -142,6 +142,25 @@ public class MapFeatureExtractorLoaderTest {
         // Assert
         assertEquals("Feature of first instance is incorrect.", 15.3, extractFeatures.get(0, 0), errorMargin);
         assertEquals("Feature of second instance is incorrect.", -2.4, extractFeatures.get(1, 0), errorMargin);
+    }
+
+    @Test
+    public void getMapFeatureExtractors_PostGresDateTimeFormat_resultsContainCorrectColumnNames() {
+        // Arrange
+        setTestFilePath(featuresPostgresDateTimeFormatPath.toString());
+        DoubleMatrix x = new DoubleMatrix(1, 0);
+        DateTime[][] timeStamps = { { new DateTime(2013, 4, 19, 1, 27, 59, DateTimeZone.UTC) } };
+        int[][] deviceIds = { { 1011 } };
+        FormattedSegments formattedSegments = new FormattedSegments(x, x, x, x, x, x, x, timeStamps, deviceIds);
+
+        // Act
+        List<FeatureExtractor> mapFeatureExtractors = mapFeatureExtractorLoader.getMapFeatureExtractors();
+        FeatureExtractor map = mapFeatureExtractors.stream().filter(m -> m.getName().equalsIgnoreCase("z_speed"))
+                .collect(Collectors.toList()).get(0);
+        DoubleMatrix extractFeatures = map.extractFeatures(formattedSegments);
+
+        // Assert
+        assertEquals(15.67, extractFeatures.get(0, 0), errorMargin);
     }
 
     @Before

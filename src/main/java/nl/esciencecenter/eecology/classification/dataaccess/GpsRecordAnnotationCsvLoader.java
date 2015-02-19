@@ -113,7 +113,7 @@ public class GpsRecordAnnotationCsvLoader implements GpsRecordAnnotationLoader {
 
     private CellProcessor[] getProcessors() {
         return new CellProcessor[] { new NotNull(new ParseInt()), // device id
-                new JodaTimeCellProcessor(Constants.DATE_TIME_PATTERN_ISO8601), // timestamp
+                new JodaTimeCellProcessor().withSupportForPattern(Constants.DATE_TIME_PATTERN_ISO8601), // timestamp
                 new NotNull(new ParseInt()) // annotation
         };
     }
