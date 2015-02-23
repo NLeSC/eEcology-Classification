@@ -19,7 +19,7 @@ public class GpsRecordAnnotation {
      *
      * @param deviceId
      */
-    public void setId(int deviceId) {
+    public void setDevice_info_serial(int deviceId) {
         setDeviceId(deviceId);
     }
 
@@ -29,7 +29,7 @@ public class GpsRecordAnnotation {
      *
      * @param timeStamp
      */
-    public void setTs(DateTime timeStamp) {
+    public void setDate_time(DateTime timeStamp) {
         setTimeStamp(timeStamp);
     }
 
@@ -39,7 +39,7 @@ public class GpsRecordAnnotation {
      *
      * @param annotation
      */
-    public void setClass(int annotation) {
+    public void setClass_id(int annotation) {
         setAnnotation(annotation);
     }
 

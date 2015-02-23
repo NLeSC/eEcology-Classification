@@ -80,7 +80,7 @@ var loadAndHandleData = function(){
 		updateFeatures();
 		setSelectedData();
 		setDefaultSubsamplePercentage();
-		addFeatureSelectionContols();	
+		addFeatureSelectionControls();	
 		updatePlots();
 	});
 }
@@ -129,7 +129,7 @@ var get256Color = function(floatColor){
 }
 
 var setSelectedData = function(){
-	selectedData = allData.filter(function(d){return selectedLabels.indexOf(d.label) != -1; } );
+	selectedData = allData.filter(function(d){return selectedLabels.indexOf(d.class_id) != -1; } );
 }
 
 var setDefaultSubsamplePercentage = function(){
@@ -137,7 +137,7 @@ var setDefaultSubsamplePercentage = function(){
     var percentageInput = document.getElementById("subsamplepercentage").value = subsamplePercentage;
 }
 
-var addFeatureSelectionContols = function(){	
+var addFeatureSelectionControls = function(){	
     var trackers = d3.select("#featurelist").selectAll('input').data(features);  
     trackers.enter()
     .append("li")
@@ -154,12 +154,12 @@ var addFeatureSelectionContols = function(){
 }
 
 var updateFeatures = function(){
-    features = d3.keys(allData[0]).filter(function(d) { return d != "id" && 
-		  d != "timestamp" && 
+    features = d3.keys(allData[0]).filter(function(d) { return d != "device_info_serial" && 
+		  d != "date_time" && 
 		  d != "lon" && 
 		  d != "lat" && 
 		  d != "alt" && 
-		  d != "label" && 
+		  d != "class_id" && 
 		  d != "set" &&
 		  d != "label_description" &&
 		  d != "color_r" &&
@@ -263,7 +263,7 @@ var addPlots = function(){
 			.attr("cx", function(d) { return x(d[p.x]); })
 			.attr("cy", function(d) { return y(d[p.y]); })
 			.attr("r", 1.5)			
-			.style("fill", function(d) { return getRgbColorString(schema[d.label]) });
+			.style("fill", function(d) { return getRgbColorString(schema[d.class_id]) });
 	}
 
 	var brushCell;

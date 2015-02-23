@@ -1,4 +1,4 @@
-id,ts,class
+device_info_serial,date_time,class_id
 184,2014-05-04T17:36:13.000Z,3
 184,2014-05-04T17:56:48.000Z,3
 184,2014-05-04T18:17:18.000Z,3

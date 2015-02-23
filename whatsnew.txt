@@ -1,4 +1,8 @@
+2015-02-23
+- Csv of gps record annotations should now be: 'device_info_serial,date_time,class_id' instead of old 'id,ts,class' (to be consistent with other parts of the software)
+- Changed headers in features csv output to be consistent with rest of the application.
 
+2014-10
 - custom feature variable for gpsSpeed changed name from 'gpsSpeed' to 'speed1'
 - added custom feature variables for longitude, latitude, altitude on gps level, see documentation for details
 

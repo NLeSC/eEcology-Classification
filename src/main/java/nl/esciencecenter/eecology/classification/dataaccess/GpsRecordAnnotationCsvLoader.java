@@ -23,9 +23,9 @@ import org.supercsv.prefs.CsvPreference;
  *
  */
 public class GpsRecordAnnotationCsvLoader implements GpsRecordAnnotationLoader {
-    private final String idColumnHeader = "id";
-    private final String timeStampColumnHeader = "ts";
-    private final String classColumnHeader = "class";
+    private final String idColumnHeader = "device_info_serial";
+    private final String timeStampColumnHeader = "date_time";
+    private final String classColumnHeader = "class_id";
 
     /**
      * Reads in a csv file from disc and returns a list of GpsFix objects.

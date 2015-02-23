@@ -39,7 +39,7 @@ public class OutputFeaturesInCsvCommand implements Command {
     }
 
     public void setSchemaToJobFolderSaver(SchemaToJobDirectorySaver schemaToJobFolderSaver) {
-        this.schemaToJobDirectorySaver = schemaToJobFolderSaver;
+        schemaToJobDirectorySaver = schemaToJobFolderSaver;
     }
 
     public void setPrinter(Printer printer) {
@@ -74,12 +74,12 @@ public class OutputFeaturesInCsvCommand implements Command {
         Segment segment = segments.get(0);
 
         StringBuilder output = new StringBuilder();
-        output.append("id,");
-        output.append("timestamp,");
+        output.append("device_info_serial,");
+        output.append("date_time,");
         output.append("lon,");
         output.append("lat,");
         output.append("alt,");
-        output.append("label,");
+        output.append("class_id,");
         for (String feature : segment.getFeatureNames()) {
             output.append(feature + ",");
         }
