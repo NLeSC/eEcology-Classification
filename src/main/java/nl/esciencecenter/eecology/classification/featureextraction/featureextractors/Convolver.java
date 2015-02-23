@@ -4,7 +4,7 @@ import org.jblas.DoubleMatrix;
 
 /**
  * Convolves two matrices.
- * 
+ *
  * @author Christiaan Mejer, Elena Ranguelova- Javadocs
  * @since July 2014
  */
@@ -18,7 +18,7 @@ public class Convolver {
     private int centerb;
 
     /**
-     * Conlvoles matrix a with matrix b. The result has the same dimensions as a. This corresponds with setting 'same' in Matlab.
+     * Conlvolves matrix a with matrix b. The result has the same dimensions as a. This corresponds with setting 'same' in Matlab.
      *
      * @param a
      * @param b
