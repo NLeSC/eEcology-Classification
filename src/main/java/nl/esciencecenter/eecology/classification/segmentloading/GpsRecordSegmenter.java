@@ -24,6 +24,10 @@ public class GpsRecordSegmenter {
     @Named("gps_segment_size")
     private int segmentSize;
 
+    @Inject
+    @Named("gps_segments_may_overlap")
+    private boolean allowOverlap;
+
     private Set<String> uniqueIdTimeStamps;
 
     @Inject
@@ -36,6 +40,10 @@ public class GpsRecordSegmenter {
 
     public void setSegmentSize(int segmentSize) {
         this.segmentSize = Math.max(1, segmentSize);
+    }
+
+    public void setAllowOverlap(boolean allowOverlap) {
+        this.allowOverlap = allowOverlap;
     }
 
     /**
@@ -100,6 +108,28 @@ public class GpsRecordSegmenter {
     }
 
     private List<GpsRecord> popSegmentCompatibleRecords(LinkedList<GpsRecord> recordsToGroup) {
+        if (allowOverlap) {
+            return popSegmentCompatibleMeasurementsWithOverlap(recordsToGroup);
+        }
+        return popSegmentCompatibleRecordsWithoutOverlap(recordsToGroup);
+    }
+
+    private List<GpsRecord> popSegmentCompatibleMeasurementsWithOverlap(LinkedList<GpsRecord> measurementsToSegment) {
+        List<GpsRecord> currentSegment = new LinkedList<GpsRecord>();
+        GpsRecord firstMeasurement = measurementsToSegment.pop();
+        currentSegment.add(firstMeasurement);
+        for (int i = 0; i < segmentSize - 1; i++) {
+            GpsRecord currentMeasurement = measurementsToSegment.get(i);
+            if (areCompatible(firstMeasurement, currentMeasurement)) {
+                currentSegment.add(currentMeasurement);
+            } else {
+                break;
+            }
+        }
+        return currentSegment;
+    }
+
+    private List<GpsRecord> popSegmentCompatibleRecordsWithoutOverlap(LinkedList<GpsRecord> recordsToGroup) {
         List<GpsRecord> currentSegment = new LinkedList<GpsRecord>();
         GpsRecord firstRecord = recordsToGroup.getFirst();
         for (int i = 0; i < segmentSize; i++) {

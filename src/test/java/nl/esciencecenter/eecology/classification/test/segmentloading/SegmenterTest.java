@@ -51,7 +51,7 @@ public class SegmenterTest {
         input.add(getMeasurementWithLabel(0));
         segmenter.setSegmentSize(1);
 
-        // Act        
+        // Act
         List<Segment> output = segmenter.createLabeledSegments(input);
 
         // Assert

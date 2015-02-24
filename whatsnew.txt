@@ -1,45 +1,6 @@
+2015-02-24
+- New setting 'gps_segments_may_overlap' defines whether more instances can be created by allowing segments to partly overlap other segments.
+
 2015-02-23
 - Csv of gps record annotations should now be: 'device_info_serial,date_time,class_id' instead of old 'id,ts,class' (to be consistent with other parts of the software)
 - Changed headers in features csv output to be consistent with rest of the application.
-
-2014-10
-- custom feature variable for gpsSpeed changed name from 'gpsSpeed' to 'speed1'
-- added custom feature variables for longitude, latitude, altitude on gps level, see documentation for details
-
-2014-10-20
-- new setting all_files_including_data_are_inside_job_dir makes it possible to run a job using data in the job folder instead of the data folder.
-
-2014-10-02
-- Changed output of the tool both technically and visually (contents of testreport.txt is now in html for instance)
-- Added csv support for unannotated data  
-- Added stepresponse feature.
-
-2014-08-07
-- Added Bessel's correction to all standard deviation calculations (also in custom features)
-- Added new accelerometer feature: fundfreqcorr_x(and y and z), the correlation with a sine wave with the fundamental frequency. 
-
-26 July 2014
-- Behavior when encountering undefined labels when loading annotated data can be set in settings file (continue_when_encountering_undefined_label = false).
-- Number of bins used by fft must now be defined in settings.properties (minimum_number_of_bins_used_by_fft = 512).
-- Sample rate of accelerometer must now be defined in settings.properties (accelerometer_sample_frequency = 20).
-
-14 July 2014
-- Added line in settings.properties that defines whether to allow multiple rows in classification output csv file with the same device and timestamp.
-- Format of classification output csv file changed (added columns, changed column names)
-- Filters on misclassifications in visualisation
-- Added DB classification schema
-- Added user defined custom features and new setting custom_feature_extractor_file_path.
-
-27 May 2014
-- Added visualisation of features (scatter plots), which is copied to the job dir
-- Substituted "correlations" feature for "correlation_xy", "correlation_xz" and "correlation_yz"
-- Fixed bug: correlation features are now 0 instead of NaN in case of a zero standard deviation 
-
-12 May 2014
-- Added "measurement_classification" feature. This features needs a trained classifier that classifies based on <x,y,z,gps_speed> of a measurement. 
-
-8 May 2014
-- Fixed spelling error "obda" to "odba". This also holds for the settings file.
-- Added "raw" feature
-- Added setting: 'segments_must_have_unique_id_timestamp_combination'. Set true to make sure no 2 segments are created with same timestamp and id.
-- Added features "first_x", "first_y" and "first_z" which are the first raw data points. 

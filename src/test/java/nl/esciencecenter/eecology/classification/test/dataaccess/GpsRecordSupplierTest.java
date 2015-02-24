@@ -6,6 +6,7 @@ import java.util.List;
 
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordAnnotationCsvLoader;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordDtoCsvLoader;
+import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordLoadingException;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordSupplier;
 import nl.esciencecenter.eecology.classification.segmentloading.GpsRecord;
 
@@ -16,6 +17,7 @@ import org.junit.Test;
 public class GpsRecordSupplierTest {
     private final String path = "src/test/java/resources/annotatedgpstest/";
     private final String gpsRecordsPath = path + "honeybuzzard.gpsrecordings.csv";
+    private final String invalidGpsRecordsPath = path + "invalid.gpsrecordings.csv";
     private final String annotationsPath = path + "honeybuzzard.annotations.txt";
 
     private GpsRecordSupplier supplier;
@@ -46,6 +48,12 @@ public class GpsRecordSupplierTest {
         // Assert
         GpsRecord result = gpsRecords.get(0);
         //        assertEquals(-0.01, result.getXSpeed(), errorMargin);
+    }
+
+    @Test(expected = GpsRecordLoadingException.class)
+    public void getAnnotatedGpsRecords_invalidTestFile_throwCorrectException() {
+        // Act
+        supplier.getGpsRecords(invalidGpsRecordsPath, annotationsPath);
     }
 
     @Before

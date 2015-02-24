@@ -105,6 +105,25 @@ public class GpsRecordSegmenterTest {
     }
 
     @Test
+    public void createSegmentsIgnoringLabel_withOverlap_correctNumberOfResuls() {
+        // Arrange
+        int segmentSize = 5;
+        int totalRecords = 10;
+        int expectedSegments = 6;
+
+        segmenter.setAllowOverlap(true);
+        LinkedList<GpsRecord> input = new LinkedList<GpsRecord>();
+        input.addAll(getUnlabeledRecordsWithConsecutiveTimeStamps(totalRecords));
+        segmenter.setSegmentSize(segmentSize);
+
+        // Act
+        List<Segment> labeledSegments = segmenter.createSegmentsIgnoringLabel(input);
+
+        // Assert
+        assertEquals(expectedSegments, labeledSegments.size());
+    }
+
+    @Test
     public void getLabeledSegments_labeledInput_segmentIsLabeled() {
         // Arrange
         int n = 1;

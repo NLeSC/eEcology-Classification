@@ -12,9 +12,9 @@ import com.google.inject.name.Named;
  * Segments a group of (accelerometer data) measurements into windows. The size of each window can be set. The windows are
  * non-overlapping. Windows are homogeneous, meaning they can only hold measurements belonging to the same device, taken at the
  * same time, and given the same label.
- * 
+ *
  * @author Christiaan Meijer, NLeSc
- * 
+ *
  */
 public class Segmenter {
     @Inject
@@ -26,10 +26,10 @@ public class Segmenter {
 
     private int segmentSize = 1;
     private boolean ignoreLabel;
-
     private Set<String> uniqueIdTimeStamps;
 
     @Inject
+    // Injecting segmentSize in constructor to be able to use setter.
     public Segmenter(@Named("measurement_segment_size") int segmentSize) {
         setSegmentSize(segmentSize);
     }
@@ -50,7 +50,7 @@ public class Segmenter {
      * Segments a group of (accelerometer data) measurements into segments. The size of each segment can be set. The segments are
      * non-overlapping. Segments are homogeneous, meaning they can only hold measurements belonging to the same device, taken at
      * the same time, and given the same label.
-     * 
+     *
      * @param measurements
      * @return segments
      */
@@ -70,8 +70,8 @@ public class Segmenter {
     /**
      * Segments a group of (accelerometer data) measurements into segments. The size of each segment can be set. The segments are
      * non-overlapping. Segments are homogeneous, meaning they can only hold measurements belonging to the same device, taken at
-     * the same time, but disrecarding the label.
-     * 
+     * the same time, but disregarding the label.
+     *
      * @param measurements
      * @return segments
      */
@@ -93,7 +93,7 @@ public class Segmenter {
         LinkedList<IndependentMeasurement> measurementsToGroup = new LinkedList<IndependentMeasurement>(measurements);
         uniqueIdTimeStamps = new HashSet<String>();
         while (measurementsToGroup.size() >= segmentSize) {
-            List<IndependentMeasurement> currentGroup = popSegmentCompatibleMeasurements(measurementsToGroup);
+            List<IndependentMeasurement> currentGroup = popSegmentCompatibleMeasurementsWithoutOverlap(measurementsToGroup);
             addNewSegmentIfCorrect(currentGroup, segments);
         }
         return segments;
@@ -119,8 +119,8 @@ public class Segmenter {
         return idTimeStamp;
     }
 
-    private List<IndependentMeasurement>
-            popSegmentCompatibleMeasurements(LinkedList<IndependentMeasurement> measurementsToSegment) {
+    private List<IndependentMeasurement> popSegmentCompatibleMeasurementsWithoutOverlap(
+            LinkedList<IndependentMeasurement> measurementsToSegment) {
         List<IndependentMeasurement> currentSegment = new LinkedList<IndependentMeasurement>();
         IndependentMeasurement firstMeasurement = measurementsToSegment.getFirst();
         for (int i = 0; i < segmentSize; i++) {

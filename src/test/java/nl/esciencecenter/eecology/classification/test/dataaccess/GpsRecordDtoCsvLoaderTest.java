@@ -11,7 +11,7 @@ import nl.esciencecenter.eecology.classification.segmentloading.GpsRecordDto;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GpsRecordingCsvLoaderTest {
+public class GpsRecordDtoCsvLoaderTest {
 
     private final String path = "src/test/java/resources/";
     private final String testFileName = path + "testgpsfixes2.csv";
