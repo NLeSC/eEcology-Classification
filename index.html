@@ -91,7 +91,9 @@
                     <pre>
                         use_gps_records_instead_of_accelerometer_data = true
                     </pre>
-                    <p>It is common for GPS data to be incomplete. Often, some columns like the h_accuracy, v_accuracy or pressure is missing for a given GPS record. Machine learning algorithms often cannot handle missing values. Multiple solutions exist in de literature, like discarding a row that is missing a value. This is not feasible when handling the GPS data because too many rows would have to be discarded. In this software a zero is used for every missing value when loading GPS records.</p><h3>Segmenting accelerometer measurements</h3><p>Classification can only be done on a series of accelerometer measurements called a segment. Therefore a number of consecutive accelerometer measurements are grouped into a single segment. The number of accelerometer measurements in a single segment can be defined the setting below.</p>
+                    <p>It is common for GPS data to be incomplete. Often, some columns like the h_accuracy, v_accuracy or pressure is missing for a given GPS record. Machine learning algorithms often cannot handle missing values. Multiple solutions exist in de literature, like discarding a row that is missing a value. This is not feasible when handling the GPS data because too many rows would have to be discarded. In this software a zero is used for every missing value when loading GPS records.</p>
+                    <h3>Segmenting accelerometer measurements</h3>
+                    <p>Consecutive accelerometer measurements grouped together are called a segment. Classification of accelerometer data is done at the segment level, because a single accelerometer point often does not provide enough information to make a reliable classification. The number of consecutive accelerometer measurements in a single segment can be defined the setting below.</p>
                     <pre>
                         measurement_segment_size = 20
                     </pre>
@@ -99,6 +101,16 @@
                     <pre>
                         segments_must_have_unique_id_timestamp_combination = true
                     </pre>
+                    <h3>Segmenting gps records</h3>
+                    <p>Like accelerometer measurements, gps points are grouped into segments before classification. To determine the number of gps records in a single segment, use the setting below.</p>
+                    <pre>
+                        gps_segment_size = 5
+                    </pre>
+                    <p>When classifying gps records, we often want to get a classification for each individual record even though classification is done on the segment level. This problem is tackled by assigning the class of each segment to individual gps record in the center of the segment. By creating overlapping windows, every individual gps record can be given a classification. To allow segments to have this overlap, the setting below can be used.</p>
+                    <pre>
+                        gps_segments_may_overlap = true
+                    </pre>
+                    <p>Use caution when using overlapping segments. The resulting segments are not at all independent from one another. Using overlapping segments to randomly split over a train and test set would therefore be incorrect. Doing this would result in overly optimistic test results.</p>
                     <h3>Label schema</h3>
                     <p>The labels, their description, and their associated colors used for visualization, are defined in a schema file. Note that, the schema file should be located in the data folder of the software. From the settings file, the used schema can be set. The lines below indicate that the file at location <em>/data/schemaGull.txt</em> is to be used.</p>
                     <pre>
