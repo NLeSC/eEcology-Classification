@@ -80,14 +80,14 @@
                         SELECT device_info_serial, date_time, latitude, longitude, altitude, 
                                pressure, temperature, satellites_used, gps_fixtime, positiondop, 
                                h_accuracy, v_accuracy, x_speed, y_speed, z_speed, speed_accuracy, 
-                               location, userflag
+                               location, userflag, speed_2d, speed_3d, direction, altitude_agl
                           FROM gps.uva_tracking_data101 
                          WHERE date_time &gt; &#39;2014-05-04 0:00:00&#39;
                            AND date_time &lt; &#39;2014-05-05 0:00:00&#39;
                            AND device_info_serial = 184
                            AND altitude IS NOT NULL;
                     </pre>
-                    <p>You need to choose whether you want to load annotated gps records from a csv file, like described above, instead of accelerometer data from a mat file. This can to be set in the settings file.</p>
+                    <p>The exported csv file must contain at least the columns selected in the sql statement above, and have correct headers.  You need to choose whether you want to load annotated gps records from a csv file, like described above, instead of accelerometer data from a mat file. This can to be set in the settings file.</p>
                     <pre>
                         use_gps_records_instead_of_accelerometer_data = true
                     </pre>
