@@ -169,11 +169,10 @@ public class SegmentFormatterTest {
     @Test
     public void format_gpsRecordSegment_correctAltitude() {
         // Arrange
-        List<Segment> segments = new LinkedList<>();
-        GpsRecord mainGpsRecord = new GpsRecord(15, new DateTime(2014, 8, 14, 11, 44, 30));
+        GpsRecord main = getGpsRecordWithIdAndTime();
         double expected = 156;
-        mainGpsRecord.setAltitude(expected);
-        segments.add(new Segment(mainGpsRecord, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        main.setAltitude(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
 
         // Act
         FormattedSegments output = segmentFormatter.format(segments);
@@ -185,11 +184,10 @@ public class SegmentFormatterTest {
     @Test
     public void format_gpsRecordSegment_correctLongitude() {
         // Arrange
-        List<Segment> segments = new LinkedList<>();
-        GpsRecord main = new GpsRecord(15, new DateTime(2014, 8, 14, 11, 44, 30));
+        GpsRecord main = getGpsRecordWithIdAndTime();
         double expected = 187;
         main.setLongitude(expected);
-        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        List<Segment> segments = getListWithOneGpsRecord(main);
 
         // Act
         FormattedSegments output = segmentFormatter.format(segments);
@@ -201,11 +199,10 @@ public class SegmentFormatterTest {
     @Test
     public void format_gpsRecordSegment_correctLatitude() {
         // Arrange
-        List<Segment> segments = new LinkedList<>();
-        GpsRecord main = new GpsRecord(15, new DateTime(2014, 8, 14, 11, 44, 30));
+        GpsRecord main = getGpsRecordWithIdAndTime();
         double expected = 323;
         main.setLatitude(expected);
-        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        List<Segment> segments = getListWithOneGpsRecord(main);
 
         // Act
         FormattedSegments output = segmentFormatter.format(segments);
@@ -217,11 +214,10 @@ public class SegmentFormatterTest {
     @Test
     public void format_gpsRecordSegment_correctTimeStamp() {
         // Arrange
-        List<Segment> segments = new LinkedList<>();
-        GpsRecord main = new GpsRecord(15, new DateTime(2014, 8, 14, 11, 44, 30));
+        GpsRecord main = getGpsRecordWithIdAndTime();
         DateTime expected = new DateTime(2014, 8, 14, 14, 53, 30);
         main.setTimeStamp(expected);
-        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        List<Segment> segments = getListWithOneGpsRecord(main);
 
         // Act
         FormattedSegments output = segmentFormatter.format(segments);
@@ -233,16 +229,130 @@ public class SegmentFormatterTest {
     @Test
     public void format_gpsRecordSegment_correctId() {
         // Arrange
-        List<Segment> segments = new LinkedList<>();
         int expected = 15;
         GpsRecord main = new GpsRecord(expected, new DateTime(2014, 8, 14, 11, 44, 30));
-        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        List<Segment> segments = getListWithOneGpsRecord(main);
 
         // Act
         FormattedSegments output = segmentFormatter.format(segments);
 
         // Assert
         assertEquals(expected, output.getDeviceId()[0][0]);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctPressure() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setPressure(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getPressure().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctTemperature() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setTemperature(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getTemperature().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctSatellitesUsed() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        int expected = 15;
+        main.setSatellitesUsed(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getSattellitesUsed().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctSpeed2d() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setSpeed2d(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getSpeed2d().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctSpeed3d() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setSpeed3d(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getSpeed3d().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctAltitudeAboveGround() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setAltitudeAboveGround(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getAltitudeAboveGround().get(0, 0), errorMargin);
+    }
+
+    @Test
+    public void format_gpsRecordSegment_correctGpsFixTime() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setGpsFixTime(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getGpsFixTime().get(0, 0), errorMargin);
+    }
+
+    private GpsRecord getGpsRecordWithIdAndTime() {
+        return new GpsRecord(15, new DateTime(2014, 8, 14, 11, 44, 30));
+    }
+
+    private List<Segment> getListWithOneGpsRecord(GpsRecord main) {
+        List<Segment> segments = new LinkedList<>();
+        segments.add(new Segment(main, new LinkedList<GpsRecord>(), new LinkedList<GpsRecord>()));
+        return segments;
     }
 
     @Before

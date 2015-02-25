@@ -24,6 +24,14 @@ public class SegmentFormatter {
     private DoubleMatrix latitude;
     private DoubleMatrix longitude;
     private DoubleMatrix altitude;
+    private DoubleMatrix pressure;
+    private DoubleMatrix temperature;
+    private DoubleMatrix satellitesUsed;
+    private DoubleMatrix gpsFixtime;
+    private DoubleMatrix speed2d;
+    private DoubleMatrix speed3d;
+    private DoubleMatrix direction;
+    private DoubleMatrix altitudeAboveGround;
     private DateTime[][] timeStamp;
     private int[][] deviceId;
 
@@ -41,7 +49,8 @@ public class SegmentFormatter {
         int gpsRecordColumnCount = getGpsRecordCountPerSegment(segments);
         instantiateGpsRecordDataFields(segmentRowCount, gpsRecordColumnCount);
         fillGpsRecordDataFields(segments, segmentRowCount, gpsRecordColumnCount);
-        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp, deviceId);
+        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, pressure, temperature, satellitesUsed,
+                gpsFixtime, speed2d, speed3d, altitudeAboveGround, timeStamp, deviceId);
     }
 
     private int getGpsRecordCountPerSegment(List<Segment> segments) {
@@ -68,6 +77,14 @@ public class SegmentFormatter {
         latitude = new DoubleMatrix(rowCount, columnCount);
         longitude = new DoubleMatrix(rowCount, columnCount);
         altitude = new DoubleMatrix(rowCount, columnCount);
+        pressure = new DoubleMatrix(rowCount, columnCount);
+        temperature = new DoubleMatrix(rowCount, columnCount);
+        satellitesUsed = new DoubleMatrix(rowCount, columnCount);
+        gpsFixtime = new DoubleMatrix(rowCount, columnCount);
+        speed2d = new DoubleMatrix(rowCount, columnCount);
+        speed3d = new DoubleMatrix(rowCount, columnCount);
+        direction = new DoubleMatrix(rowCount, columnCount);
+        altitudeAboveGround = new DoubleMatrix(rowCount, columnCount);
         timeStamp = new DateTime[rowCount][columnCount];
         deviceId = new int[rowCount][columnCount];
     }
@@ -94,6 +111,14 @@ public class SegmentFormatter {
                 latitude.put(segmentRow, gpsRecordColumn, currentGpsRecord.getLatitude());
                 longitude.put(segmentRow, gpsRecordColumn, currentGpsRecord.getLongitude());
                 altitude.put(segmentRow, gpsRecordColumn, currentGpsRecord.getAltitude());
+                pressure.put(segmentRow, gpsRecordColumn, currentGpsRecord.getPressure());
+                temperature.put(segmentRow, gpsRecordColumn, currentGpsRecord.getTemperature());
+                satellitesUsed.put(segmentRow, gpsRecordColumn, currentGpsRecord.getSatellitesUsed());
+                gpsFixtime.put(segmentRow, gpsRecordColumn, currentGpsRecord.getGpsFixTime());
+                speed2d.put(segmentRow, gpsRecordColumn, currentGpsRecord.getSpeed2d());
+                speed3d.put(segmentRow, gpsRecordColumn, currentGpsRecord.getSpeed3d());
+                direction.put(segmentRow, gpsRecordColumn, currentGpsRecord.getDirection());
+                altitudeAboveGround.put(segmentRow, gpsRecordColumn, currentGpsRecord.getAltitudeAboveGround());
                 timeStamp[segmentRow][gpsRecordColumn] = currentGpsRecord.getTimeStamp();
                 deviceId[segmentRow][gpsRecordColumn] = currentGpsRecord.getDeviceId();
             }

@@ -51,10 +51,7 @@ public class GpsRecordSupplier {
     }
 
     private GpsRecord createGpsRecordFromDto(GpsRecordDto gpsRecordDto, HashMap<String, Integer> labelsByIdTimeStamp) {
-        GpsRecord gpsRecord = new GpsRecord(gpsRecordDto.getDeviceId(), gpsRecordDto.getTimeStamp());
-        gpsRecord.setLatitude(gpsRecordDto.getLatitude());
-        gpsRecord.setLongitude(gpsRecordDto.getLongitude());
-        gpsRecord.setAltitude(gpsRecordDto.getAltitude());
+        GpsRecord gpsRecord = new GpsRecord(gpsRecordDto);
 
         Integer labelId = labelsByIdTimeStamp.get(getIdTimeStamp(gpsRecordDto.getDeviceId(), gpsRecordDto.getTimeStamp()));
         if (labelId != null) {

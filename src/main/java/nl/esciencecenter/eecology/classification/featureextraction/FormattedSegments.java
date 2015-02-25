@@ -12,18 +12,35 @@ public class FormattedSegments {
     private DoubleMatrix latitude;
     private DoubleMatrix longitude;
     private DoubleMatrix altitude;
+    private DoubleMatrix pressure;
+    private DoubleMatrix temperature;
+    private DoubleMatrix sattellitesUsed;
+    private DoubleMatrix gpsFixTime;
+    private DoubleMatrix speed2d;
+    private DoubleMatrix speed3d;
+    private DoubleMatrix direction;
+    private DoubleMatrix altitudeAboveGround;
 
     private DateTime[][] timeStamp;
     private int[][] deviceId;
 
     public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DateTime[][] timeStamp,
             int[][] deviceId) {
-        this(x, y, z, gpsSpeed, new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0), new DoubleMatrix(x.rows, 0), timeStamp,
-                deviceId);
+        this(x, y, z, gpsSpeed, getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), timeStamp, deviceId);
     }
 
     public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DoubleMatrix latitude,
             DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp, int[][] deviceId) {
+        this(x, y, z, gpsSpeed, latitude, longitude, altitude, getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x),
+                getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), timeStamp, deviceId);
+    }
+
+    public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DoubleMatrix latitude,
+            DoubleMatrix longitude, DoubleMatrix altitude, DoubleMatrix pressure, DoubleMatrix temperature,
+            DoubleMatrix satellitesUsed, DoubleMatrix gpsFixtime, DoubleMatrix speed2d, DoubleMatrix speed3d,
+            DoubleMatrix altitudeAboveGround, DateTime[][] timeStamp, int[][] deviceId) {
+        setDeviceId(deviceId);
+        setTimeStamp(timeStamp);
         setX(x);
         setY(y);
         setZ(z);
@@ -31,8 +48,13 @@ public class FormattedSegments {
         setLatitude(latitude);
         setLongitude(longitude);
         setAltitude(altitude);
-        setTimeStamp(timeStamp);
-        setDeviceId(deviceId);
+        setPressure(pressure);
+        setTemperature(temperature);
+        setSattellitesUsed(satellitesUsed);
+        setGpsFixTime(gpsFixtime);
+        setSpeed2d(speed2d);
+        setSpeed3d(speed3d);
+        setAltitudeAboveGround(altitudeAboveGround);
     }
 
     public DoubleMatrix getX() {
@@ -113,6 +135,74 @@ public class FormattedSegments {
 
     public void setTimeStamp(DateTime[][] timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public DoubleMatrix getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(DoubleMatrix pressure) {
+        this.pressure = pressure;
+    }
+
+    public DoubleMatrix getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(DoubleMatrix temperature) {
+        this.temperature = temperature;
+    }
+
+    public DoubleMatrix getSattellitesUsed() {
+        return sattellitesUsed;
+    }
+
+    public void setSattellitesUsed(DoubleMatrix sattellitesUsed) {
+        this.sattellitesUsed = sattellitesUsed;
+    }
+
+    public DoubleMatrix getGpsFixTime() {
+        return gpsFixTime;
+    }
+
+    public void setGpsFixTime(DoubleMatrix gpsFixTime) {
+        this.gpsFixTime = gpsFixTime;
+    }
+
+    public DoubleMatrix getSpeed2d() {
+        return speed2d;
+    }
+
+    public void setSpeed2d(DoubleMatrix speed2d) {
+        this.speed2d = speed2d;
+    }
+
+    public DoubleMatrix getSpeed3d() {
+        return speed3d;
+    }
+
+    public void setSpeed3d(DoubleMatrix speed3d) {
+        this.speed3d = speed3d;
+    }
+
+    public DoubleMatrix getDirection() {
+        return direction;
+    }
+
+    public void setDirection(DoubleMatrix direction) {
+        this.direction = direction;
+    }
+
+    public DoubleMatrix getAltitudeAboveGround() {
+        return altitudeAboveGround;
+    }
+
+    public void setAltitudeAboveGround(DoubleMatrix altitudeAboveGround) {
+        this.altitudeAboveGround = altitudeAboveGround;
+    }
+
+    private static DoubleMatrix getDummyMatrix(DoubleMatrix x) {
+        return new DoubleMatrix(x.rows, 0);
     }
 
 }

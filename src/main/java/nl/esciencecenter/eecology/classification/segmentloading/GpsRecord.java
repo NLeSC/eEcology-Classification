@@ -19,6 +19,14 @@ public class GpsRecord {
     private List<Measurement> measurements;
     private boolean isLabeled;
     private int label;
+    private double pressure;
+    private double temperature;
+    private int satellitesUsed;
+    private double gpsFixTime;
+    private double speed2d;
+    private double speed3d;
+    private double direction;
+    private double altitudeAboveGround;
 
     /**
      * Constructor only used for deserialization.
@@ -41,6 +49,21 @@ public class GpsRecord {
     public GpsRecord(int deviceId, DateTime timeStamp) {
         this.deviceId = deviceId;
         this.timeStamp = timeStamp;
+    }
+
+    public GpsRecord(GpsRecordDto gpsRecordDto) {
+        setDeviceId(gpsRecordDto.getDeviceId());
+        setTimeStamp(new DateTime(gpsRecordDto.getTimeStamp()));
+        setLatitude(gpsRecordDto.getLatitude());
+        setLongitude(gpsRecordDto.getLongitude());
+        setAltitude(gpsRecordDto.getAltitude());
+        setPressure(gpsRecordDto.getPressure());
+        setTemperature(gpsRecordDto.getTemperature());
+        setSatellitesUsed(gpsRecordDto.getSatellitesUsed());
+        setGpsFixTime(gpsRecordDto.getGpsFixTime());
+        setSpeed2d(gpsRecordDto.getSpeed2d());
+        setSpeed3d(gpsRecordDto.getSpeed3d());
+        setAltitudeAboveGround(gpsRecordDto.getAltitudeAboveGround());
     }
 
     public boolean hasFirstIndex() {
@@ -102,6 +125,70 @@ public class GpsRecord {
 
     public void setGpsSpeed(double gpsSpeed) {
         this.gpsSpeed = gpsSpeed;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+
+    public int getSatellitesUsed() {
+        return satellitesUsed;
+    }
+
+    public void setSatellitesUsed(int satellitesUsed) {
+        this.satellitesUsed = satellitesUsed;
+    }
+
+    public double getGpsFixTime() {
+        return gpsFixTime;
+    }
+
+    public void setGpsFixTime(double gpsFixTime) {
+        this.gpsFixTime = gpsFixTime;
+    }
+
+    public double getSpeed2d() {
+        return speed2d;
+    }
+
+    public void setSpeed2d(double speed2d) {
+        this.speed2d = speed2d;
+    }
+
+    public double getSpeed3d() {
+        return speed3d;
+    }
+
+    public void setSpeed3d(double speed3d) {
+        this.speed3d = speed3d;
+    }
+
+    public double getDirection() {
+        return direction;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public double getAltitudeAboveGround() {
+        return altitudeAboveGround;
+    }
+
+    public void setAltitudeAboveGround(double altitudeAboveGround) {
+        this.altitudeAboveGround = altitudeAboveGround;
     }
 
     public List<Measurement> getMeasurements() {
