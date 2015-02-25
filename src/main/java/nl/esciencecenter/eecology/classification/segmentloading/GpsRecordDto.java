@@ -28,6 +28,10 @@ public class GpsRecordDto {
     private double speed_accuracy;
     private String location;
     private int userflag;
+    private double speed2d;
+    private double speed3d;
+    private double direction;
+    private double altitudeAboveGround;
 
     public void setTimeStamp(DateTime timeStamp) {
         this.timeStamp = timeStamp;
@@ -173,6 +177,38 @@ public class GpsRecordDto {
         this.userflag = userflag;
     }
 
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public double getDirection() {
+        return direction;
+    }
+
+    public double getSpeed2d() {
+        return speed2d;
+    }
+
+    public void setSpeed2d(double speed2d) {
+        this.speed2d = speed2d;
+    }
+
+    public double getSpeed3d() {
+        return speed3d;
+    }
+
+    public void setSpeed3d(double speed3d) {
+        this.speed3d = speed3d;
+    }
+
+    public double getAltitudeAboveGround() {
+        return altitudeAboveGround;
+    }
+
+    public void setAltitudeAboveGround(double altitudeAboveGround) {
+        this.altitudeAboveGround = altitudeAboveGround;
+    }
+
     /**
      * Sets the device id. This method exists so the csv reader can automatically find it based on the column headers of the csv
      * file.
@@ -213,5 +249,38 @@ public class GpsRecordDto {
      */
     public void setGps_fixtime(double gps_fixtime) {
         gpsFixTime = gps_fixtime;
+    }
+
+    /**
+     * Sets the speed parallel to the ground plane. This method exists so the csv reader can automatically find it based on the
+     * column headers of the csv file.
+     *
+     * @param gps
+     *            fix time
+     */
+    public void setSpeed_2d(double speed2d) {
+        this.speed2d = speed2d;
+    }
+
+    /**
+     * Sets the speed in 3d. This method exists so the csv reader can automatically find it based on the column headers of the csv
+     * file.
+     *
+     * @param gps
+     *            fix time
+     */
+    public void setSpeed_3d(double speed3d) {
+        this.speed3d = speed3d;
+    }
+
+    /**
+     * Sets the altitude above ground level. This method exists so the csv reader can automatically find it based on the column
+     * headers of the csv file.
+     *
+     * @param gps
+     *            fix time
+     */
+    public void setAltitude_agl(double altitudeAboveGround) {
+        this.altitudeAboveGround = altitudeAboveGround;
     }
 }
