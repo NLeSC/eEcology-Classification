@@ -28,6 +28,8 @@ public class App {
     private TestCommand testCommand;
     @Inject
     private OutputFeaturesInCsvCommand outputFeaturesInCsvCommand;
+    @Inject
+    private CreateOutputPagesCommand createOutputPagesCommand;
 
     @Inject
     @Named("execute_train_process")
@@ -44,8 +46,6 @@ public class App {
     @Inject
     @Named("execute_output_features_csv_process")
     private boolean executeOutputFeaturesCsv;
-    @Inject
-    private CreateOutputPagesCommand createOutputPagesCommand;
 
     public void runCommands() {
         createOutputPagesCommand.execute();

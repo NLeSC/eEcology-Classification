@@ -56,10 +56,10 @@ public abstract class MeasurementsMatLoader extends MeasurementsLoader {
         try {
             matFileReader = new MatFileReader(sourcePath);
         } catch (FileNotFoundException e) {
-            String message = "Error loading source. The source .mat file was not found.";
+            String message = "Error loading source. The source file was not found at '" + sourcePath + "'.";
             throw new LoadingMeasurementsException(message, e);
         } catch (IOException e) {
-            String message = "Error reading measurements from source.";
+            String message = "Error reading measurements from source file (" + sourcePath + ").";
             throw new LoadingMeasurementsException(message, e);
         }
         return matFileReader;
