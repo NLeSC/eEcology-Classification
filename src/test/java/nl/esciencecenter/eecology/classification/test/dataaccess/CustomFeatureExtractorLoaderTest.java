@@ -9,6 +9,8 @@ import java.util.List;
 
 import nl.esciencecenter.eecology.classification.configuration.PathManager;
 import nl.esciencecenter.eecology.classification.dataaccess.CustomFeatureExtractorLoader;
+import nl.esciencecenter.eecology.classification.dataaccess.CustomFeatureFileMalformedException;
+import nl.esciencecenter.eecology.classification.dataaccess.CustomFeatureFileNotFoundException;
 import nl.esciencecenter.eecology.classification.featureextraction.FeatureExtractor;
 import nl.esciencecenter.eecology.classification.featureextraction.featureextractors.CustomFeatureExtractor;
 
@@ -17,8 +19,9 @@ import org.junit.Test;
 
 public class CustomFeatureExtractorLoaderTest {
 
-    private final String path = "src/test/java/resources/";
+    private final String path = "src/test/java/resources/customfeatures/";
     private final String testFileName = path + "testcustomfeaturesnovariables.txt";
+    private final String fileWithIncorrectFormatName = path + "testinvalidcustomfeatures.txt";
     private CustomFeatureExtractorLoader customFeatureExtractorLoader;
     private PathManager pathManager;
 
@@ -45,7 +48,7 @@ public class CustomFeatureExtractorLoaderTest {
         assertEquals(2, customFeatureExtractors.size());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test(expected = CustomFeatureFileNotFoundException.class)
     public void getCustomFeatureExtractors_nonExistantFile_throwCorrectException() {
         // Arrange
         setTestFilePath(path + "nonexistentfilename1234");
@@ -79,6 +82,15 @@ public class CustomFeatureExtractorLoaderTest {
         // Assert
         CustomFeatureExtractor featureExtractor = (CustomFeatureExtractor) customFeatureExtractors.get(1);
         assertEquals("13 + 5 + 96", featureExtractor.getExpression());
+    }
+
+    @Test(expected = CustomFeatureFileMalformedException.class)
+    public void getCustomFeatureExtractors_invalidFileFormat_secondExtractorHasCorrectExpression() {
+        // Arrange
+        setTestFilePath(fileWithIncorrectFormatName);
+
+        // Act
+        customFeatureExtractorLoader.getCustomFeatureExtractors();
     }
 
     @Before

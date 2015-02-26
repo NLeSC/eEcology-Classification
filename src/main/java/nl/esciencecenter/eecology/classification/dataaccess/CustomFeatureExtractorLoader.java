@@ -32,23 +32,24 @@ public class CustomFeatureExtractorLoader {
         if (sourceLocation == null || sourceLocation.equalsIgnoreCase("")) {
             return new LinkedList<FeatureExtractor>();
         }
-        return getCustomFeatureExtractorsFromFile();
+        return getCustomFeatureExtractorsFromFile(sourceLocation);
     }
 
-    private LinkedList<FeatureExtractor> getCustomFeatureExtractorsFromFile() {
-        BufferedReader reader = getReader();
+    private LinkedList<FeatureExtractor> getCustomFeatureExtractorsFromFile(String path) {
+        BufferedReader reader = getReader(path);
         LinkedList<FeatureExtractor> results = new LinkedList<FeatureExtractor>();
-        String line = readLine(reader);
+        String line = readLine(reader, path);
         while (line != null) {
-            CustomFeatureExtractor customFeatureExtractor = getCustomFeatureExtractorFromLine(line);
+            CustomFeatureExtractor customFeatureExtractor = getCustomFeatureExtractorFromLine(line, path);
             results.add(customFeatureExtractor);
-            line = readLine(reader);
+            line = readLine(reader, path);
         }
         return results;
     }
 
-    private CustomFeatureExtractor getCustomFeatureExtractorFromLine(String line) {
+    private CustomFeatureExtractor getCustomFeatureExtractorFromLine(String line, String path) {
         String[] elements = line.split(";");
+        throwExceptionIfMalformed(line, elements, path);
         String name = elements[0].trim();
         String expression = elements[1].trim();
         CustomFeatureExtractor customFeatureExtractor = new CustomFeatureExtractor(name, expression);
@@ -57,25 +58,38 @@ public class CustomFeatureExtractorLoader {
         return customFeatureExtractor;
     }
 
-    private BufferedReader getReader() {
+    private BufferedReader getReader(String path) {
         FileReader fileReader = null;
-        String customFeaturePath = pathManager.getCustomFeaturePath();
         try {
-            fileReader = new FileReader(customFeaturePath);
+            fileReader = new FileReader(path);
         } catch (FileNotFoundException e) {
-            String message = "The file containing custom feature definitions was not found at (" + customFeaturePath + ").";
-            throw new RuntimeException(message, e);
+            String message = "The file containing custom feature definitions was not found at (" + path + ").";
+            throw new CustomFeatureFileNotFoundException(message, e);
         }
 
         return new BufferedReader(fileReader);
     }
 
-    private String readLine(BufferedReader reader) {
+    private String readLine(BufferedReader reader, String path) {
         String line = null;
         try {
             line = reader.readLine();
         } catch (IOException e) {
+            String message = "Could not read from the file containing custom feature definitions at (" + path + ").";
+            throw new CustomFeatureFileNotFoundException(message, e);
         }
         return line;
+    }
+
+    private void throwExceptionIfMalformed(String line, String[] elements, String path) {
+        if (elements.length != 2) {
+            StringBuilder message = new StringBuilder();
+            message.append("Could not load custom features from file at '");
+            message.append(path);
+            message.append("' because it does not have the correct format: Line '");
+            message.append(line);
+            message.append("' was not formatted as 'name; equation'");
+            throw new CustomFeatureFileMalformedException(message.toString(), null);
+        }
     }
 }
