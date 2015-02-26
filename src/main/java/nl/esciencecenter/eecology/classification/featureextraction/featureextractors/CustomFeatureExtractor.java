@@ -83,6 +83,14 @@ public class CustomFeatureExtractor extends FeatureExtractor {
         addRowVectorToMap(variableMap, formattedSegments.getLongitude().getRow(segmentNumber), "long");
         addRowVectorToMap(variableMap, formattedSegments.getLatitude().getRow(segmentNumber), "lat");
         addRowVectorToMap(variableMap, formattedSegments.getAltitude().getRow(segmentNumber), "alt");
+        addRowVectorToMap(variableMap, formattedSegments.getPressure().getRow(segmentNumber), "pres");
+        addRowVectorToMap(variableMap, formattedSegments.getTemperature().getRow(segmentNumber), "temp");
+        addRowVectorToMap(variableMap, formattedSegments.getSattellitesUsed().getRow(segmentNumber), "sat");
+        addRowVectorToMap(variableMap, formattedSegments.getGpsFixTime().getRow(segmentNumber), "fixtime");
+        addRowVectorToMap(variableMap, formattedSegments.getSpeed2d().getRow(segmentNumber), "speed2d");
+        addRowVectorToMap(variableMap, formattedSegments.getSpeed3d().getRow(segmentNumber), "speed3d");
+        addRowVectorToMap(variableMap, formattedSegments.getDirection().getRow(segmentNumber), "dir");
+        addRowVectorToMap(variableMap, formattedSegments.getAltitudeAboveGround().getRow(segmentNumber), "agl");
         return variableMap;
     }
 

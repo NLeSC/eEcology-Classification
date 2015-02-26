@@ -1,5 +1,15 @@
 meanlong; meanlong
 meanlat; meanlat
 meanalt; meanalt
+meanpressure; meanpres
+stdpressure; meanpres
+meantemperature; meantemp
+stdtemp; stdtemp
+satellites; sat1
+meangpsfixtime; meanfixtime
+meanspeed2d; meanspeed2d
+meanspeed3d; meanspeed3d
+direction; dir1
+meanagl; meanagl
 stdalt; stdalt
 stdlonglat; sqrt((stdlong * stdlong) + (stdlat * stdlat))

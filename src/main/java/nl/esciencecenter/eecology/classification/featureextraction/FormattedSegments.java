@@ -32,13 +32,14 @@ public class FormattedSegments {
     public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DoubleMatrix latitude,
             DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp, int[][] deviceId) {
         this(x, y, z, gpsSpeed, latitude, longitude, altitude, getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x),
-                getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), timeStamp, deviceId);
+                getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), getDummyMatrix(x), timeStamp,
+                deviceId);
     }
 
     public FormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed, DoubleMatrix latitude,
             DoubleMatrix longitude, DoubleMatrix altitude, DoubleMatrix pressure, DoubleMatrix temperature,
             DoubleMatrix satellitesUsed, DoubleMatrix gpsFixtime, DoubleMatrix speed2d, DoubleMatrix speed3d,
-            DoubleMatrix altitudeAboveGround, DateTime[][] timeStamp, int[][] deviceId) {
+            DoubleMatrix direction, DoubleMatrix altitudeAboveGround, DateTime[][] timeStamp, int[][] deviceId) {
         setDeviceId(deviceId);
         setTimeStamp(timeStamp);
         setX(x);
@@ -54,6 +55,7 @@ public class FormattedSegments {
         setGpsFixTime(gpsFixtime);
         setSpeed2d(speed2d);
         setSpeed3d(speed3d);
+        setDirection(direction);
         setAltitudeAboveGround(altitudeAboveGround);
     }
 

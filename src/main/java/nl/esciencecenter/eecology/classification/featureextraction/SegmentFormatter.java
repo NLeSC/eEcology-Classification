@@ -50,7 +50,7 @@ public class SegmentFormatter {
         instantiateGpsRecordDataFields(segmentRowCount, gpsRecordColumnCount);
         fillGpsRecordDataFields(segments, segmentRowCount, gpsRecordColumnCount);
         return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, pressure, temperature, satellitesUsed,
-                gpsFixtime, speed2d, speed3d, altitudeAboveGround, timeStamp, deviceId);
+                gpsFixtime, speed2d, speed3d, direction, altitudeAboveGround, timeStamp, deviceId);
     }
 
     private int getGpsRecordCountPerSegment(List<Segment> segments) {

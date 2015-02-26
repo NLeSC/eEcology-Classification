@@ -316,6 +316,21 @@ public class SegmentFormatterTest {
     }
 
     @Test
+    public void format_gpsRecordSegment_correctDirection() {
+        // Arrange
+        GpsRecord main = getGpsRecordWithIdAndTime();
+        double expected = 15.5;
+        main.setDirection(expected);
+        List<Segment> segments = getListWithOneGpsRecord(main);
+
+        // Act
+        FormattedSegments output = segmentFormatter.format(segments);
+
+        // Assert
+        assertEquals(expected, output.getDirection().get(0, 0), errorMargin);
+    }
+
+    @Test
     public void format_gpsRecordSegment_correctAltitudeAboveGround() {
         // Arrange
         GpsRecord main = getGpsRecordWithIdAndTime();

@@ -149,7 +149,25 @@ public abstract class FeatureExtractorTest {
     protected FormattedSegments createFormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed,
             DoubleMatrix latitude, DoubleMatrix longitude, DoubleMatrix altitude, DateTime[][] timeStamp) {
         int[][] deviceId = new int[gpsSpeed.rows][gpsSpeed.columns];
-        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, timeStamp, deviceId);
+        DoubleMatrix pressure = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix temperature = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix satellitesUsed = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix gpsFixTime = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix speed2d = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix speed3d = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix direction = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        DoubleMatrix altitudeAboveGround = new DoubleMatrix(gpsSpeed.rows, gpsSpeed.columns);
+        return createFormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, pressure, temperature, satellitesUsed,
+                gpsFixTime, speed2d, speed3d, direction, altitudeAboveGround, deviceId, timeStamp);
+    }
+
+    protected FormattedSegments createFormattedSegments(DoubleMatrix x, DoubleMatrix y, DoubleMatrix z, DoubleMatrix gpsSpeed,
+            DoubleMatrix latitude, DoubleMatrix longitude, DoubleMatrix altitude, DoubleMatrix pressure,
+            DoubleMatrix temperature, DoubleMatrix satellitesUsed, DoubleMatrix gpsFixTime, DoubleMatrix speed2d,
+            DoubleMatrix speed3d, DoubleMatrix direction, DoubleMatrix altitudeAboveGround, int[][] deviceId,
+            DateTime[][] timeStamp) {
+        return new FormattedSegments(x, y, z, gpsSpeed, latitude, longitude, altitude, pressure, temperature, satellitesUsed,
+                gpsFixTime, speed2d, speed3d, direction, altitudeAboveGround, timeStamp, deviceId);
     }
 
 }

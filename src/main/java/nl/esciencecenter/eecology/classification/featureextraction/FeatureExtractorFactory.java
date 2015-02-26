@@ -202,7 +202,7 @@ public class FeatureExtractorFactory {
                 if (featureMap.containsKey(featureName)) {
                     compositeFeatureExtractor.addChild(featureMap.get(featureName));
                 } else {
-                    throw new UnknownFeatureExtractorTypeException("Unknown feature type: " + featureName);
+                    throw new UnknownFeatureExtractorTypeException("Unknown feature name: " + featureName);
                 }
             }
         }
