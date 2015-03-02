@@ -6,6 +6,8 @@ import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,9 +31,10 @@ import org.junit.Test;
 
 public class AnnotatedMeasurementsMatLoaderTest {
 
-    private final String path = "src/test/java/resources/";
-    private final String testFile1Name = path + "test_annotated_data.mat";
-    private final String testFile2Name = path + "test_annotated_data2.mat";
+    private final Path path = Paths.get("src/test/java/resources/annotatedmeasurements/");
+    private final String testFile1Name = path.resolve("test_annotated_data.mat").toString();
+    private final String testFile2Name = path.resolve("test_annotated_data2.mat").toString();
+    private final String malformattedName = path.resolve("malformatted.mat").toString();
     private AnnotatedMeasurementsMatLoader measurementsMatLoader;
     private final double delta = 0.0001;
     private final int testFile1MeasurementCount = 130 * 60 + 43 + 55 + 30 + 10 + 10; //according to matlab
@@ -226,6 +229,11 @@ public class AnnotatedMeasurementsMatLoaderTest {
 
         // Assert
         assertEquals(0, output.size());
+    }
+
+    @Test(expected = LoadingMeasurementsException.class)
+    public void load_fileIsMalformatted_noResults() {
+        measurementsMatLoader.load(getListWith(malformattedName));
     }
 
     @Before

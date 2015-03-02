@@ -127,29 +127,34 @@ public class AnnotatedMeasurementsMatLoader extends MeasurementsMatLoader {
             return new LinkedList<IndependentMeasurement>();
         }
 
-        return getMeasurements(matFileReader);
+        return getMeasurements(matFileReader, sourcePath);
     }
 
-    private LinkedList<IndependentMeasurement> getMeasurements(MatFileReader matFileReader) {
+    private LinkedList<IndependentMeasurement> getMeasurements(MatFileReader matFileReader, String sourcePath) {
         LinkedList<IndependentMeasurement> measurements = new LinkedList<IndependentMeasurement>();
 
-        MLStructure root = (MLStructure) matFileReader.getMLArray(rootKey);
-        MLCell accX = (MLCell) root.getField(accXKey);
-        MLCell accY = (MLCell) root.getField(accYKey);
-        MLCell accZ = (MLCell) root.getField(accZKey);
-        MLCell label = (MLCell) root.getField(labelKey);
-        fillSampleProperyLists(root);
+        try {
+            MLStructure root = (MLStructure) matFileReader.getMLArray(rootKey);
+            MLCell accX = (MLCell) root.getField(accXKey);
+            MLCell accY = (MLCell) root.getField(accYKey);
+            MLCell accZ = (MLCell) root.getField(accZKey);
+            MLCell label = (MLCell) root.getField(labelKey);
+            fillSampleProperyLists(root);
 
-        int nOfSamples = (int) Math.round(((MLDouble) root.getField(nOfSamplesKey)).get(0));
-        for (int i = 0; i < nOfSamples; i++) {
-            double[] accXValues = getSampleRow(accX, i);
-            double[] accYValues = getSampleRow(accY, i);
-            double[] accZValues = getSampleRow(accZ, i);
-            double[] labelValues = getSampleRow(label, i);
-            List<IndependentMeasurement> newMeasurements = getMeasurementsFromSample(accXValues, accYValues, accZValues,
-                    labelValues, i);
-            measurements.addAll(newMeasurements);
+            int nOfSamples = (int) Math.round(((MLDouble) root.getField(nOfSamplesKey)).get(0));
+            for (int i = 0; i < nOfSamples; i++) {
+                double[] accXValues = getSampleRow(accX, i);
+                double[] accYValues = getSampleRow(accY, i);
+                double[] accZValues = getSampleRow(accZ, i);
+                double[] labelValues = getSampleRow(label, i);
+                List<IndependentMeasurement> newMeasurements = getMeasurementsFromSample(accXValues, accYValues, accZValues,
+                        labelValues, i);
+                measurements.addAll(newMeasurements);
+            }
+        } catch (NullPointerException e) {
+            throwGeneralLoadingException(sourcePath, e);
         }
+
         return measurements;
     }
 
