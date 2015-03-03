@@ -176,7 +176,7 @@
                         extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
                     </pre>
                     <h4>Custom features</h4>
-                    <p>Besides the standard features, user-defined features can be added. These can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
+                    <p>Besides the standard features, user-defined features can be added. This functionality was added to allow users to define their own features without having to change the code of the software. Custom features can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
                     <pre>
                         custom_feature_extractor_file_path = custom_features.txt
                     </pre>
@@ -185,19 +185,19 @@
                         myfeature; x1*y1*z1 + x2*y2*z2 + x3*y3*z3
                         someotherfeature; x1+x2+x3+x4 - 4 * meanx
                     </pre>
-                    <p>The first column contains the name of the feature, and the second column contains the expression defining the feature. For interpreting the expression, the <a href="http://www.objecthunter.net/exp4j/">exp4j library</a> is used. Note that variable names x0, x1 etc. refer to the different elements of x of the segment. The variable names xmean and stdx refer to the mean and standard deviations of x. In addition the speed as measured by the gps can be referred to by speed1. The complete list of variable names is below.</p>
+                    <p>The first column contains the name of the feature, and the second column contains the expression defining the feature. For interpreting the expression, the <a href="http://www.objecthunter.net/exp4j/">exp4j library</a> is used. Note that variable names x1, x2 etc. refer to the different elements of x of the segment. The variable names xmean and stdx refer to the mean and standard deviations of x. In addition the speed as measured by the gps can be referred to by speed1. The complete list of variable names is below.</p>
                     <pre>
-                        x0
                         x1
                         x2
+                        x3
                         ...
-                        y0
                         y1
                         y2
+                        y3
                         ...
-                        z0
                         z1
                         z2
+                        z3
                         ...
                         meanx
                         stdx
@@ -208,7 +208,7 @@
                         speed1
                     </pre>
                     <p>Note that while defining new features, the number of elements have to be taken into account. Using z30, for example, on a segment of only 20 measurements will result in an error. </p>
-                    <p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), a number of additional variable names are available. The variables follow a similar pattern as above. I.e. lat1, lat2, ... meanlat, stdlat for the base lat which is the latitude. Here, lat2 refers to the latitude of the second gps point in a segment. The complete list of base names with a short explanation is shown below.</p>
+                    <p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), a number of additional variable names are available. The variables follow a similar pattern as above. I.e. lat1, lat2, ... meanlat, stdlat for the base name lat, which refers to latitude. Here, lat2 refers to the latitude of the second gps point in a segment. The complete list of base names with a short explanation is shown below.</p>
                     <pre>
                         lat, latitude
                         long, longitude
@@ -222,6 +222,11 @@
                         dir, direction
                     </pre>
                     <p>Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
+                    <h4>External feature values</h4>
+                    TODO
+                    <pre>
+                        externally_calculated_feature_value_csv_path = externalvalues.csv
+                    </pre>
                     <h3>Classifier</h3>
                     <p>A model is trained on the train set using a machine learning algorithm. Which algorithm should be used, is set in the settings file. To use the C4.5 treelearning algorithm use the line below. Note that j48 is the name of a JAVA implementation of the C4.5. Explanation of the algorithm and its parameters and their default values can be read in <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html">WEKA's documentation</a> and in more detail in <italic>Ross Quinlan (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann Publishers, San Mateo, CA.</italic>.</p>
                     <pre>
