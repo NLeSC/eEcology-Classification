@@ -103,7 +103,11 @@ public class UnannotatedMeasurementsMatLoader extends MeasurementsMatLoader {
      */
     public List<IndependentMeasurement> loadFromSingleSource(String sourcePath) {
         MatFileReader reader = getReader(sourcePath.trim());
-        fillDataFields(reader);
+        try {
+            fillDataFields(reader);
+        } catch (NullPointerException e) {
+            throwInvalidFormatException(sourcePath, e);
+        }
         return getMeasurements(reader);
     }
 

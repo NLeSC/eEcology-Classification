@@ -152,7 +152,7 @@ public class AnnotatedMeasurementsMatLoader extends MeasurementsMatLoader {
                 measurements.addAll(newMeasurements);
             }
         } catch (NullPointerException e) {
-            throwGeneralLoadingException(sourcePath, e);
+            throwInvalidFormatException(sourcePath, e);
         }
 
         return measurements;

@@ -64,12 +64,17 @@ public abstract class MeasurementsMatLoader extends MeasurementsLoader {
     }
 
     private void throwFileNotFoundException(String sourcePath, FileNotFoundException e) {
-        String message = "Error loading source. The source file was not found at '" + sourcePath + "'.";
+        String message = "The source file was not found at '" + sourcePath + "'.";
         throw new LoadingMeasurementsException(message, e);
     }
 
     protected void throwGeneralLoadingException(String sourcePath, Throwable e) {
-        String message = "Error reading measurements from source file (" + sourcePath + ").";
+        String message = "Could not read from source file '" + sourcePath + "'.";
+        throw new LoadingMeasurementsException(message, e);
+    }
+
+    protected void throwInvalidFormatException(String sourcePath, Throwable e) {
+        String message = "The source file at '" + sourcePath + "' does not have the expected format.";
         throw new LoadingMeasurementsException(message, e);
     }
 
