@@ -265,10 +265,10 @@
                     <pre>
                         unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                     </pre>
-                    <h4>Loading from csv</h4>
+                    <h3>Loading unannotated accelerometer data from csv</h3>
                     <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
                     <pre>
-                        "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
+"device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
 1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,0,-0.28836729463202664293,-0.08380981041227806199,-0.17589082638362395754
 1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,1,-0.02527727650897015128,0.33749623833885043635,-0.03032600454890068234
 1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,2,0.20686097477607969429,0.15693650315979536563,0.31084154662623199393
@@ -300,7 +300,7 @@ SELECT s.device_info_serial,
    AND s.latitude is not null and s.userflag <> 1 
 ORDER BY  s.date_time, a.index;
                     </pre>
-                    <h4>Loading from mat file</h4>
+                    <h4>Loading unannotated accelerometer data from Matlab file</h4>
                     <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                     <pre>
                         outputStruct = 
