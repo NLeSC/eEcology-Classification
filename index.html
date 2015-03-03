@@ -206,28 +206,21 @@
                         stdz
                         speed1
                     </pre>
-                    <p>Note that while defining new features, the number of elements have to be taken into account. Using z30, for example, on a segment of only 20 measurements will result in an error. </p><p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), the following additional variable names are available.</p>
+                    <p>Note that while defining new features, the number of elements have to be taken into account. Using z30, for example, on a segment of only 20 measurements will result in an error. </p>
+                    <p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), a number of additional variable names are available. The variables follow a similar pattern as above. I.e. lat1, lat2, ... meanlat, stdlat for the base lat which is the latitude. Here, lat2 refers to the latitude of the second gps point in a segment. The complete list of base names with a short explanation is shown below.</p>
                     <pre>
-                        lat1
-                        lat2
-                        lat3
-                        ...
-                        long1
-                        long2
-                        long3
-                        ...
-                        alt1
-                        alt2
-                        alt3
-                        ...
-                        meanlat
-                        stdlat
-                        meanlong
-                        stdlong
-                        meanalt
-                        stdalt
+                        lat, latitude
+                        long, longitude
+                        alt, altitude
+                        pres, pressure
+                        temp, temperature
+                        sat, satellites used for the gps fix
+                        fixtime, duration of the fix
+                        speed2d, speed parallel to the ground plane
+                        speed3d, speed
+                        dir, direction
                     </pre>
-                    <p>These refer to the latitude, longitude and altitude of a gps record. Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
+                    <p>Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
                     <h3>Classifier</h3>
                     <p>A model is trained on the train set using a machine learning algorithm. Which algorithm should be used, is set in the settings file. To use the C4.5 treelearning algorithm use the line below. Note that j48 is the name of a JAVA implementation of the C4.5. Explanation of the algorithm and its parameters and their default values can be read in <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html">WEKA's documentation</a> and in more detail in <italic>Ross Quinlan (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann Publishers, San Mateo, CA.</italic>.</p>
                     <pre>
