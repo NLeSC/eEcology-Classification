@@ -257,11 +257,45 @@
                     <pre>
                         classifier_path = classifier.cls
                     </pre>
-                    <p>Unannotated data is loaded from a mat-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
+                    <p>Unannotated data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
                     <pre>
-                        unannotated_measurement_source_paths = 10000_unannotated_538.mat
+                        unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                     </pre>
-                    <p>The file should contain a similar struct to the one below.</p>
+                    <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
+                    <pre>
+                        "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,0,-0.28836729463202664293,-0.08380981041227806199,-0.17589082638362395754
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,1,-0.02527727650897015128,0.33749623833885043635,-0.03032600454890068234
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,2,0.20686097477607969429,0.15693650315979536563,0.31084154662623199393
+                    </pre>
+                    <p>Such data can be pulled from the database by running a sql query like the one below.</p>
+                    <pre>
+SELECT s.device_info_serial, 
+       s.date_time, 
+       s.speed_2d 
+       as speed, 
+       s.longitude, 
+       s.latitude, 
+       s.altitude, 
+       t.speed as tspeed, 
+       a.index,
+       (a.x_acceleration-d.x_o)/d.x_s as x_cal, 
+       (a.y_acceleration-d.y_o)/d.y_s as y_cal, 
+       (a.z_acceleration-d.z_o)/d.z_s as z_cal 
+  FROM gps.ee_tracking_speed_limited s 
+  JOIN gps.ee_acceleration_limited a   
+    ON (s.device_info_serial = a.device_info_serial AND s.date_time = a.date_time) 
+  JOIN gps.ee_tracker_limited d 
+    ON a.device_info_serial = d.device_info_serial 
+  JOIN gps.get_uvagps_track_speed ('1', '2010-06-30 00:00:00', '2010-07-01 00:00:00') t 
+    ON s.device_info_serial = t.device_info_serial and s.date_time = t.date_time 
+ WHERE s.device_info_serial = '1'
+   AND s.date_time >'2010-06-30 12:00:00'
+   AND s.date_time <  '2010-07-01 12:10:00'
+   AND s.latitude is not null and s.userflag <> 1 
+ORDER BY  s.date_time, a.index;
+                    </pre>
+                    <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                     <pre>
                         outputStruct = 
 
