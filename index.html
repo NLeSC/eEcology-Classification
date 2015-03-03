@@ -12,7 +12,7 @@
     <body>
         <script>
             $(function() {        
-                $("#toc").tocify({selectors: "h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn"})
+                $("#toc").tocify({selectors: "h1,h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn"})
                 
             });
         </script>
@@ -24,8 +24,8 @@
                 </div>
                 <div class="col-md-7">            
                     <h1>Classification</h1>
-                    <h2 class="page-header">Introduction</h2>
-                    <p>Data from birds that have been tagged with a <a href="http://www.uva-bits.nl">gps tracker with accelerometer</a> can be researched. Often, we are not directly interested in the forces measured by the accelerometer. What we actually want to know is whether the bird was sitting, walking, foraging of flying. Assigning a behavior to data measurements is called annotation or classification. Ideally, we want to have a system, or model, that automatically classifies unseen data recorded by the tracker. It is hard to design such a model by hand, but it can be learned using machine learning. Learning a model using machine learning is called 'training'.</p><p>This software uses a variant of machine learning called <a href="http://en.wikipedia.org/wiki/Supervised_learning">supervised machine learning</a>. This means that a classifying model, or a classifier, is trained on a train set. A train set is an already annotated dataset. The trained model, or classifier, can then be applied to unseen data. This way the unseen data can be automatically classified. Using this method however, a train set is needed to train the classifier on. </p><p>A train set can be constructed by annotating a dataset by hand using the annotation tool. Make sure that at least 10, but preferably much more, examples exist in the trainset for each class. For instance, if your training set only contains 2 examples of some exotic behavior, you will not be able to train a model that can reliably recognize this behavior.</p><p>After training, you would like to know how well your classifier performs. This can be done by classifying again, annotated dataset, and compare the classes that were 'predicted' by the model, and the actual classes. This is called 'testing'. Using the train set for this purpose will not work because this is the data the model was trained on. It is therefore too easy compared to a more complete population of behaviors you want your model to generalize to. Testing on a trainset will always give you a overly optimistic and unrealistic impression of your model's performance! </p><p>To get a train set and a test set, an dataset that was annotated by hand can be split in two. This is often done by splitting the data randomly. If the test set and the train set are not completely independent, testing might give overly optimistic results. Therefore, it may be wise to have the test set and train set be taken from different trackers on different birds. This also depends on the population you want the model generalize to.</p><h2 class="page-header">Outline</h2><p>The classification tool's functions are divided over tree different processes that can be run independently from each other. This means that you can run all processes in one go, or run only the data splitting once, and run the training and testing processes repeatedly later. However, the training process cannot be run if the dataset has not yet been split into train, test and validation set. Similarly, the testing process cannot be run without a trained model etc. Below is the description of each of these processes. Which processes are executed can be set from the settings file using the lines below.</p>
+                    <h1 class="page-header">Introduction</h1>
+                    <p>Data from birds that have been tagged with a <a href="http://www.uva-bits.nl">gps tracker with accelerometer</a> can be researched. Often, we are not directly interested in the forces measured by the accelerometer. What we actually want to know is whether the bird was sitting, walking, foraging of flying. Assigning a behavior to data measurements is called annotation or classification. Ideally, we want to have a system, or model, that automatically classifies unseen data recorded by the tracker. It is hard to design such a model by hand, but it can be learned using machine learning. Learning a model using machine learning is called 'training'.</p><p>This software uses a variant of machine learning called <a href="http://en.wikipedia.org/wiki/Supervised_learning">supervised machine learning</a>. This means that a classifying model, or a classifier, is trained on a train set. A train set is an already annotated dataset. The trained model, or classifier, can then be applied to unseen data. This way the unseen data can be automatically classified. Using this method however, a train set is needed to train the classifier on. </p><p>A train set can be constructed by annotating a dataset by hand using the annotation tool. Make sure that at least 10, but preferably much more, examples exist in the trainset for each class. For instance, if your training set only contains 2 examples of some exotic behavior, you will not be able to train a model that can reliably recognize this behavior.</p><p>After training, you would like to know how well your classifier performs. This can be done by classifying again, annotated dataset, and compare the classes that were 'predicted' by the model, and the actual classes. This is called 'testing'. Using the train set for this purpose will not work because this is the data the model was trained on. It is therefore too easy compared to a more complete population of behaviors you want your model to generalize to. Testing on a trainset will always give you a overly optimistic and unrealistic impression of your model's performance! </p><p>To get a train set and a test set, an dataset that was annotated by hand can be split in two. This is often done by splitting the data randomly. If the test set and the train set are not completely independent, testing might give overly optimistic results. Therefore, it may be wise to have the test set and train set be taken from different trackers on different birds. This also depends on the population you want the model generalize to.</p><h1 class="page-header">Outline</h1><p>The classification tool's functions are divided over tree different processes that can be run independently from each other. This means that you can run all processes in one go, or run only the data splitting once, and run the training and testing processes repeatedly later. However, the training process cannot be run if the dataset has not yet been split into train, test and validation set. Similarly, the testing process cannot be run without a trained model etc. Below is the description of each of these processes. Which processes are executed can be set from the settings file using the lines below.</p>
                     <pre>
                         execute_dataset_splitting_process = true
                         execute_train_process = true
@@ -33,9 +33,9 @@
                         execute_classification_process = true
                         execute_output_features_csv_process = true
                     </pre>
-                    <h2 class="page-header">Data splitting</h2>
+                    <h1 class="page-header">Data splitting</h1>
                     <p>Splitting the data can be done by executing the data splitting process. This process loads annotated measurements from the source that is defined in the settings file. The definition of a single measurement in this context is the combination of a single x, y and z direction of the accelerometer, together with its speed as measured by the gps. </p>
-                    <h3>Loading annotated accelerometer data from a Matlab file</h3>
+                    <h2>Loading annotated accelerometer data from a Matlab file</h2>
                     <p>As a source, a mat-file can be selected. This mat-file should be located in the data folder.</p>
                     <pre>
                         annotated_measurement_source_paths = 210911_meeuw_alldata_reformatted.mat
@@ -69,7 +69,7 @@
                     <pre>
                         remove_measurements_containing_nan = true
                     </pre>
-                    <h3>Loading annotated GPS points from csv files</h3>
+                    <h2>Loading annotated GPS points from csv files</h2>
                     <p>There also exists a newer annotation tool that runs in a webbrowser. This tool differs from the old one in the sense that gps points, together with complete accelerometer blocks, are annotated, where in the old Matlab tool, each accelerometer data point could be annotated independently from its neighboring points. The new webbrowser annotation tool saves its output as a csv (comma separated values) file. This output only contains the annotation, and not the data itself. These files can be loaded using the settings file.</p>
                     <pre>
                         gps_records_path = meeuw_all_gps.csv
@@ -92,7 +92,7 @@
                         use_gps_records_instead_of_accelerometer_data = true
                     </pre>
                     <p>It is common for GPS data to be incomplete. Often, some columns like the h_accuracy, v_accuracy or pressure is missing for a given GPS record. Machine learning algorithms often cannot handle missing values. Multiple solutions exist in de literature, like discarding a row that is missing a value. This is not feasible when handling the GPS data because too many rows would have to be discarded. In this software a zero is used for every missing value when loading GPS records.</p>
-                    <h3>Segmenting accelerometer measurements</h3>
+                    <h2>Segmenting accelerometer measurements</h2>
                     <p>Consecutive accelerometer measurements grouped together are called a segment. Classification of accelerometer data is done at the segment level, because a single accelerometer point often does not provide enough information to make a reliable classification. The number of consecutive accelerometer measurements in a single segment can be defined the setting below.</p>
                     <pre>
                         measurement_segment_size = 20
@@ -101,7 +101,7 @@
                     <pre>
                         segments_must_have_unique_id_timestamp_combination = true
                     </pre>
-                    <h3>Segmenting gps records</h3>
+                    <h2>Segmenting gps records</h2>
                     <p>Like accelerometer measurements, gps points are grouped into segments before classification. To determine the number of gps records in a single segment, use the setting below.</p>
                     <pre>
                         gps_segment_size = 5
@@ -111,7 +111,7 @@
                         gps_segments_may_overlap = true
                     </pre>
                     <p>Use caution when using overlapping segments. The resulting segments are not at all independent from one another. Using overlapping segments to randomly split over a train and test set would therefore be incorrect. Doing this would result in overly optimistic test results.</p>
-                    <h3>Label schema</h3>
+                    <h2>Label schema</h2>
                     <p>The labels, their description, and their associated colors used for visualization, are defined in a schema file. Note that, the schema file should be located in the data folder of the software. From the settings file, the used schema can be set. The lines below indicate that the file at location <em>/data/schemaGull.txt</em> is to be used.</p>
                     <pre>
                         label_schema_file_path = schemaGull.txt
@@ -128,7 +128,7 @@
                         8 XflapS 0.00 1.00 1.00
                         9 other 0.00 1.00 0.00
                     </pre>
-                    <h3>Remapping the label schema</h3>
+                    <h2>Remapping the label schema</h2>
                     <p>It can be chosen to merge several classes. This can be done using a remapping schema. Such a schema can be defined in a file. In the settings file the remapping schema file name can be set. As with the schema file, the schema remapping file should be located in the data folder.</p>
                     <pre>
                         label_ids_must_be_remapped = true
@@ -143,7 +143,7 @@
                         5 Fly 6,7,8
                         6 Other 9
                     </pre>
-                    <h3>Splitting</h3>
+                    <h2>Splitting</h2>
                     <p>The resulting segments are then divided over 3 sets, a train set, a test set, and a validation set. The train set is a set that is used for training the model, also known as classifier. Training a model could for instance mean generating a decision tree. The test set is for testing the performance of the trained model. Trying out different training methods with various parameters cause several trained models that vary in performance on the test set. By picking out the best performing model, the model is somewhat optimized to the test set. To objectively test the performance of the final version of a trained model, a validation set is used. The segments can be split over these data sets according to ratios defined in the settings file. The lines below define a 50%, 25%, 25% distribution.</p>
                     <pre>
                         dataset_split_train_ratio = 0.5
@@ -166,16 +166,16 @@
                         test_set_file_path = test_set.json
                         validation_set_file_path = validation_set.json
                     </pre>
-                    <h2 class="page-header">Training</h2><p>During the training process, the train set is loaded from the data folder. The name of the file from which train instances should be loaded is defined in the settings file.</p>
+                    <h1 class="page-header">Training</h1><p>During the training process, the train set is loaded from the data folder. The name of the file from which train instances should be loaded is defined in the settings file.</p>
                     <pre>
                         train_set_file_path = train_set.json
                     </pre>
-                    <h3>Feature extraction</h3>
+                    <h2>Feature extraction</h2>
                     <p>For each of the segments in the train set features are calculated. Based on these features, a model is trained. From a fixed set of features, a selection can be picked that is used for training. Note that the trained model can only classify instances that have the exact same features. In other words, a model trained on mean_x, mean_y, mean_z, cannot be used to classify data based on std_x, std_y, std_z. What features are going to be used can be set in the settings file. A complete list of standard features and some explanation can be found in the found in the <a href="features.html">feature description document</a>. The line below causes only the means and their standard deviations of each dimension to be used as features.</p>
                     <pre>
                         extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
                     </pre>
-                    <h4>Custom features</h4>
+                    <h3>Custom features</h3>
                     <p>Besides the standard features, user-defined features can be added. This functionality was added to allow users to define their own features without having to change the code of the software. Custom features can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
                     <pre>
                         custom_feature_extractor_file_path = custom_features.txt
@@ -222,12 +222,12 @@
                         dir, direction
                     </pre>
                     <p>Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
-                    <h4>External feature values</h4>
+                    <h3>External feature values</h3>
                     TODO
                     <pre>
                         externally_calculated_feature_value_csv_path = externalvalues.csv
                     </pre>
-                    <h3>Classifier</h3>
+                    <h2>Classifier</h2>
                     <p>A model is trained on the train set using a machine learning algorithm. Which algorithm should be used, is set in the settings file. To use the C4.5 treelearning algorithm use the line below. Note that j48 is the name of a JAVA implementation of the C4.5. Explanation of the algorithm and its parameters and their default values can be read in <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html">WEKA's documentation</a> and in more detail in <italic>Ross Quinlan (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann Publishers, San Mateo, CA.</italic>.</p>
                     <pre>
                         machine_learning_algorithm = j48
@@ -244,7 +244,7 @@
                     <pre>
                         classifier_path = classifier.cls
                     </pre>
-                    <p>If the trained model is a decision tree, its structure is also saved in the job folder under "treegraph.json". By opening "treevisualization.html" in the same folder, the structure of the tree can be visualized. More complex tree structures can be inspected further by collapsing intermediate nodes.</p><h2 class="page-header">Testing</h2><p>Testing is done to evaluate the performance of a trained model. The trained model that is used to evaluate can be set from the settings file. The file containing the trained model should be located in the data folder.</p>
+                    <p>If the trained model is a decision tree, its structure is also saved in the job folder under "treegraph.json". By opening "treevisualization.html" in the same folder, the structure of the tree can be visualized. More complex tree structures can be inspected further by collapsing intermediate nodes.</p><h1 class="page-header">Testing</h1><p>Testing is done to evaluate the performance of a trained model. The trained model that is used to evaluate can be set from the settings file. The file containing the trained model should be located in the data folder.</p>
                     <pre>
                         classifier_path = classifier.cls
                     </pre>
@@ -254,17 +254,17 @@
                     </pre>
                     <p>For each of the segments in the test set features are calculated. Note that the same features need to be used for testing as were used for training the model. For further explanation of features and how to set which ones are use, see the Training section.</p>
                     <p>After testing, a test report is generated, containing some statistics, including an error rate and a confusion matrix. This report is saved in the job folder under the file name "test_report.txt". Misclassified instances of the test set are saved in json format in the job folder under "misclassifications.json". By opening "misclassifications.html", visualizations of the misclassifications can be inspected together with their predicted and actual label and feature values.</p>
-                    <h2 class="page-header">Classification</h2>
+                    <h1 class="page-header">Classification</h1>
                     <p>During the classification process, unannotated data can be labeled using a trained model. From which file the model is to be loaded can be set from the settings file. The file should be located in the data folder.</p>
                     <pre>
                         classifier_path = classifier.cls
                     </pre>
-                    <h3>Loading unannotated accelerometer data</h3>
+                    <h2>Loading unannotated accelerometer data</h2>
                     <p>Unannotated accelerometer data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
                     <pre>
                         unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                     </pre>
-                    <h4>Loading unannotated accelerometer data from csv</h4>
+                    <h3>Loading unannotated accelerometer data from csv</h3>
                     <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
                     <pre>
 "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
@@ -299,7 +299,7 @@ SELECT s.device_info_serial,
    AND s.latitude is not null and s.userflag <> 1 
 ORDER BY  s.date_time, a.index;
                     </pre>
-                    <h4>Loading unannotated accelerometer data from Matlab file</h4>
+                    <h3>Loading unannotated accelerometer data from Matlab file</h3>
                     <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                     <pre>
                         outputStruct = 
@@ -346,9 +346,9 @@ ORDER BY  s.date_time, a.index;
                     <p>Often, we are interested in a label for each device-timestamp combination as opposed to for each segment. Such device-timestamp combination can have multiple segments with possibly different labels. To cope with this, every first segment with a unique device id - timestamp combination is used as leading for the complete device-timestamp combination. If no segments exist for an id-timestamp combination, no label is given. </p>
                     <p>The output csv file from the classification process can be used in other applications, like Matlab, for further analysis. The file can also be uploaded to the eEcology database using the <a href="https://services.e-ecology.sara.nl/cgi-bin/flysafe/uva_admin/upload_csv.cgi">GPS annotation service</a>. If you choose 'acceleration classification' as table template then the classification can be viewed in the <a href="https://annotation.e-ecology.cloudlet.sara.nl/aws/">annotation tool</a>.</p>
                     
-                    <h2 class="page-header">Feature output</h2>
+                    <h1 class="page-header">Feature output</h1>
                     <p>This process is special process only meant to save statistics to be analysed within Matlab or Excel for example. In this process, train, test and validation sets are loaded from the locations set in the settings file. For each segment, device, timestamp, longitude, latitude, altitude, annotated label, and list of features is output on a single row. The output is saved under "featurescomplete.csv" in the job folder.</p>
-                    <h2 class="page-header">Settings</h2>
+                    <h1 class="page-header">Settings</h1>
                     <p>In the sections above, all settings in the settings file are discussed. Because only a selection of the above processes can be selected, setting all possible settings is sometimes counter-intuitive. When only the data splitting process is selected, it doesn't make sense to have to set a <em>classifier_path</em> for instance, as this setting is obviously not needed to run that particular process. </p>
                     <p>It was chosen however to check if every possible setting has been set before executing. This ensures that no processes have to be stopped halfway because of a missing setting.</p>
                 </div>
