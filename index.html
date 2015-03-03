@@ -253,14 +253,19 @@
                     <pre>
                         test_set_file_path = test_set.json
                     </pre>
-                    <p>For each of the segments in the test set features are calculated. Note that the same features need to be used for testing as were used for training the model. For further explanation of features and how to set which ones are use, see the Training section.</p><p>After testing, a test report is generated, containing some statistics, including an error rate and a confusion matrix. This report is saved in the job folder under the file name "test_report.txt". Misclassified instances of the test set are saved in json format in the job folder under "misclassifications.json". By opening "misclassifications.html", visualizations of the misclassifications can be inspected together with their predicted and actual label and feature values.</p><h2>Classification</h2><p>During the classification process, unannotated data can be labeled using a trained model. From which file the model is to be loaded can be set from the settings file. The file should be located in the data folder.</p>
+                    <p>For each of the segments in the test set features are calculated. Note that the same features need to be used for testing as were used for training the model. For further explanation of features and how to set which ones are use, see the Training section.</p>
+                    <p>After testing, a test report is generated, containing some statistics, including an error rate and a confusion matrix. This report is saved in the job folder under the file name "test_report.txt". Misclassified instances of the test set are saved in json format in the job folder under "misclassifications.json". By opening "misclassifications.html", visualizations of the misclassifications can be inspected together with their predicted and actual label and feature values.</p>
+                    <h2>Classification</h2>
+                    <p>During the classification process, unannotated data can be labeled using a trained model. From which file the model is to be loaded can be set from the settings file. The file should be located in the data folder.</p>
                     <pre>
                         classifier_path = classifier.cls
                     </pre>
-                    <p>Unannotated data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
+                    <h3>Loading unannotated accelerometer data</h3>
+                    <p>Unannotated accelerometer data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
                     <pre>
                         unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                     </pre>
+                    <h4>Loading from csv</h4>
                     <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
                     <pre>
                         "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
@@ -295,6 +300,7 @@ SELECT s.device_info_serial,
    AND s.latitude is not null and s.userflag <> 1 
 ORDER BY  s.date_time, a.index;
                     </pre>
+                    <h4>Loading from mat file</h4>
                     <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                     <pre>
                         outputStruct = 
