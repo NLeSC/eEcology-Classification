@@ -175,6 +175,7 @@
                     <pre>
                         extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
                     </pre>
+                    <h4>Custom features</h4>
                     <p>Besides the standard features, user-defined features can be added. These can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
                     <pre>
                         custom_feature_extractor_file_path = custom_features.txt
@@ -258,7 +259,7 @@
                     <pre>
                         unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                     </pre>
-                    <h3>Loading unannotated accelerometer data from csv</h3>
+                    <h4>Loading unannotated accelerometer data from csv</h4>
                     <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
                     <pre>
 "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
@@ -293,7 +294,7 @@ SELECT s.device_info_serial,
    AND s.latitude is not null and s.userflag <> 1 
 ORDER BY  s.date_time, a.index;
                     </pre>
-                    <h3>Loading unannotated accelerometer data from Matlab file</h3>
+                    <h4>Loading unannotated accelerometer data from Matlab file</h4>
                     <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                     <pre>
                         outputStruct = 
