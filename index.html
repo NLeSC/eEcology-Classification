@@ -173,7 +173,181 @@
                     <p>For each of the segments in the train set features are calculated. Based on these features, a model is trained. From a fixed set of features, a selection can be picked that is used for training. Note that the trained model can only classify instances that have the exact same features. In other words, a model trained on mean_x, mean_y, mean_z, cannot be used to classify data based on std_x, std_y, std_z. What features are going to be used can be set in the settings file. A complete list of standard features and some explanation can be found in the found in the <a href="features.html">feature description document</a>. The line below causes only the means and their standard deviations of each dimension to be used as features.</p>
                     <pre>
                         extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
-                    </pre>
+                    </pre>                            
+                    <h3 id="list-of-standard-features">Standard features</h1>
+                    <p>The classification tool comes with a set of features that can be calculated for each segment by selecting them as shown above. The complete list of these standard features is shown in the table below.</p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                              <th>Feature name</th>
+                              <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                              <td>mean_x</td>
+                              <td>The mean of the x value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>mean_y</td>
+                              <td>The mean of the y value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>mean_z</td>
+                              <td>The mean of the z value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>std_x</td>
+                              <td>The standard deviation of the x value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>std_y</td>
+                              <td>The standard deviation of the y value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>std_z</td>
+                              <td>The standard deviation of the z value over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>mean_pitch</td>
+                              <td>The mean value of the pitch over the accelerometer points in the segment. The pitch is defined as atan2(x, sqrt(y^2 + z^2)) in degrees.</td>
+                            </tr>
+                            <tr>
+                              <td>std_pitch</td>
+                              <td>The standard deviation of the pitch over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>mean_roll</td>
+                              <td>The mean value of the roll over the accelerometer points in the segment. The pitch is defined as atan2(y, sqrt(x^2 + z^2)) in degrees.</td>
+                            </tr>
+                            <tr>
+                              <td>std_roll</td>
+                              <td>The standard deviation of the roll over the accelerometer points in the segment.</td>
+                            </tr>
+                            <tr>
+                              <td>correlation_xy</td>
+                              <td>The Pearson’s correlation between the signal of x and the signal of y.</td>
+                            </tr>
+                            <tr>
+                              <td>correlation_yz</td>
+                              <td>The Pearson’s correlation between the signal of y and the signal of z.</td>
+                            </tr>
+                            <tr>
+                              <td>correlation_xz</td>
+                              <td>The Pearson’s correlation between the signal of x and the signal of z.</td>
+                            </tr>
+                            <tr>
+                              <td>gps_speed</td>
+                              <td>The speed as measured by the GPS device.</td>
+                            </tr>
+                            <tr>
+                              <td>meanabsder_x</td>
+                              <td>The mean of the absolute value of the derivative of x. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                            </tr>
+                            <tr>
+                              <td>meanabsder_y</td>
+                              <td>The mean of the absolute value of the derivative of y. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                            </tr>
+                            <tr>
+                              <td>meanabsder_z</td>
+                              <td>The mean of the absolute value of the derivative of z. Derivative is calculated by convolving the signal with at kernel of [-1,1].</td>
+                            </tr>
+                            <tr>
+                              <td>noise_x</td>
+                              <td>Measure of the noise in x signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                            </tr>
+                            <tr>
+                              <td>noise_y</td>
+                              <td>Measure of the noise in y signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                            </tr>
+                            <tr>
+                              <td>noise_z</td>
+                              <td>Measure of the noise in z signal. Noise is measured as by convolving the signal with a kernel of [-0.5, 1, -0.5].</td>
+                            </tr>
+                            <tr>
+                              <td>noise/absder_x</td>
+                              <td>Noise in signal of x divided by the mean of the absolute derivative of x. This is effectively the quotient between noise_x and meanabsder_x.</td>
+                            </tr>
+                            <tr>
+                              <td>noise/absder_y</td>
+                              <td>Noise in signal of y divided by the mean of the absolute derivative of y. This is effectively the quotient between noise_y and meanabsder_y.</td>
+                            </tr>
+                            <tr>
+                              <td>noise/absder_z</td>
+                              <td>Noise in signal of z divided by the mean of the absolute derivative of z. This is effectively the quotient between noise_z and meanabsder_z.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreq_x</td>
+                              <td>The fundamental frequency of the x signal. It is defined as the frequency belonging to the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the signal. A <a href="http://en.wikipedia.org/wiki/Window_function#Hamming_window">Hamming window</a> is used. The windowed signal is <a href="http://dsp.stackexchange.com/questions/741/why-should-i-zero-pad-a-signal-before-taking-the-fourier-transform">zero padded</a>. The number of bins used can be configured.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreq_y</td>
+                              <td>The fundamental frequency of the y signal.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreq_z</td>
+                              <td>The fundamental frequency of the z signal.</td>
+                            </tr>
+                            <tr>
+                              <td>odba</td>
+                              <td>Overall dynamic body acceleration. A measure that can be used as a <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0031187">proxy for for energy expenditure</a>.</td>
+                            </tr>
+                            <tr>
+                              <td>vedba</td>
+                              <td>Vector of dynamic body acceleration. A measure that can be used as a <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0031187">proxy for for energy expenditure</a>.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqcorr_x</td>
+                              <td>Pearson correlation of signal x with a generated sine wave with equal mean, and the fundamental frequency of x as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqcorr_y</td>
+                              <td>Pearson correlation of signal y with a generated sine wave with equal mean, and the fundamental frequency of y as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqcorr_z</td>
+                              <td>Pearson correlation of signal z with a generated sine wave with equal mean, and the fundamental frequency of z as its frequency. The sine wave’s phase was shifted to maximize the correlation.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqmagnitude_x</td>
+                              <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the x signal.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqmagnitude_y</td>
+                              <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the y signal.</td>
+                            </tr>
+                            <tr>
+                              <td>fundfreqmagnitude_z</td>
+                              <td>The magnitude of the highest peak in the frequency domain of the <a href="http://en.wikipedia.org/wiki/Fourier_transform">Fourier transformation</a> of the z signal.</td>
+                            </tr>
+                            <tr>
+                              <td>raw</td>
+                              <td>The raw input. The keyword raw will add all values of x, y and z to the features. This is rather a feature group than a single feature.</td>
+                            </tr>
+                            <tr>
+                              <td>first_x</td>
+                              <td>The first (raw) value of the x signal.</td>
+                            </tr>
+                            <tr>
+                              <td>first_y</td>
+                              <td>The first (raw) value of the y signal.</td>
+                            </tr>
+                            <tr>
+                              <td>first_z</td>
+                              <td>The first (raw) value of the z signal.</td>
+                            </tr>
+                            <tr>
+                              <td>measurement_classifier</td>
+                              <td>Each measurement classified individually by a specific classifier. This is again a feature group rather than a single feature. A classifier for this feature can be set in the configuration file. The features is a normalized histogram of measurements that were put in each class. To train a classifier for this role, use features first_x, first_y, first_z and gps_speed.</td>
+                            </tr>
+                            <tr>
+                              <td>stepresponse</td>
+                              <td>The maximum response of the x signal (with its mean subtracted) to the convolution with kernel shaped as the smoothed average of several x signals of a Vulture stepping. The resulting kernel: [-0.0667, 0.1463, 0.3886, 0.4430, 0.3763, 0.3213, 0.2795, 0.2016, 0.0878, -0.0424, -0.1720, -0.2821, -0.3319, -0.2668]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    
                     <h3>Custom features</h3>
                     <p>Besides the standard features, user-defined features can be added. This functionality was added to allow users to define their own features without having to change the code of the software. Custom features can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
                     <pre>
@@ -221,10 +395,26 @@
                         dir, direction
                     </pre>
                     <p>Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
+                    <p>Once the custom features are defined and loaded as described above, they are added to the list of features available for selection. To use them, they need to be selected through as shown below.</p>
+                    <pre>
+                        extract_features = myfeature, someotherfeature
+                    </pre>                    
                     <h3>External feature values</h3>
-                    TODO
+                    The custom feature functionality has some limitations. More complicated features are often be hard or even impossible to describe in a single line equation. For this reason, the user is given the possibility to calculate feature values externally. It is possible for instance to load your data into Matlab, or any other tool, and calculate feature values there. These externally calculated feature values can be loaded by the classification tool as a csv file.
                     <pre>
                         externally_calculated_feature_value_csv_path = externalvalues.csv
+                    </pre>
+                    For each combination of device id and timestamp that exists in the data, the feature value must be defined in the csv file. This file is used as a lookup table mapping a pair of id and timestamp to a feature value. If such an entry is missing, the software will not be able to succesfully finish execution. The first two columns of the csv file must contain the device ids and timestamps respectively. The following columns are interpreted as features. This means that multiple features can be loaded using a single csv file. Below is an example of such a file.
+                    <pre>
+                        device_info_serial,date_time,my_own_feature1,my_second_feature
+                        1011,2013-04-19 00:28:09,18.3329124961778,17.78
+                        1011,2013-04-19 00:58:07,16.9489105376155,9.86
+                        1011,2013-04-19 01:27:59,17.2219288606688,15.67
+                        1011,2013-04-19 01:58:07,15.319438765775,14.18
+                    </pre>
+                    <p>Note that loading externally calculated features adds those features to the list of features available for selection. To use them, they need to be selected through as shown below.</p>
+                    <pre>
+                        extract_features = my_own_feature1, my_second_feature
                     </pre>
                     <h2>Classifier</h2>
                     <p>A model is trained on the train set using a machine learning algorithm. Which algorithm should be used, is set in the settings file. To use the C4.5 treelearning algorithm use the line below. Note that j48 is the name of a JAVA implementation of the C4.5. Explanation of the algorithm and its parameters and their default values can be read in <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html">WEKA's documentation</a> and in more detail in <italic>Ross Quinlan (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann Publishers, San Mateo, CA.</italic>.</p>
