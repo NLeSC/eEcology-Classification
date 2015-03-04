@@ -10,14 +10,14 @@ l<!DOCTYPE html>
         <script src="js/jquery.tocify.min.js""></script>
         <style>
             .active{
-            background-color: #B0D0FF;
-        }
+                background-color: #B0D0FF;
+            }
         </style>
     </head>
     <body>
         <script>
             $(function() {        
-                $("#toc").tocify({context:"#content", selectors: "h1,h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn"})                
+                $("#toc").tocify({context:"#content", selectors: "h1,h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn", extendPage: false})                
             });
         </script>
         <div class="container-fluid">
