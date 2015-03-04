@@ -38,11 +38,11 @@ l<!DOCTYPE html>
                             <h2>Outline</h1>
                             <p>The classification tool's functions are divided over tree different processes that can be run independently from each other. This means that you can run all processes in one go, or run only the data splitting once, and run the training and testing processes repeatedly later. However, the training process cannot be run if the dataset has not yet been split into train, test and validation set. Similarly, the testing process cannot be run without a trained model etc. Below is the description of each of these processes. Which processes are executed can be set from the settings file using the lines below.</p>
                             <pre>
-                                execute_dataset_splitting_process = true
-                                execute_train_process = true
-                                execute_test_process = true
-                                execute_classification_process = true
-                                execute_output_features_csv_process = true
+execute_dataset_splitting_process = true
+execute_train_process = true
+execute_test_process = true
+execute_classification_process = true
+execute_output_features_csv_process = true
                             </pre>
                             <h2>Examples</h2>
                             The classification tool comes with example jobs with example data. These examples were included to demonstrate how to set up your data to be able to execute all processes above. They can also help demonstrating most of the several visualization without need to use your own data. However, the performance of the classification should not be considered representative. The reason for this is that the example data was annotated by a developer, a non-expert in the ecology domain. Besides many annotation errors, not enough segments had been annotated to train a reliable model.
@@ -51,142 +51,142 @@ l<!DOCTYPE html>
                             <h2>Loading annotated accelerometer data from a Matlab file</h2>
                             <p>As a source, a mat-file can be selected. This mat-file should be located in the data folder.</p>
                             <pre>
-                                annotated_measurement_source_paths = 210911_meeuw_alldata_reformatted.mat
+ annotated_measurement_source_paths = 210911_meeuw_alldata_reformatted.mat
                             </pre>
                             <p>Multiple mat-files can be selected using the same setting. In this case a comma separated list of file names can be given. Make sure not to use line breaks within the list. Below is an example of loading 2 source files.</p>
                             <pre>
-                                annotated_measurement_source_paths = Anot6020_4343.mat, Anot6020_4352.mat
+ annotated_measurement_source_paths = Anot6020_4343.mat, Anot6020_4352.mat
                             </pre>
                             <p>The mat files must have a certain structure in order for the classification to be able to load them. This type of mat file is what the Matlab annotation tool saves as output.</p>
                             <pre>
-                                outputStruct =
+outputStruct =
 
-                                 nOfSamples: 60
-                                   sampleID: [1x60 double]
-                                       year: [1x60 double]
-                                      month: [1x60 double]
-                                        day: [1x60 double]
-                                       hour: [1x60 double]
-                                        min: [1x60 double]
-                                        sec: [60x1 double]
-                                       accX: {60x1 cell}
-                                       accY: {60x1 cell}
-                                       accZ: {60x1 cell}
-                                       accP: []
-                                       accT: []
-                                       tags: {1x60 cell}
-                                annotations: [33x6 double]
-                                     gpsSpd: [60x1 double]
+ nOfSamples: 60
+   sampleID: [1x60 double]
+       year: [1x60 double]
+      month: [1x60 double]
+        day: [1x60 double]
+       hour: [1x60 double]
+        min: [1x60 double]
+        sec: [60x1 double]
+       accX: {60x1 cell}
+       accY: {60x1 cell}
+       accZ: {60x1 cell}
+       accP: []
+       accT: []
+       tags: {1x60 cell}
+annotations: [33x6 double]
+     gpsSpd: [60x1 double]
                             </pre>
                             <p>It is recommended that measurements containing NaN (not a number) values are filtered out. This can be done using the setting below.</p>
                             <pre>
-                                remove_measurements_containing_nan = true
+remove_measurements_containing_nan = true
                             </pre>
                             <h2>Loading annotated GPS points from csv files</h2>
                             <p>There also exists a newer annotation tool that runs in a webbrowser. This tool differs from the old one in the sense that gps points, together with complete accelerometer blocks, are annotated, where in the old Matlab tool, each accelerometer data point could be annotated independently from its neighboring points. The new webbrowser annotation tool saves its output as a csv (comma separated values) file. This output only contains the annotation, and not the data itself. These files can be loaded using the settings file.</p>
                             <pre>
-                                gps_records_path = meeuw_all_gps.csv
-                                gps_record_annotations_path = gull.annotations.csv
+gps_records_path = meeuw_all_gps.csv
+gps_record_annotations_path = gull.annotations.csv
                             </pre>
                             <p>The csv file with the actual data, that goes with the annotations is also a csv file. Such a file contains the results from a SQL query like the one below.</p>
                             <pre>
-                                SELECT device_info_serial, date_time, latitude, longitude, altitude, 
-                                       pressure, temperature, satellites_used, gps_fixtime, positiondop, 
-                                       h_accuracy, v_accuracy, x_speed, y_speed, z_speed, speed_accuracy, 
-                                       location, userflag, speed_2d, speed_3d, direction, altitude_agl
-                                  FROM gps.uva_tracking_data101 
-                                 WHERE date_time &gt; &#39;2014-05-04 0:00:00&#39;
-                                   AND date_time &lt; &#39;2014-05-05 0:00:00&#39;
-                                   AND device_info_serial = 184
-                                   AND altitude IS NOT NULL;
+SELECT device_info_serial, date_time, latitude, longitude, altitude, 
+       pressure, temperature, satellites_used, gps_fixtime, positiondop, 
+       h_accuracy, v_accuracy, x_speed, y_speed, z_speed, speed_accuracy, 
+       location, userflag, speed_2d, speed_3d, direction, altitude_agl
+  FROM gps.uva_tracking_data101 
+ WHERE date_time &gt; &#39;2014-05-04 0:00:00&#39;
+   AND date_time &lt; &#39;2014-05-05 0:00:00&#39;
+   AND device_info_serial = 184
+   AND altitude IS NOT NULL;
                             </pre>
                             <p>The exported csv file must contain at least the columns selected in the sql statement above, and have correct headers.  You need to choose whether you want to load annotated gps records from a csv file, like described above, instead of accelerometer data from a mat file. This can to be set in the settings file.</p>
                             <pre>
-                                use_gps_records_instead_of_accelerometer_data = true
+use_gps_records_instead_of_accelerometer_data = true
                             </pre>
                             <p>It is common for GPS data to be incomplete. Often, some columns like the h_accuracy, v_accuracy or pressure is missing for a given GPS record. Machine learning algorithms often cannot handle missing values. Multiple solutions exist in de literature, like discarding a row that is missing a value. This is not feasible when handling the GPS data because too many rows would have to be discarded. In this software a zero is used for every missing value when loading GPS records.</p>
                             <h2>Segmenting accelerometer measurements</h2>
                             <p>Consecutive accelerometer measurements grouped together are called a segment. Classification of accelerometer data is done at the segment level, because a single accelerometer point often does not provide enough information to make a reliable classification. The number of consecutive accelerometer measurements in a single segment can be defined the setting below.</p>
                             <pre>
-                                measurement_segment_size = 20
+measurement_segment_size = 20
                             </pre>
                             <p>Only a homogeneous segment can be created. This means that there will never be created a segment that contains measurements with various time stamps, device ids or different labels. If there are too few consecutive homogeneous measurements to form a segment, these measurements are all discarded. If a device recorded many measurements at a given time, multiple segments can be created with the same device and time stamp. In some situations, these instances cannot be regarded as independent. To prevent multiple segments from being created from data of a single device and time stamp, see the line below.</p>
                             <pre>
-                                segments_must_have_unique_id_timestamp_combination = true
+segments_must_have_unique_id_timestamp_combination = true
                             </pre>
                             <h2>Segmenting gps records</h2>
                             <p>Like accelerometer measurements, gps points are grouped into segments before classification. To determine the number of gps records in a single segment, use the setting below.</p>
                             <pre>
-                                gps_segment_size = 5
+gps_segment_size = 5
                             </pre>
                             <p>When classifying gps records, we often want to get a classification for each individual record even though classification is done on the segment level. This problem is tackled by assigning the class of each segment to individual gps record in the center of the segment. By creating overlapping windows, every individual gps record can be given a classification. To allow segments to have this overlap, the setting below can be used.</p>
                             <pre>
-                                gps_segments_may_overlap = true
+gps_segments_may_overlap = true
                             </pre>
                             <p>Use caution when using overlapping segments. The resulting segments are not at all independent from one another. Using overlapping segments to randomly split over a train and test set would therefore be incorrect. Doing this would result in overly optimistic test results.</p>
                             <h2>Label schema</h2>
                             <p>The labels, their description, and their associated colors used for visualization, are defined in a schema file. Note that, the schema file should be located in the data folder of the software. From the settings file, the used schema can be set. The lines below indicate that the file at location <em>/data/schemaGull.txt</em> is to be used.</p>
                             <pre>
-                                label_schema_file_path = schemaGull.txt
+label_schema_file_path = schemaGull.txt
                             </pre>
                             <p>Below is a typical schema file, defining the details of the classes 1 through 9.</p>
                             <pre>
-                                1 stand 1.00 0.00 0.00
-                                2 flap 0.75 0.00 0.75
-                                3 soar 0.00 0.00 1.00
-                                4 walk 0.00 0.50 0.00
-                                5 sit 0.50 0.50 0.50
-                                6 XflapL 1.00 0.80 1.00
-                                7 float 1.00 1.00 0.00
-                                8 XflapS 0.00 1.00 1.00
-                                9 other 0.00 1.00 0.00
+1 stand 1.00 0.00 0.00
+2 flap 0.75 0.00 0.75
+3 soar 0.00 0.00 1.00
+4 walk 0.00 0.50 0.00
+5 sit 0.50 0.50 0.50
+6 XflapL 1.00 0.80 1.00
+7 float 1.00 1.00 0.00
+8 XflapS 0.00 1.00 1.00
+9 other 0.00 1.00 0.00
                             </pre>
                             <h2>Remapping the label schema</h2>
                             <p>It can be chosen to merge several classes. This can be done using a remapping schema. Such a schema can be defined in a file. In the settings file the remapping schema file name can be set. As with the schema file, the schema remapping file should be located in the data folder.</p>
                             <pre>
-                                label_ids_must_be_remapped = true
-                                label_schema_remapping_path = schemaGullRemap.txt
+label_ids_must_be_remapped = true
+label_schema_remapping_path = schemaGullRemap.txt
                             </pre>
                             <p>The schema remapping file is a space delimited text file. The file below would cause original labels 1 and 2 to be merged in to a new label 1, with the description 'Feeding'. Original label 3 is given the new label 2 with description 'Walk' etc.</p>
                             <pre>
-                                1 Feeding 1,2
-                                2 Walk 3
-                                3 Stand 4
-                                4 Preen 5
-                                5 Fly 6,7,8
-                                6 Other 9
+1 Feeding 1,2
+2 Walk 3
+3 Stand 4
+4 Preen 5
+5 Fly 6,7,8
+6 Other 9
                             </pre>
                             <h2>Splitting</h2>
                             <p>The resulting segments are then divided over 3 sets, a train set, a test set, and a validation set. The train set is a set that is used for training the model, also known as classifier. Training a model could for instance mean generating a decision tree. The test set is for testing the performance of the trained model. Trying out different training methods with various parameters cause several trained models that vary in performance on the test set. By picking out the best performing model, the model is somewhat optimized to the test set. To objectively test the performance of the final version of a trained model, a validation set is used. The segments can be split over these data sets according to ratios defined in the settings file. The lines below define a 50%, 25%, 25% distribution.</p>
                             <pre>
-                                dataset_split_train_ratio = 0.5
-                                dataset_split_test_ratio = 0.25
-                                dataset_split_validation_ratio = 0.25
+dataset_split_train_ratio = 0.5
+dataset_split_test_ratio = 0.25
+dataset_split_validation_ratio = 0.25
                             </pre>
                             <p>The lines below are equivalent.</p>
                             <pre>
-                                dataset_split_train_ratio = 50
-                                dataset_split_test_ratio = 25
-                                dataset_split_validation_ratio = 25
+dataset_split_train_ratio = 50
+dataset_split_test_ratio = 25
+dataset_split_validation_ratio = 25
                             </pre>
                             <p>Often, the data is not equally divided over the available classes. This could result in the poor performance of classes of which there is less data available. In some extreme cases, the training process can even choose to ignore a class completely. Therefore a fixed number of segments for each class can be defined. If this method is used, the defined number of segments are taken from the train set. The rest of the train set is discarded. The lines below will result in sampling 25 segments of each class, 1 through 5, to train on. Note that, when using a schema remapping, the new, remapped labels are used in this setting.</p>
                             <pre>
-                                train_on_fixed_class_numbers = false
-                                train_instances_per_class = 1:25, 2:25, 3:25, 4:25, 5:25
+train_on_fixed_class_numbers = false
+train_instances_per_class = 1:25, 2:25, 3:25, 4:25, 5:25
                             </pre>
                             <p>After this, the train, test and validation sets are saved in json format in the data folder. The file names under which the data sets are saved are set in the settings file.</p>
-                                train_set_file_path = train_set.json
-                                test_set_file_path = test_set.json
-                                validation_set_file_path = validation_set.json
+train_set_file_path = train_set.json
+test_set_file_path = test_set.json
+validation_set_file_path = validation_set.json
                             </pre>
                             <h1 class="page-header">Training</h1><p>During the training process, the train set is loaded from the data folder. The name of the file from which train instances should be loaded is defined in the settings file.</p>
                             <pre>
-                                train_set_file_path = train_set.json
+train_set_file_path = train_set.json
                             </pre>
                             <h2>Feature extraction</h2>
                             <p>For each of the segments in the train set features are calculated. Based on these features, a model is trained. From a fixed set of features, a selection can be picked that is used for training. Note that the trained model can only classify instances that have the exact same features. In other words, a model trained on mean_x, mean_y, mean_z, cannot be used to classify data based on std_x, std_y, std_z. What features are going to be used can be set in the settings file. A complete list of standard features and some explanation can be found in the found in the <a href="features.html">feature description document</a>. The line below causes only the means and their standard deviations of each dimension to be used as features.</p>
                             <pre>
-                                extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
+extract_features = mean_x, mean_y, mean_z, std_x, std_y, std_z
                             </pre>                            
                             <h3 id="list-of-standard-features">Standard features</h1>
                             <p>The classification tool comes with a set of features that can be calculated for each segment by selecting them as shown above. The complete list of these standard features is shown in the table below.</p>
@@ -365,186 +365,269 @@ l<!DOCTYPE html>
                             <h3>Custom features</h3>
                             <p>Besides the standard features, user-defined features can be added. This functionality was added to allow users to define their own features without having to change the code of the software. Custom features can be defined in a text file. The location of the text file, in the data folder, can be set with the following line.</p>
                             <pre>
-                                custom_feature_extractor_file_path = custom_features.txt
+custom_feature_extractor_file_path = custom_features.txt
                             </pre>
                             <p>The format of the file containing custom feature definition is semicolon seperated. Below is an example of such a file in which 2 features are defined. </p>
                             <pre>
-                                myfeature; x1*y1*z1 + x2*y2*z2 + x3*y3*z3
-                                someotherfeature; x1+x2+x3+x4 - 4 * meanx
+myfeature; x1*y1*z1 + x2*y2*z2 + x3*y3*z3
+someotherfeature; x1+x2+x3+x4 - 4 * meanx
                             </pre>
                             <p>The first column contains the name of the feature, and the second column contains the expression defining the feature. For interpreting the expression, the <a href="http://www.objecthunter.net/exp4j/">exp4j library</a> is used. Note that variable names x1, x2 etc. refer to the different elements of x of the segment. The variable names xmean and stdx refer to the mean and standard deviations of x. In addition the speed as measured by the gps can be referred to by speed1. The complete list of variable names is below.</p>
                             <pre>
-                                x1
-                                x2
-                                x3
-                                ...
-                                y1
-                                y2
-                                y3
-                                ...
-                                z1
-                                z2
-                                z3
-                                ...
-                                meanx
-                                stdx
-                                meany
-                                stdy
-                                meanz
-                                stdz
-                                speed1
+x1
+x2
+x3
+...
+y1
+y2
+y3
+...
+z1
+z2
+z3
+...
+meanx
+stdx
+meany
+stdy
+meanz
+stdz
+speed1
                             </pre>
                             <p>Note that while defining new features, the number of elements have to be taken into account. Using z30, for example, on a segment of only 20 measurements will result in an error. </p>
-                            <p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), a number of additional variable names are available. The variables follow a similar pattern as above. I.e. lat1, lat2, ... meanlat, stdlat for the base name lat, which refers to latitude. Here, lat2 refers to the latitude of the second gps point in a segment. The complete list of base names with a short explanation is shown below.</p>
-                            <pre>
-                                lat, latitude
-                                long, longitude
-                                alt, altitude
-                                pres, pressure
-                                temp, temperature
-                                sat, satellites used for the gps fix
-                                fixtime, duration of the fix
-                                speed2d, speed parallel to the ground plane
-                                speed3d, speed
-                                dir, direction
+                            <p>If you are working with gps records (use_gps_records_instead_of_accelerometer_data = true), a number of additional variable names are available. The variables follow a similar pattern as above. I.e. lat1, lat2, ... meanlat, stdlat for the base name lat, which refers to latitude. Here, lat2 refers to the latitude of the second gps point in a segment. The complete list of base names with a short explanation is shown below.</p>                            
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                      <th>Base name</th>
+                                      <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>lat</td>
+                                        <td>latitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>long</td>
+                                        <td>longitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>alt</td>
+                                        <td>altitude</td>
+                                    </tr>
+                                    <tr>
+                                        <td>pres</td>
+                                        <td>pressure</td>
+                                    </tr>
+                                    <tr>
+                                        <td>temp</td>
+                                        <td>temperature</td>
+                                    </tr>
+                                    <tr>
+                                        <td>sat</td>
+                                        <td>satellites used for the gps fix</td>
+                                    </tr>
+                                    <tr>
+                                        <td>fixtime</td>
+                                        <td>duration of the fix</td>
+                                    </tr>
+                                    <tr>
+                                        <td>speed2d</td>
+                                        <td>speed parallel to the ground plane</td>
+                                    </tr>
+                                    <tr>
+                                        <td>speed3d</td>
+                                        <td>speed</td>
+                                    </tr>
+                                    <tr>
+                                        <td>dir</td>
+                                        <td>direction</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             </pre>
                             <p>Note that referring to lat5 for example, when there are only 4 gps records in a single segment (gps_segment_size = 4) will result in an error.</p>
                             <p>Once the custom features are defined and loaded as described above, they are added to the list of features available for selection. To use them, they need to be selected through as shown below.</p>
                             <pre>
-                                extract_features = myfeature, someotherfeature
+extract_features = myfeature, someotherfeature
                             </pre>                    
                             <h3>External feature values</h3>
                             The custom feature functionality has some limitations. More complicated features are often be hard or even impossible to describe in a single line equation. For this reason, the user is given the possibility to calculate feature values externally. It is possible for instance to load your data into Matlab, or any other tool, and calculate feature values there. These externally calculated feature values can be loaded by the classification tool as a csv file.
                             <pre>
-                                externally_calculated_feature_value_csv_path = externalvalues.csv
+externally_calculated_feature_value_csv_path = externalvalues.csv
                             </pre>
                             For each combination of device id and timestamp that exists in the data, the feature value must be defined in the csv file. This file is used as a lookup table mapping a pair of id and timestamp to a feature value. If such an entry is missing, the software will not be able to succesfully finish execution. The first two columns of the csv file must contain the device ids and timestamps respectively. The following columns are interpreted as features. This means that multiple features can be loaded using a single csv file. Below is an example of such a file.
                             <pre>
-                                device_info_serial,date_time,my_own_feature1,my_second_feature
-                                1011,2013-04-19 00:28:09,18.3329124961778,17.78
-                                1011,2013-04-19 00:58:07,16.9489105376155,9.86
-                                1011,2013-04-19 01:27:59,17.2219288606688,15.67
-                                1011,2013-04-19 01:58:07,15.319438765775,14.18
+device_info_serial,date_time,my_own_feature1,my_second_feature
+1011,2013-04-19 00:28:09,18.3329124961778,17.78
+1011,2013-04-19 00:58:07,16.9489105376155,9.86
+1011,2013-04-19 01:27:59,17.2219288606688,15.67
+1011,2013-04-19 01:58:07,15.319438765775,14.18
                             </pre>
                             <p>Note that loading externally calculated features adds those features to the list of features available for selection. To use them, they need to be selected through as shown below.</p>
                             <pre>
-                                extract_features = my_own_feature1, my_second_feature
+extract_features = my_own_feature1, my_second_feature
                             </pre>
                             <h2>Classifier</h2>
                             <p>A model is trained on the train set using a machine learning algorithm. Which algorithm should be used, is set in the settings file. To use the C4.5 treelearning algorithm use the line below. Note that j48 is the name of a JAVA implementation of the C4.5. Explanation of the algorithm and its parameters and their default values can be read in <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/J48.html">WEKA's documentation</a> and in more detail in <italic>Ross Quinlan (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann Publishers, San Mateo, CA.</italic>.</p>
                             <pre>
-                                machine_learning_algorithm = j48
+machine_learning_algorithm = j48
                             </pre>
                             <p>The line below causes the Random Forest algorithm to be used. For more information about this algorithm and its parameters and their defaults see <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/RandomForest.html">WEKA's documentation</a> and in more detail in Leo Breiman (2001). Random Forests. Machine Learning. 45(1):5-32.</p>
                             <pre>
-                                machine_learning_algorithm = random_forest
+machine_learning_algorithm = random_forest
                             </pre>
                             <p>Most machine algorithms have specific settings, or parameters, that can be tuned. For instance, the number of trees in the Random Forest can be defined. See the WEKA manual for information about these parameters.</p>
                             <pre>
-                                random_forest_number_of_trees = 50
+random_forest_number_of_trees = 50
                             </pre>
                             <p>After training, the resulting trained model, also known as classifier, is saved in the data folder under the file name that is defined in the settings file.</p>
                             <pre>
-                                classifier_path = classifier.cls
+classifier_path = classifier.cls
                             </pre>
                             <p>If the trained model is a decision tree, its structure is also saved in the job folder under "treegraph.json". By opening "treevisualization.html" in the same folder, the structure of the tree can be visualized. More complex tree structures can be inspected further by collapsing intermediate nodes.</p><h1 class="page-header">Testing</h1><p>Testing is done to evaluate the performance of a trained model. The trained model that is used to evaluate can be set from the settings file. The file containing the trained model should be located in the data folder.</p>
                             <pre>
-                                classifier_path = classifier.cls
+classifier_path = classifier.cls
                             </pre>
                             <p>The file, within the data folder, containing the test set is also set from the settings file.</p>
                             <pre>
-                                test_set_file_path = test_set.json
+test_set_file_path = test_set.json
                             </pre>
                             <p>For each of the segments in the test set features are calculated. Note that the same features need to be used for testing as were used for training the model. For further explanation of features and how to set which ones are use, see the Training section.</p>
                             <p>After testing, a test report is generated, containing some statistics, including an error rate and a confusion matrix. This report is saved in the job folder under the file name "test_report.txt". Misclassified instances of the test set are saved in json format in the job folder under "misclassifications.json". By opening "misclassifications.html", visualizations of the misclassifications can be inspected together with their predicted and actual label and feature values.</p>
                             <h1 class="page-header">Classification</h1>
                             <p>During the classification process, unannotated data can be labeled using a trained model. From which file the model is to be loaded can be set from the settings file. The file should be located in the data folder.</p>
                             <pre>
-                                classifier_path = classifier.cls
+classifier_path = classifier.cls
                             </pre>
                             <h2>Loading unannotated accelerometer data</h2>
                             <p>Unannotated accelerometer data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
                             <pre>
-                                unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
+unannotated_measurement_source_paths = g1acc.csv, febomeeuw.mat
                             </pre>
                             <h3>Loading unannotated accelerometer data from csv</h3>
                             <p>The format of an unannotated accelerometer data file must be similar to the example below.</p>
                             <pre>
-        "device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
-        1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,0,-0.28836729463202664293,-0.08380981041227806199,-0.17589082638362395754
-        1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,1,-0.02527727650897015128,0.33749623833885043635,-0.03032600454890068234
-        1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,2,0.20686097477607969429,0.15693650315979536563,0.31084154662623199393
+"device_info_serial","date_time","speed","longitude","latitude","altitude","tspeed","index","x_cal","y_cal","z_cal"
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,0,-0.28836729463202664293,-0.08380981041227806199,-0.17589082638362395754
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,1,-0.02527727650897015128,0.33749623833885043635,-0.03032600454890068234
+1,"2010-06-30 12:00:23",13.0578709628735,4.5754068,52.8965984,-5,3.63009687805689,2,0.20686097477607969429,0.15693650315979536563,0.31084154662623199393
                             </pre>
                             <p>Such data can be pulled from the database by running a sql query like the one below.</p>
                             <pre>
-        SELECT s.device_info_serial, 
-               s.date_time, 
-               s.speed_2d 
-               as speed, 
-               s.longitude, 
-               s.latitude, 
-               s.altitude, 
-               t.speed as tspeed, 
-               a.index,
-               (a.x_acceleration-d.x_o)/d.x_s as x_cal, 
-               (a.y_acceleration-d.y_o)/d.y_s as y_cal, 
-               (a.z_acceleration-d.z_o)/d.z_s as z_cal 
-          FROM gps.ee_tracking_speed_limited s 
-          JOIN gps.ee_acceleration_limited a   
+    SELECT s.device_info_serial, 
+           s.date_time, 
+           s.speed_2d 
+           as speed, 
+           s.longitude, 
+           s.latitude, 
+           s.altitude, 
+           t.speed as tspeed, 
+           a.index,
+           (a.x_acceleration-d.x_o)/d.x_s as x_cal, 
+           (a.y_acceleration-d.y_o)/d.y_s as y_cal, 
+           (a.z_acceleration-d.z_o)/d.z_s as z_cal 
+      FROM gps.ee_tracking_speed_limited s 
+      JOIN gps.ee_acceleration_limited a   
             ON (s.device_info_serial = a.device_info_serial AND s.date_time = a.date_time) 
-          JOIN gps.ee_tracker_limited d 
+      JOIN gps.ee_tracker_limited d 
             ON a.device_info_serial = d.device_info_serial 
-          JOIN gps.get_uvagps_track_speed ('1', '2010-06-30 00:00:00', '2010-07-01 00:00:00') t 
+      JOIN gps.get_uvagps_track_speed ('1', '2010-06-30 00:00:00', '2010-07-01 00:00:00') t 
             ON s.device_info_serial = t.device_info_serial and s.date_time = t.date_time 
-         WHERE s.device_info_serial = '1'
-           AND s.date_time >'2010-06-30 12:00:00'
-           AND s.date_time <  '2010-07-01 12:10:00'
-           AND s.latitude is not null and s.userflag <> 1 
-        ORDER BY  s.date_time, a.index;
+     WHERE s.device_info_serial = '1'
+       AND s.date_time >'2010-06-30 12:00:00'
+       AND s.date_time < '2010-07-01 12:10:00'
+       AND s.latitude is not null and s.userflag <> 1 
+  ORDER BY s.date_time, a.index;
                             </pre>
                             <h3>Loading unannotated accelerometer data from Matlab file</h3>
                             <p>Unannotated accelerometer data can also be loaded from a mat-file. The file should contain a similar struct to the one below.</p>
                             <pre>
-                                outputStruct = 
+outputStruct = 
 
-                                nOfSamples: 60
-                                sampleID: [1x60 double]
-                                year: [1x60 double]
-                                month: [1x60 double]
-                                day: [1x60 double]
-                                hour: [1x60 double]
-                                min: [1x60 double]
-                                sec: [60x1 double]
-                                accX: {60x1 cell}
-                                accY: {60x1 cell}
-                                accZ: {60x1 cell}
-                                accP: []
-                                accT: []
-                                tags: {1x60 cell}
-                                annotations: [33x6 double]
-                                gpsSpd: [60x1 double]
+nOfSamples: 60
+sampleID: [1x60 double]
+year: [1x60 double]
+month: [1x60 double]
+day: [1x60 double]
+hour: [1x60 double]
+min: [1x60 double]
+sec: [60x1 double]
+accX: {60x1 cell}
+accY: {60x1 cell}
+accZ: {60x1 cell}
+accP: []
+accT: []
+tags: {1x60 cell}
+annotations: [33x6 double]
+gpsSpd: [60x1 double]
                             </pre>
-                            <p>After classifying, all segments have been assigned a label by the model. The results are saved in an csv file called "classifications.csv" in the job folder. Each row in this file describes a single segment and its classification. The columns in this file are described below.</p>
-                            <pre>
-                                device_info_serial      The device id
-                                date_time               The time at which the device started recording accelerometer data
-                                first_index             The index of the first measurement of the segment
-                                class_id                The id of the assigned class 
-                                class_name              The name of the assigned class
-                                class_red               The amount of red in the associated color of the class (for visualisations only)
-                                class_green             The amount of green in the associated color of the class (for visualisations only)
-                                class_blue              The amount of blue in the associated color of the class (for visualisations only)
-                                longitude               The longitude measured by the GPS when the accelerometer started recoring
-                                latitude                The latitude measured by the GPS when the accelerometer started recoring
-                                altitude                The altitude measured by the GPS when the accelerometer started recoring
-                                gpsspeed                The speed measured directly by the GPS when the accelerometer started recoring
-                            </pre>
+                            <p>After classifying, all segments have been assigned a label by the model. The results are saved in an csv file called "classifications.csv" in the job folder. Each row in this file describes a single segment and its classification. The columns in this file are described below.</p>                            
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                      <th>Column</th>
+                                      <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                            
+                                    <tr>
+                                        <td>device_info_serial</td>
+                                        <td>The device id</td>
+                                    </tr>
+                                    <tr>
+                                        <td>date_time</td>
+                                        <td>The time at which the device started recording accelerometer data</td>
+                                    </tr>
+                                    <tr>
+                                        <td>first_index</td>
+                                        <td>The index of the first measurement of the segment</td>
+                                    </tr>
+                                    <tr>
+                                        <td>class_id</td>
+                                        <td>The id of the assigned class</td>
+                                    </tr>
+                                    <tr>
+                                        <td>class_name</td>
+                                        <td>The name of the assigned class</td>
+                                    </tr>
+                                    <tr>
+                                        <td>class_red</td>
+                                        <td>The amount of red in the associated color of the class (for visualisations only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>class_green</td>
+                                        <td>The amount of green in the associated color of the class (for visualisations only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>class_blue</td>
+                                        <td>The amount of blue in the associated color of the class (for visualisations only)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>longitude</td>
+                                        <td>The longitude measured by the GPS when the accelerometer started recoring</td>
+                                    </tr>
+                                    <tr>
+                                        <td>latitude</td>
+                                        <td>The latitude measured by the GPS when the accelerometer started recoring</td>
+                                    </tr>
+                                    <tr>
+                                        <td>altitude</td>
+                                        <td>The altitude measured by the GPS when the accelerometer started recoring</td>
+                                    </tr>
+                                    <tr>
+                                        <td>gpsspeed</td>
+                                        <td>The speed measured directly by the GPS when the accelerometer started recoring</td>
+                                    </tr>
+                                </tbody>
+                            </table                            
                             <p>Below is an example of an output of the classification process.</p>
                             <pre>
-                                device_info_serial,date_time,first_index,class_id,class_name,class_red,class_green,class_blue,longitude,latitude,altitude,gpsspeed
-                                538,2011-06-08T08:05:31.000Z,0,3,soar,0.0,0.0,1.0,4.4429206,52.7374668,-4.0,0.8106154424176607
-                                538,2011-06-08T08:15:07.000Z,0,7,float,1.0,1.0,0.0,4.4449913,52.7411828,-2.0,0.6645039573775211
-                                538,2011-06-08T08:19:55.000Z,0,7,float,1.0,1.0,0.0,4.4460503,52.7427955,-5.0,0.6157412031979498
+device_info_serial,date_time,first_index,class_id,class_name,class_red,class_green,class_blue,longitude,latitude,altitude,gpsspeed
+538,2011-06-08T08:05:31.000Z,0,3,soar,0.0,0.0,1.0,4.4429206,52.7374668,-4.0,0.8106154424176607
+538,2011-06-08T08:15:07.000Z,0,7,float,1.0,1.0,0.0,4.4449913,52.7411828,-2.0,0.6645039573775211
+538,2011-06-08T08:19:55.000Z,0,7,float,1.0,1.0,0.0,4.4460503,52.7427955,-5.0,0.6157412031979498
                             </pre>
                             <p>Often, we are interested in a label for each device-timestamp combination as opposed to for each segment. Such device-timestamp combination can have multiple segments with possibly different labels. To cope with this, every first segment with a unique device id - timestamp combination is used as leading for the complete device-timestamp combination. If no segments exist for an id-timestamp combination, no label is given. </p>
                             <p>The output csv file from the classification process can be used in other applications, like Matlab, for further analysis. The file can also be uploaded to the eEcology database using the <a href="https://services.e-ecology.sara.nl/cgi-bin/flysafe/uva_admin/upload_csv.cgi">GPS annotation service</a>. If you choose 'acceleration classification' as table template then the classification can be viewed in the <a href="https://annotation.e-ecology.cloudlet.sara.nl/aws/">annotation tool</a>.</p>
