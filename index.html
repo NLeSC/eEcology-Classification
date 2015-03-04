@@ -17,8 +17,7 @@ l<!DOCTYPE html>
     <body>
         <script>
             $(function() {        
-                $("#toc").tocify({context:"#content", selectors: "h1,h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn"})
-                
+                $("#toc").tocify({context:"#content", selectors: "h1,h2,h3,h4", showEffect: "fadeIn", hideEffect: "fadeIn"})                
             });
         </script>
         <div class="container-fluid">
@@ -31,11 +30,12 @@ l<!DOCTYPE html>
                         <div id="content">
                             <h1 class="page-header">Introduction</h1>
                             <p>Data from birds that have been tagged with a <a href="http://www.uva-bits.nl">gps tracker with accelerometer</a> can be researched. Often, we are not directly interested in the forces measured by the accelerometer. What we actually want to know is whether the bird was sitting, walking, foraging of flying. Assigning a behavior to data measurements is called annotation or classification. Ideally, we want to have a system, or model, that automatically classifies unseen data recorded by the tracker. It is hard to design such a model by hand, but it can be learned using machine learning. Learning a model using machine learning is called 'training'.</p>
+                            <h2>Supervised machine learning</h2>
                             <p>This software uses a variant of machine learning called <a href="http://en.wikipedia.org/wiki/Supervised_learning">supervised machine learning</a>. This means that a classifying model, or a classifier, is trained on a train set. A train set is an already annotated dataset. The trained model, or classifier, can then be applied to unseen data. This way the unseen data can be automatically classified. Using this method however, a train set is needed to train the classifier on. </p>
                             <p>A train set can be constructed by annotating a dataset by hand using the annotation tool. Make sure that at least 10, but preferably much more, examples exist in the trainset for each class. For instance, if your training set only contains 2 examples of some exotic behavior, you will not be able to train a model that can reliably recognize this behavior.</p>
                             <p>After training, you would like to know how well your classifier performs. This can be done by classifying again, annotated dataset, and compare the classes that were 'predicted' by the model, and the actual classes. This is called 'testing'. Using the train set for this purpose will not work because this is the data the model was trained on. It is therefore too easy compared to a more complete population of behaviors you want your model to generalize to. Testing on a trainset will always give you a overly optimistic and unrealistic impression of your model's performance! </p>
                             <p>To get a train set and a test set, an dataset that was annotated by hand can be split in two. This is often done by splitting the data randomly. If the test set and the train set are not completely independent, testing might give overly optimistic results. Therefore, it may be wise to have the test set and train set be taken from different trackers on different birds. This also depends on the population you want the model generalize to.</p>
-                            <h1 class="page-header">Outline</h1>
+                            <h2>Outline</h1>
                             <p>The classification tool's functions are divided over tree different processes that can be run independently from each other. This means that you can run all processes in one go, or run only the data splitting once, and run the training and testing processes repeatedly later. However, the training process cannot be run if the dataset has not yet been split into train, test and validation set. Similarly, the testing process cannot be run without a trained model etc. Below is the description of each of these processes. Which processes are executed can be set from the settings file using the lines below.</p>
                             <pre>
                                 execute_dataset_splitting_process = true
@@ -44,6 +44,8 @@ l<!DOCTYPE html>
                                 execute_classification_process = true
                                 execute_output_features_csv_process = true
                             </pre>
+                            <h2>Examples</h2>
+                            The classification tool comes with example jobs with example data. These examples were included to demonstrate how to set up your data to be able to execute all processes above. They can also help demonstrating most of the several visualization without need to use your own data. However, the performance of the classification should not be considered representative. The reason for this is that the example data was annotated by a developer, a non-expert in the ecology domain. Besides many annotation errors, not enough segments had been annotated to train a reliable model.
                             <h1 class="page-header">Data splitting</h1>
                             <p>Splitting the data can be done by executing the data splitting process. This process loads annotated measurements from the source that is defined in the settings file. The definition of a single measurement in this context is the combination of a single x, y and z direction of the accelerometer, together with its speed as measured by the gps. </p>
                             <h2>Loading annotated accelerometer data from a Matlab file</h2>
