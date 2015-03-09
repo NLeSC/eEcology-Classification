@@ -85,8 +85,8 @@ remove_measurements_containing_nan = true
                             <h2>Loading annotated GPS points from csv files</h2>
                             <p>There also exists a newer annotation tool that runs in a webbrowser. This tool differs from the old one in the sense that gps points, together with complete accelerometer blocks, are annotated, where in the old Matlab tool, each accelerometer data point could be annotated independently from its neighboring points. The new webbrowser annotation tool saves its output as a csv (comma separated values) file. This output only contains the annotation, and not the data itself. These files can be loaded using the settings file.</p>
                             <pre>
-gps_records_path = meeuw_all_gps.csv
-gps_record_annotations_path = gull.annotations.csv
+gps_records_path = gull1gps.csv
+gps_record_annotations_path = gull1annotations.csv
                             </pre>
                             <p>The csv file with the actual data, that goes with the annotations is also a csv file. Such a file contains the results from a SQL query like the one below.</p>
                             <pre>
@@ -501,6 +501,8 @@ test_set_file_path = test_set.json
                             <pre>
 classifier_path = classifier.cls
                             </pre>
+                            <p>The classifications are saved to a csv file so they can be used in other applications, like Matlab, for further analysis. The file can also be uploaded to the eEcology database using the <a href="https://services.e-ecology.sara.nl/cgi-bin/flysafe/uva_admin/upload_csv.cgi">GPS annotation service</a>. If you choose 'acceleration classification' as table template then the classification can be viewed in the <a href="https://annotation.e-ecology.cloudlet.sara.nl/aws/">annotation tool</a>.</p>
+                            <p>Both kinds of unannotated data, GPS or accelerometer, can be used for classification. How to load either one is described below.</p>
                             <h2>Loading unannotated accelerometer data</h2>
                             <p>Unannotated accelerometer data can be loaded from a mat-file or a csv-file and segmented the same way as in the datasplitting process. Features are calculated for each segment the same way as described in the Training section. The file containing the unannotated measurements should be in the data folder. Its file name can be set from the settings file.</p>
                             <pre>
@@ -629,9 +631,13 @@ device_info_serial,date_time,first_index,class_id,class_name,class_red,class_gre
 538,2011-06-08T08:15:07.000Z,0,7,float,1.0,1.0,0.0,4.4449913,52.7411828,-2.0,0.6645039573775211
 538,2011-06-08T08:19:55.000Z,0,7,float,1.0,1.0,0.0,4.4460503,52.7427955,-5.0,0.6157412031979498
                             </pre>
-                            <p>Often, we are interested in a label for each device-timestamp combination as opposed to for each segment. Such device-timestamp combination can have multiple segments with possibly different labels. To cope with this, every first segment with a unique device id - timestamp combination is used as leading for the complete device-timestamp combination. If no segments exist for an id-timestamp combination, no label is given. </p>
-                            <p>The output csv file from the classification process can be used in other applications, like Matlab, for further analysis. The file can also be uploaded to the eEcology database using the <a href="https://services.e-ecology.sara.nl/cgi-bin/flysafe/uva_admin/upload_csv.cgi">GPS annotation service</a>. If you choose 'acceleration classification' as table template then the classification can be viewed in the <a href="https://annotation.e-ecology.cloudlet.sara.nl/aws/">annotation tool</a>.</p>
-                            
+                            <p>Often, we are interested in a label for each device-timestamp combination as opposed to for each segment. Such device-timestamp combination can have multiple segments with possibly different labels. To cope with this, every first segment with a unique device id - timestamp combination is used as leading for the complete device-timestamp combination. If no segments exist for an id-timestamp combination, no label is given. </p>                            
+                            <h2>Loading unannotated gps data</h2>
+                            <p>Unannotated GPS data can loaded to be classified with a model trained on GPS data. When loading unannotated GPS data, the same setting can be used as was used for loading annotated data.</p>
+                            <pre>
+gps_records_path = gull1gps.csv
+                            </pre>
+                            <p>See <a href="http://localhost:8000/#LoadingannotatedGPSpointsfromcsvfiles">the section about loading GPS points</a> in the section about data splitting to read about the format of the csv file. Because the same setting is used to load either unannotated or annotated GPS data, it is not possible to train a classifier on GPS data and classify some other GPS data in a single job. Doing both in a single job would be unnatural because one normally needs to test and evaluate a trained classifier before applying it to unseen data.</p>
                             <h1 class="page-header">Feature output</h1>
                             <p>This process is special process only meant to save statistics to be analysed within Matlab or Excel for example. In this process, train, test and validation sets are loaded from the locations set in the settings file. For each segment, device, timestamp, longitude, latitude, altitude, annotated label, and list of features is output on a single row. The output is saved under "featurescomplete.csv" in the job folder.</p>
                             <h1 class="page-header">Settings</h1>
