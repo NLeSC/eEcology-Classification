@@ -1,3 +1,6 @@
+2015-03-09
+- Made new variables available for use in custom features (speed2d, speed3d, satellites_used, fix_time, pressure, temperature, direction)
+
 2015-02-24
 - New setting 'gps_segments_may_overlap' defines whether more instances can be created by allowing segments to partly overlap other segments.
 
