@@ -29,7 +29,7 @@ l<!DOCTYPE html>
                         </div>
                         <div id="content">
                             <h1 class="page-header">Introduction</h1>
-                            <p>Data from birds that have been tagged with a <a href="http://www.uva-bits.nl">gps tracker with accelerometer</a> can be researched. Often, we are not directly interested in the forces measured by the accelerometer. What we actually want to know is whether the bird was sitting, walking, foraging of flying. Assigning a behavior to data measurements is called annotation or classification. Ideally, we want to have a system, or model, that automatically classifies unseen data recorded by the tracker. It is hard to design such a model by hand, but it can be learned using machine learning. Learning a model using machine learning is called 'training'.</p>
+                            <p>Data about whereabouts from birds can be gathered using a <a href="http://www.uva-bits.nl">gps tracker with accelerometer from uva-bits</a> and analysed using this tool. Often, we are not directly interested in the forces measured by the accelerometer. What we actually want to know is whether the bird was sitting, walking, foraging of flying. Assigning a behavior to data measurements is called annotation or classification. Ideally, we want to have a system, or model, that automatically classifies unseen data recorded by the tracker. It is hard to design such a model by hand, but it can be learned using machine learning. Learning a model using machine learning is called 'training'.</p>
                             <h2>Supervised machine learning</h2>
                             <p>This software uses a variant of machine learning called <a href="http://en.wikipedia.org/wiki/Supervised_learning">supervised machine learning</a>. This means that a classifying model, or a classifier, is trained on a train set. A train set is an already annotated dataset. The trained model, or classifier, can then be applied to unseen data. This way the unseen data can be automatically classified. Using this method however, a train set is needed to train the classifier on. </p>
                             <p>A train set can be constructed by annotating a dataset by hand using the annotation tool. Make sure that at least 10, but preferably much more, examples exist in the trainset for each class. For instance, if your training set only contains 2 examples of some exotic behavior, you will not be able to train a model that can reliably recognize this behavior.</p>
@@ -175,10 +175,18 @@ train_on_fixed_class_numbers = false
 train_instances_per_class = 1:25, 2:25, 3:25, 4:25, 5:25
                             </pre>
                             <p>After this, the train, test and validation sets are saved in json format in the data folder. The file names under which the data sets are saved are set in the settings file.</p>
+                            <pre>
 train_set_file_path = train_set.json
 test_set_file_path = test_set.json
 validation_set_file_path = validation_set.json
                             </pre>
+                            <h1 class="page-header">Feature exploration</h1>
+                            <p>Before training, we want to decide what features of the data we want to build a model with. For some behaviors, mean forces measured by the accelerometer might be informative, while for others periodic properties, such as fundamental frequencies in the data, are more informative. Often, it's hard to predict what features will be especially good in seperating the classes in the data. To get an idea of what features are important for classifying your dataset over your classes, the features can be explored.
+                            <pre>
+execute_output_features_csv_process = true
+                            </pre>
+                            This will load train, test and validation sets and calculates the features of all the data. In the output in the job folder, your data can be explored using a scatter plot matrix. Each plot shows the complete data set with respect to two features. Features that seperate one or more classes from the rest of the data tend to be useful for classification.</p>
+                            <p>Data used in the scatter plot matrix is saved in csv-format in file 'featurescomplete.csv' (under output/data in the job folder). Besides exploring the data in the 'feature space' using this tool, the data and their features can be explored further in an external tool like Matlab or Excel.</p>
                             <h1 class="page-header">Training</h1><p>During the training process, the train set is loaded from the data folder. The name of the file from which train instances should be loaded is defined in the settings file.</p>
                             <pre>
 train_set_file_path = train_set.json
@@ -637,9 +645,7 @@ device_info_serial,date_time,first_index,class_id,class_name,class_red,class_gre
                             <pre>
 gps_records_path = gull1gps.csv
                             </pre>
-                            <p>See the section about loading annotated GPS points in the section about data splitting to read about the format of the csv file. Because the same setting is used to load either unannotated or annotated GPS data, it is not possible to train a classifier on GPS data and classify some other GPS data in a single job. Doing both in a single job would be unnatural because one normally needs to test and evaluate a trained classifier before applying it to unseen data.</p>
-                            <h1 class="page-header">Feature output</h1>
-                            <p>This process is special process only meant to save statistics to be analysed within Matlab or Excel for example. In this process, train, test and validation sets are loaded from the locations set in the settings file. For each segment, device, timestamp, longitude, latitude, altitude, annotated label, and list of features is output on a single row. The output is saved under "featurescomplete.csv" in the job folder.</p>
+                            <p>See the section about loading annotated GPS points in the section about data splitting to read about the format of the csv file. Because the same setting is used to load either unannotated or annotated GPS data, it is not possible to train a classifier on GPS data and classify some other GPS data in a single job. Doing both in a single job would be unnatural because one normally needs to test and evaluate a trained classifier before applying it to unseen data.</p>                            
                             <h1 class="page-header">Settings</h1>
                             <p>In the sections above, all settings in the settings file are discussed. Because only a selection of the above processes can be selected, setting all possible settings is sometimes counter-intuitive. When only the data splitting process is selected, it doesn't make sense to have to set a <em>classifier_path</em> for instance, as this setting is obviously not needed to run that particular process. </p>
                             <p>It was chosen however to check if every possible setting has been set before executing. This ensures that no processes have to be stopped halfway because of a missing setting.</p>
