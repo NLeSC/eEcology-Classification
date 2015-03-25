@@ -649,6 +649,72 @@ gps_records_path = gull1gps.csv
                             <h1 class="page-header">Settings</h1>
                             <p>In the sections above, all settings in the settings file are discussed. Because only a selection of the above processes can be selected, setting all possible settings is sometimes counter-intuitive. When only the data splitting process is selected, it doesn't make sense to have to set a <em>classifier_path</em> for instance, as this setting is obviously not needed to run that particular process. </p>
                             <p>It was chosen however to check if every possible setting has been set before executing. This ensures that no processes have to be stopped halfway because of a missing setting.</p>
+                            <h1 class="page-header">Output files</h1>
+                            After the Classification tool has run, the output can be found in the output subfolder in the job folder.
+                            <h2>Purpose of each output file</h2>
+                            The output is saved as a small website in the output folder. This results in file/folder structure that might look complicated. In the table below the purpose of each file is described.
+                            <table class="table table-striped">
+                                <tbody>
+                                    <hr>
+                                        <th>File</th>
+                                        <th>Location</th>
+                                        <th>Purpose</th>
+                                    </hr>
+                                    <tr>                                
+                                        <td>treegraph.json</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file contains a representation of a learned decision tree. This file is read from when opening the tree visualization in the webbrowser as it contains everything that needs to be visualized there.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>confusionMatrix.txt</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This text file contains the confusion matrix and is saved for use in external applications only. It is never read by the Classification tool.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>classifications.csv</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file is the output of the classification process. It contains the classification of the unseen data. This file can be uploaded in the annotation tool for visualization or loaded in an external tool.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>teststatistics.json</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file contains all the data shown when opening the test results in the webbrowser. It contains error rates, confusion matrix and other statistics.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>misclassifications.json</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file contains all the data shown when opening the visualization of the misclassifications in the webbrowser.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>schema.json</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file contains the schema (classes, class labels, associated colors) in json format. It is loaded by several visualizations in the webbrowser.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>featurescomplete.csv</td>
+                                        <td>&lt;job&gt;/output/data</td>
+                                        <td>This file contains the features of all the data in the test, train and validation set. This file is loaded from when opening the scatter plot matrix visualization in the webbrowser. It can also be loaded with external tools.</td>
+                                    </tr>
+                                    <tr>                                
+                                        <td>*.css</td>
+                                        <td>&lt;job&gt;/output/css</td>
+                                        <td>Contains style sheets used in visualizations in webbrowser.</td>
+                                    </tr>                                    
+                                    <tr>                                
+                                        <td>*.js</td>
+                                        <td>&lt;job&gt;/output/js</td>
+                                        <td>Contains code that runs in the webbrowser for loading and running visualizations.</td>
+                                    </tr>                                    
+                                    <tr>                                
+                                        <td>*.html</td>
+                                        <td>&lt;job&gt;/output</td>
+                                        <td>The pages containing visualizations of the output.</td>
+                                    </tr>                                    
+                                </tbody>
+                            </table>
+                            <h2>Sharing results</h2>
+                            <p>To share results with someone, you could share the complete output folder. This will share all visualizations at once. Downsides are that you're automatically sharing large parts of the original data as well which may not be what you want to do. Another downside is that, because of including this data, the size of the files you share can be quite large.</p>
+                            <p>There is an alternative method of sharing results. For this you go to any of the visualizations in the browser you want to share and press 'save' (ctrl + s). This will let you save your result as an html file called 'myresults.html' for example. Note that used stylesheets are also saved in a folder called 'myresults_files' in the same folder. Both the html file and the folder containing the stylesheets need to be shared in order to correctly view the results. Note that, using this method, only the data visible at the time of saving the page will be included. I.e. collapsed branches of the tree visualization, or filtered out misclassifications, or unselected features in the scatter plot matrix will not be saved.</p>
                         </div>
                     </div>
                 </div>
