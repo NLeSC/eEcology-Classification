@@ -23,7 +23,9 @@ public class VedbaFeatureExtractorTest extends FeatureExtractorTest {
             0.6378, 1.3285, 1.6005, 1.8472, 0.5879, 0.0700, 0.7116, 1.2794, 1.5752, 1.8226, 0.6624, -0.0537 } });
         DoubleMatrix gpsSpeed = new DoubleMatrix(1, 1);
         FormattedSegments input = createFormattedSegments(x, y, z, gpsSpeed);
-        double expected = 3.3802; // according to matlab by Willem's script from mail za 15-3-2014 22:51
+        // expectation according to matlab by Willem's script from mail za 15-3-2014 22:51,
+        // but divided by nMeasurements (https://services.e-ecology.sara.nl/redmine/issues/411)
+        double expected = 0.16901;
 
         // Act
         DoubleMatrix output = featureExtractor.extractFeatures(input);

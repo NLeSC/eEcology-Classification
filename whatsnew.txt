@@ -1,3 +1,7 @@
+2015-08-03
+- OBDA feature now calculates OBDA per measurement; OBDA value is divided by number of measurements per sample. 
+- VEDBA feature now calculates VEDBA per measurement; VEDBA value is divided by number of measurements per sample. 
+
 2015-03-09
 - Made new variables available for use in custom features (speed2d, speed3d, satellites_used, fix_time, pressure, temperature, direction)
 

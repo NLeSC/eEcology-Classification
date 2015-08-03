@@ -23,7 +23,7 @@ public class VedbaFeatureExtractor extends FeatureExtractor {
         DoubleMatrix yComponent = calculateComponent(formattedSegments.getY());
         DoubleMatrix zComponent = calculateComponent(formattedSegments.getZ());
         DoubleMatrix sum = xComponent.add(yComponent).add(zComponent);
-        return MatrixFunctions.sqrt(sum);
+        return MatrixFunctions.sqrt(sum).div(formattedSegments.getNumberOfColumns());
     }
 
     private DoubleMatrix calculateComponent(DoubleMatrix m) {

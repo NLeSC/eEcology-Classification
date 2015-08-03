@@ -22,7 +22,7 @@ public class OdbaFeatureExtractor extends FeatureExtractor {
         DoubleMatrix xComponent = calculateComponent(formattedSegments.getX());
         DoubleMatrix yComponent = calculateComponent(formattedSegments.getY());
         DoubleMatrix zComponent = calculateComponent(formattedSegments.getZ());
-        return xComponent.add(yComponent).add(zComponent);
+        return xComponent.add(yComponent).add(zComponent).div(formattedSegments.getNumberOfColumns());
     }
 
     private DoubleMatrix calculateComponent(DoubleMatrix m) {
