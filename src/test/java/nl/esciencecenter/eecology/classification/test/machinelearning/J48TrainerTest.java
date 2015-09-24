@@ -16,13 +16,14 @@ public class J48TrainerTest extends TrainerTest {
         trainer = createJ48Trainer();
         Instances instances = getTestInstances();
 
-        // Act                  
+        // Act
         Classifier classifier = trainer.train(instances);
 
         // Assert
         assertTrue(classifier instanceof J48);
     }
 
+    @Test
     public void train_setReducedErrorPruning_j48HasCorrectSetting() {
         // Arrange
         boolean reducedErrorPruning = true;

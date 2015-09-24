@@ -22,7 +22,7 @@ public abstract class TrainerTest {
         FastVector emptyAttInfo = new FastVector();
         Instances invalidInstances = new Instances("name", emptyAttInfo, 0);
 
-        // Act                  
+        // Act
         trainer.train(invalidInstances);
 
         // Assert
@@ -33,7 +33,7 @@ public abstract class TrainerTest {
         // Arrange
         Instances instances = getTestInstances();
 
-        // Act                  
+        // Act
         Classifier classifier = trainer.train(instances);
         try {
             classifier.classifyInstance(instances.firstInstance());
@@ -52,7 +52,7 @@ public abstract class TrainerTest {
         instances.firstInstance().setClassValue(0d);
         double expected = 0d;
 
-        // Act                  
+        // Act
         double classification = -1;
         Classifier classifier = trainer.train(instances);
         try {
@@ -75,6 +75,8 @@ public abstract class TrainerTest {
         Instances instances = new Instances("test", attInfo, 0);
         instances.setClass(classAttribute);
         instances.add(getTestInstance(instances, 0, 1));
+        instances.add(getTestInstance(instances, 0, 1));
+        instances.add(getTestInstance(instances, 1, 0));
         instances.add(getTestInstance(instances, 1, 0));
         return instances;
     }
