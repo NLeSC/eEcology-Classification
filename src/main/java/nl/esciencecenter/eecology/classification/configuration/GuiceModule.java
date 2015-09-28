@@ -10,6 +10,8 @@ import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordAnnotationL
 import nl.esciencecenter.eecology.classification.dataaccess.SchemaCustomCsvReader;
 import nl.esciencecenter.eecology.classification.dataaccess.SchemaProvider;
 import nl.esciencecenter.eecology.classification.dataaccess.SchemaReader;
+import nl.esciencecenter.eecology.classification.machinelearning.GeneralTrainerFactory;
+import nl.esciencecenter.eecology.classification.machinelearning.TrainerFactory;
 import nl.esciencecenter.eecology.classification.schemaloading.SchemaCombinedLazyProvider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +34,7 @@ public class GuiceModule extends AbstractModule implements Module {
         bind(SchemaReader.class).to(SchemaCustomCsvReader.class);
         bind(SchemaProvider.class).to(SchemaCombinedLazyProvider.class);
         bind(GpsRecordAnnotationLoader.class).to(GpsRecordAnnotationCsvLoader.class);
+        bind(TrainerFactory.class).to(GeneralTrainerFactory.class);
 
         FileReader fileReader = null;
         try {

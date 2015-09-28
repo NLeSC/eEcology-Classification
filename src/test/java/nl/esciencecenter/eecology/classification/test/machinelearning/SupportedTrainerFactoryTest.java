@@ -4,24 +4,24 @@ import static org.easymock.EasyMock.createNiceMock;
 import static org.junit.Assert.assertTrue;
 import nl.esciencecenter.eecology.classification.machinelearning.J48Trainer;
 import nl.esciencecenter.eecology.classification.machinelearning.RandomForestTrainer;
+import nl.esciencecenter.eecology.classification.machinelearning.SupportedTrainerFactory;
 import nl.esciencecenter.eecology.classification.machinelearning.Trainer;
-import nl.esciencecenter.eecology.classification.machinelearning.TrainerFactory;
 import nl.esciencecenter.eecology.classification.machinelearning.exceptions.UnknownMachineLearningAlgorithmException;
 
 import org.junit.Test;
 
-public class TrainerFactoryTest {
+public class SupportedTrainerFactoryTest {
     @Test
     public void test_canBeCreated() {
-        createNewTrainerFactoryInstance(TrainerFactory.TYPE_RANDOM_FOREST);
+        createNewTrainerFactoryInstance(SupportedTrainerFactory.TYPE_RANDOM_FOREST);
     }
 
     @Test
     public void train_returnRfClassifier() {
         // Arrange
-        TrainerFactory trainerFactory = createNewTrainerFactoryInstance(TrainerFactory.TYPE_RANDOM_FOREST);
+        SupportedTrainerFactory trainerFactory = createNewTrainerFactoryInstance(SupportedTrainerFactory.TYPE_RANDOM_FOREST);
 
-        // Act                  
+        // Act
         Trainer trainer = trainerFactory.getTrainer();
 
         // Assert
@@ -31,9 +31,9 @@ public class TrainerFactoryTest {
     @Test
     public void j48Train_returnJ48Classifier() {
         // Arrange
-        TrainerFactory trainerFactory = createNewTrainerFactoryInstance(TrainerFactory.TYPE_J48);
+        SupportedTrainerFactory trainerFactory = createNewTrainerFactoryInstance(SupportedTrainerFactory.TYPE_J48);
 
-        // Act                  
+        // Act
         Trainer trainer = trainerFactory.getTrainer();
 
         // Assert
@@ -50,7 +50,7 @@ public class TrainerFactoryTest {
         // Assert
     }
 
-    private TrainerFactory createNewTrainerFactoryInstance(String type) {
-        return new TrainerFactory(type, createNiceMock(RandomForestTrainer.class), createNiceMock(J48Trainer.class));
+    private SupportedTrainerFactory createNewTrainerFactoryInstance(String type) {
+        return new SupportedTrainerFactory(type, createNiceMock(RandomForestTrainer.class), createNiceMock(J48Trainer.class));
     }
 }
