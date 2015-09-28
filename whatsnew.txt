@@ -1,3 +1,6 @@
+2015-09-28
+- Selecting a classifier algorithm is now selected using a new format
+
 2015-08-03
 - OBDA feature now calculates OBDA per measurement; OBDA value is divided by number of measurements per sample. 
 - VEDBA feature now calculates VEDBA per measurement; VEDBA value is divided by number of measurements per sample. 

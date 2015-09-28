@@ -21,7 +21,7 @@ public class GeneralTrainer implements Trainer {
     private final String[] classifierOptions;
 
     @Inject
-    public GeneralTrainer(@Named("classifier_string") String classifierString) {
+    public GeneralTrainer(@Named("machine_learning_algorithm_string") String classifierString) {
         CommandLine commandLine = CommandLine.parse(classifierString);
         String classifierClass = commandLine.getExecutable();
         String[] options = getClassifierOptions(commandLine);
@@ -50,7 +50,7 @@ public class GeneralTrainer implements Trainer {
 
     /**
      * Takes a commandline and returns it's arguments, stripped from outer double qoutes if any.
-     * 
+     *
      * @param commandLine
      * @return
      */
