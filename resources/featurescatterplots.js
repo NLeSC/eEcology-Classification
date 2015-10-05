@@ -191,8 +191,8 @@ var addPlots = function(){
 	d3.select("#plots").selectAll("svg").remove();
   
 	var svg = d3.select("#plots").append("svg")
-		.attr("width", size * selectedFeatures.length + padding + outerPadding)
-		.attr("height", size * selectedFeatures.length + padding + outerPadding)
+		.attr("width", size * (selectedFeatures.length + padding) + outerPadding)
+		.attr("height", size * (selectedFeatures.length + padding) + outerPadding)
 		.append("g")
 		.attr("transform", "translate(" + (padding + outerPadding) + "," + padding / 2 + ")");
 
