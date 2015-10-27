@@ -1,0 +1,20 @@
+
+
+Log
+- Calculate the features of all the data and put in one big csv:
+run classification tool loading all data and outputting features as csv (2 commands)
+
+- Open the ARFFView tool in Weka
+run Weka GUI chooser > Tools > ARFFViewer
+
+- Open your csv in the viewer:
+File > Open > select "jobs/<job>/output/data/featurescomplete.csv"
+
+Remove unnecessary attributes 
+- edit > delete attributes > select all but the actual features and the class_id
+
+save arff
+change class_id attribute from numeric to nominal
+- open ARFF in text editor and change the class_id header line to something like
+@attribute class_id {1,2,3,4,5,6,7,8,9,10}
+The line above assumes there are 10 classes numbered 1 to 10. Check your schema file to include all classes you use.
