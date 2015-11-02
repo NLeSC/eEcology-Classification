@@ -15,9 +15,10 @@
   </div>
 </nav>
 <script>
-var pages = {
+	var pages = {
 		"Start":"start.html",
         "Features" :"featurescatterplots.html",
+        "Classifier" : "classifier.html",
         "Tree visualization" : "treevisualization.html",
         "Test report": "testreport.html",
         "Misclassifications":"misclassifications.html"
@@ -29,22 +30,22 @@ var pages = {
     var keys = Object.keys(pages);
     
 	d3
-		.select("#pages")
-        .selectAll("li")
-		.data(keys)
-		.enter()
-		.append("li")
-        .attr("class", function(d){
-            if (filename == pages[d]){
-                return "active";
-            }
-            return "";
-        })
-		.append("a")
-		.text(function(d){
-            return d
-        })
-        .attr("href", function(d){
-            return pages[d];
-        });
+	.select("#pages")
+    .selectAll("li")
+	.data(keys)
+	.enter()
+	.append("li")
+    .attr("class", function(d){
+        if (filename == pages[d]){
+            return "active";
+        }
+        return "";
+    })
+	.append("a")
+	.text(function(d){
+        return d
+    })
+    .attr("href", function(d){
+        return pages[d];
+    });
 </script>

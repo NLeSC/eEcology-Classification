@@ -7,6 +7,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
+
 import nl.esciencecenter.eecology.classification.configuration.PathManager;
 import nl.esciencecenter.eecology.classification.dataaccess.ClassifierLoader;
 import nl.esciencecenter.eecology.classification.dataaccess.SchemaProvider;
@@ -19,13 +26,6 @@ import nl.esciencecenter.eecology.classification.segmentloading.Segment;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
-
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Inject;
 
 public class TestCommand implements Command {
     @Inject
@@ -129,8 +129,6 @@ public class TestCommand implements Command {
         model.setInstancesIncorrect((int) Math.round(stat.incorrect()));
         model.setPercentageIncorrect(stat.pctIncorrect());
         model.setKappa(stat.kappa());
-        model.setClassifierDescription(testClassifier.toString().split("\n")[0]);
-
         double[][] confusionMatrix = stat.confusionMatrix();
         model.setConfusionMatrix(confusionMatrix);
         model.setPrecisionVector(confusionMatrixStatisticsCalculator.getPrecisionVector(confusionMatrix));
@@ -138,6 +136,10 @@ public class TestCommand implements Command {
         model.setLabelSchema(schemaProvider.getSchema().values());
         writeToJson(model, pathManager.getTestResultPath());
         exportConfusionMatrix(confusionMatrix);
+    }
+
+    private String getClassifierDescription(Classifier testClassifier) {
+        return testClassifier.toString().split("\n")[0];
     }
 
     public List<String> getLabels() {

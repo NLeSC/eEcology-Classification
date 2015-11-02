@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import nl.esciencecenter.eecology.classification.configuration.PathManager;
-
 import org.apache.commons.io.FileUtils;
 
 import com.github.mustachejava.DefaultMustacheFactory;
@@ -13,6 +11,8 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheException;
 import com.github.mustachejava.MustacheFactory;
 import com.google.inject.Inject;
+
+import nl.esciencecenter.eecology.classification.configuration.PathManager;
 
 public class CreateOutputPagesCommand implements Command {
     @Inject
@@ -35,6 +35,7 @@ public class CreateOutputPagesCommand implements Command {
         copyFile("misclassifications.js", source, codePath);
         copyFile("featurescatterplots.js", source, codePath);
         copyFile("testreport.js", source, codePath);
+        copyFile("classifier.js", source, codePath);
         copyFile("d3.v3.min.js", source, codePath);
         copyFile("bootstrap.min.js", source, codePath);
         copyFile("jquery.min.js", source, codePath);
@@ -46,6 +47,7 @@ public class CreateOutputPagesCommand implements Command {
         copyFile("bootstrap-theme.min.css", source, stylePath);
         render("treevisualization.mustache", source, outputPath, "treevisualization.html");
         render("testreport.mustache", source, outputPath, "testreport.html");
+        render("classifier.mustache", source, outputPath, "classifier.html");
         render("misclassifications.mustache", source, outputPath, "misclassifications.html");
         render("featurescatterplots.mustache", source, outputPath, "featurescatterplots.html");
         render("start.mustache", source, outputPath, "start.html");
@@ -75,8 +77,8 @@ public class CreateOutputPagesCommand implements Command {
     private void copyFile(String fileName, String source, String destinationPath) {
         try {
             File destinationDir = new File(destinationPath);
-            FileUtils
-                    .copyFile(new File(source + File.separator + fileName), new File(destinationDir + File.separator + fileName));
+            FileUtils.copyFile(new File(source + File.separator + fileName),
+                    new File(destinationDir + File.separator + fileName));
         } catch (IOException e) {
             // User has to copy it manually then... no problem
             warnCouldNotCreateOutput(fileName, e.getMessage());

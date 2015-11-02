@@ -46,8 +46,7 @@ d3.json("data/teststatistics.json", function(error, newModel){
 	d3.select("#instancesincorrect").text(model.instancesIncorrect);
 	d3.select("#percentagecorrect").text(percentageFormat(model.percentageCorrect));
 	d3.select("#percentageincorrect").text(percentageFormat(model.percentageIncorrect));
-	d3.select("#kappa").text(floatFormat(model.kappa));
-	d3.select("#classifierdescription").text(model.classifierDescription);
+	d3.select("#kappa").text(floatFormat(model.kappa));	
 	var table = d3.select("#confusionMatrix");
 	var tableHead = table
 		.append("thead");

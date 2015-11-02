@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    {{>commondependencies}}
+    <script src="js/classifier.js"></script>
+</head>
+<body>
+    <div class="container theme-showcase" >
+        <div id="menu">{{>menu}}</div>       
+        <div id="loaderror" class="bg-info hidden">
+            <h1>No test results available.</h1>
+            First train a classifier on a train set then come back here to see the description of the resulting model. <a href="http://nlesc.github.io/eEcology-Classification/#Training" target="_blank"><span class="fa fa-info-circle"></span></a>             
+        </div>
+        <div id="loading" class="loading">
+            <span class="fa fa-spinner fa-spin"></span>     
+        </div> 
+        <div id="content" class="hidden">
+          <div class="container" id="description">              
+          </div>
+        </div>  
+    </div>
+</body>
+

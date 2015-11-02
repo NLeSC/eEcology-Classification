@@ -65,6 +65,7 @@ public class PathManager {
     private final String classificationTuplesPath = "classifications.csv";
     private final String featuresCsvPath = "featurescomplete.csv";
     private final String schemaJsonPath = "schema.json";
+    private final String classifierDescriptionPath = "classifierdescription.txt";
     protected String dataPath = "data";
     private final String jobDataSubPath = "data";
     private final String jobStyleSubPath = "css";
@@ -101,6 +102,10 @@ public class PathManager {
 
     public String getSchemaJsonPath() {
         return getJoinedPath(getJobDataPath(), schemaJsonPath);
+    }
+
+    public String getClassifierDescriptionPath() {
+        return getJoinedPath(getJobDataPath(), classifierDescriptionPath);
     }
 
     public String getSchemaPath() {

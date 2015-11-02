@@ -105,5 +105,4 @@ public class TestResultViewModel {
     public String getClassifierDescription() {
         return classifierDescription;
     }
-
 }
