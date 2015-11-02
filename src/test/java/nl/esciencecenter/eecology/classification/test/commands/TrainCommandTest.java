@@ -29,7 +29,6 @@ public class TrainCommandTest {
     private TrainCommand trainCommand;
     private PathManager pathManager;
     private final String testClassifierPath = "src/test/java/resources/testclassifier.json";
-    private ClassifierDescriptionSaver classifierDescriptionSaver;
 
     @Test(expected = StoringClassifierException.class)
     public void execute_emptyClassifierOutputPath_throwException() {
@@ -79,6 +78,7 @@ public class TrainCommandTest {
         trainCommand.setSegmentToinstancesCreator(createNiceMock(SegmentToInstancesCreator.class));
         TrainerFactory trainerFactory = getMockTrainerFactory();
         trainCommand.setTrainerFactory(trainerFactory);
+        trainCommand.setClassifierDescriptionSaver(createNiceMock(ClassifierDescriptionSaver.class));
     }
 
     @After
