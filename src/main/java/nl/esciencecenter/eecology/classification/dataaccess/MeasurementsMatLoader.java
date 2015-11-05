@@ -2,8 +2,8 @@ package nl.esciencecenter.eecology.classification.dataaccess;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -32,7 +32,7 @@ public abstract class MeasurementsMatLoader extends MeasurementsLoader {
 
     protected List<Integer> getIntList(MLStructure root, String key) {
         List<Double> doubleList = getDoubleList(root, key);
-        List<Integer> results = new LinkedList<Integer>();
+        List<Integer> results = new ArrayList<Integer>();
         for (int i = 0; i < doubleList.size(); i++) {
             double currentDouble = doubleList.get(i);
             results.add((int) currentDouble);
