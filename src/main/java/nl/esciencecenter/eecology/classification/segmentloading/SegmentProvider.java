@@ -63,7 +63,7 @@ public class SegmentProvider {
         return getAnnotatedSegmentsFromAccelerometerData();
     }
 
-    public List<Segment> getSegments() {
+    public List<Segment> getUnannotatedSegments() {
         if (useGpsRecordsInsteadOfAccelerometerData) {
             List<GpsRecord> gpsRecords = gpsRecordSupplier.getGpsRecords();
             return gpsRecordSegmenter.createSegmentsIgnoringLabel(gpsRecords);

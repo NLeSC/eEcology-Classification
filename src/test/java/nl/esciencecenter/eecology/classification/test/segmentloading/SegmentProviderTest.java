@@ -97,7 +97,7 @@ public class SegmentProviderTest {
         segmentProvider.setUseGpsRecordsInsteadOfAccelerometerData(false);
 
         // Act
-        segmentProvider.getSegments();
+        segmentProvider.getUnannotatedSegments();
 
         // Assert
         verify(unannotatedLoader);
@@ -112,7 +112,7 @@ public class SegmentProviderTest {
         segmentProvider.setUseGpsRecordsInsteadOfAccelerometerData(true);
 
         // Act
-        segmentProvider.getSegments();
+        segmentProvider.getUnannotatedSegments();
 
         // Assert
         verify(unannotatedLoader);
@@ -127,7 +127,7 @@ public class SegmentProviderTest {
         segmentProvider.setUseGpsRecordsInsteadOfAccelerometerData(true);
 
         // Act
-        segmentProvider.getSegments();
+        segmentProvider.getUnannotatedSegments();
 
         // Assert
         verify(gpsAnnotatedGpsRecordSupplier);
@@ -143,7 +143,7 @@ public class SegmentProviderTest {
         segmentProvider.setUseGpsRecordsInsteadOfAccelerometerData(true);
 
         // Act
-        segmentProvider.getSegments();
+        segmentProvider.getUnannotatedSegments();
 
         // Assert
         verify(gpsGpsRecordSupplier);

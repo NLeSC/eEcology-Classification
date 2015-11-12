@@ -27,7 +27,7 @@ public class ClassifyCommand implements Command {
     public void execute() {
         printer.print("Executing classification process: ");
         printer.print("loading and segmenting unannotated data...");
-        List<Segment> classificationSegments = segmentProvider.getSegments();
+        List<Segment> classificationSegments = segmentProvider.getUnannotatedSegments();
         printer.print("classifying unannotated...");
         classify(classificationSegments);
         printer.print("done.\n");
