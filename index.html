@@ -485,7 +485,8 @@ machine_learning_algorithm_string = weka.classifiers.trees.J48 -R
                             <p>The line below causes the Random Forest algorithm to be used with 500 trees. For more information about this algorithm and its parameters and their defaults see <a href="http://weka.sourceforge.net/doc.dev/weka/classifiers/trees/RandomForest.html">WEKA's documentation</a> and in more detail in Leo Breiman (2001). Random Forests. Machine Learning. 45(1):5-32.</p>
                             <pre>
 machine_learning_algorithm_string = weka.classifiers.trees.RandomForest -I 500
-                            </pre>                            
+                            </pre>
+                            <p>There doesn't seem to be a complete list of all possible classifiers with their options. For exploring various classifiers, it is recommended to run the <a href="http://www.cs.waikato.ac.nz/ml/weka/downloading.html">WEKA explorer</a> and choose a classifier from their interface. This interface also provides the same information as the WEKA documentation. WEKA can even construct a machine_learning_algorithm_string that can be used in the classification tool. This is recommended when defining more complicated classifiers that include wrappers or ensembles for instance.</p>
                             <p>After training, the resulting trained model, also known as classifier, is saved in the data folder under the file name that is defined in the settings file.</p>
                             <pre>
 classifier_path = classifier.cls
