@@ -4,19 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.LinkedList;
 import java.util.List;
-
-import nl.esciencecenter.eecology.classification.configuration.Constants;
-import nl.esciencecenter.eecology.classification.configuration.PathManager;
-import nl.esciencecenter.eecology.classification.dataaccess.SchemaToJobDirectorySaver;
-import nl.esciencecenter.eecology.classification.featureextraction.SegmentToInstancesCreator;
-import nl.esciencecenter.eecology.classification.segmentloading.Segment;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+
+import nl.esciencecenter.eecology.classification.configuration.PathManager;
+import nl.esciencecenter.eecology.classification.dataaccess.LoadingMeasurementsException;
+import nl.esciencecenter.eecology.classification.dataaccess.SchemaToJobDirectorySaver;
+import nl.esciencecenter.eecology.classification.segmentloading.Segment;
+import nl.esciencecenter.eecology.classification.segmentloading.SegmentProvider;
 
 public class OutputFeaturesInCsvCommand implements Command {
     @Inject
@@ -26,16 +27,26 @@ public class OutputFeaturesInCsvCommand implements Command {
     @Inject
     private ObjectMapper objectMapper;
     @Inject
-    private SegmentToInstancesCreator segmentToinstancesCreator;
-    @Inject
     private SchemaToJobDirectorySaver schemaToJobDirectorySaver = new SchemaToJobDirectorySaver();
+    @Inject
+    private SegmentsCsvBuilder segmentsCsvBuilder = new SegmentsCsvBuilder();
+    @Inject
+    private SegmentProvider segmentProvider;
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
+    public void setSegmentProvider(SegmentProvider segmentProvider) {
+        this.segmentProvider = segmentProvider;
+    }
+
     public void setPathManager(PathManager pathManager) {
         this.pathManager = pathManager;
+    }
+
+    public void setSegmentsCsvBuilder(SegmentsCsvBuilder segmentsCsvBuilder) {
+        this.segmentsCsvBuilder = segmentsCsvBuilder;
     }
 
     public void setSchemaToJobFolderSaver(SchemaToJobDirectorySaver schemaToJobFolderSaver) {
@@ -46,66 +57,28 @@ public class OutputFeaturesInCsvCommand implements Command {
         this.printer = printer;
     }
 
-    public void setSegmentToinstancesCreator(SegmentToInstancesCreator segmentToinstancesCreator) {
-        this.segmentToinstancesCreator = segmentToinstancesCreator;
-    }
-
     @Override
     public void execute() {
         printer.print("Executing output features as csv process: ");
-        StringBuilder output = new StringBuilder();
-        output.append(getHeaders());
         printer.print("loading segments...");
-        output.append(getCsv(pathManager.getTrainSetPath(), "train"));
-        output.append(getCsv(pathManager.getTestSetPath(), "test"));
-        output.append(getCsv(pathManager.getValidationSetPath(), "validation"));
+        List<Segment> trainSet = loadFromJsonAndUpdateSegments(pathManager.getTrainSetPath());
+        List<Segment> testSet = loadFromJsonAndUpdateSegments(pathManager.getTestSetPath());
+        List<Segment> validationSet = loadFromJsonAndUpdateSegments(pathManager.getValidationSetPath());
+        List<Segment> unclassified = getUnclassifiedSegments();
         printer.print("saving output...");
-        saveOutputToFile(output.toString());
+        String csv = segmentsCsvBuilder.buildCsv(trainSet, testSet, validationSet, unclassified);
+        saveOutputToFile(csv);
         schemaToJobDirectorySaver.saveSchemaToJobDirectory();
         printer.print("done.\n");
     }
 
-    private String getHeaders() {
-        List<Segment> segments = loadFromJson(pathManager.getTrainSetPath());
-        segmentToinstancesCreator.createInstancesAndUpdateSegments(segments);
-        if (segments.size() == 0) {
-            return "";
+    private List<Segment> getUnclassifiedSegments() {
+        try {
+            return segmentProvider.getUnannotatedSegments();
+        } catch (LoadingMeasurementsException e) {
+            // no problem
+            return new LinkedList<Segment>();
         }
-        Segment segment = segments.get(0);
-
-        StringBuilder output = new StringBuilder();
-        output.append("device_info_serial,");
-        output.append("date_time,");
-        output.append("lon,");
-        output.append("lat,");
-        output.append("alt,");
-        output.append("class_id,");
-        for (String feature : segment.getFeatureNames()) {
-            output.append(feature + ",");
-        }
-        output.append("set\n");
-        return output.toString();
-
-    }
-
-    private String getCsv(String path, String set) {
-        List<Segment> segments = loadFromJson(path);
-        segmentToinstancesCreator.createInstancesAndUpdateSegments(segments);
-        StringBuilder output = new StringBuilder();
-        for (Segment segment : segments) {
-            output.append(segment.getDeviceId() + ",");
-            output.append(segment.getTimeStamp().toString(Constants.DATE_TIME_PATTERN_ISO8601) + ",");
-            output.append(segment.getLongitude() + ",");
-            output.append(segment.getLatitude() + ",");
-            output.append(segment.getAltitude() + ",");
-            output.append(segment.getLabel() + ",");
-            for (double feature : segment.getFeatures()) {
-                output.append(feature + ",");
-            }
-            output.append(set + "\n");
-
-        }
-        return output.toString();
     }
 
     private void saveOutputToFile(String output) {
@@ -124,7 +97,7 @@ public class OutputFeaturesInCsvCommand implements Command {
         }
     }
 
-    private List<Segment> loadFromJson(String path) {
+    private List<Segment> loadFromJsonAndUpdateSegments(String path) {
         List<Segment> segments;
         try {
             segments = objectMapper.readValue(new File(path), new TypeReference<List<Segment>>() {
