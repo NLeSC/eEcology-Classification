@@ -12,9 +12,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import nl.esciencecenter.eecology.classification.configuration.Constants;
-import nl.esciencecenter.eecology.classification.segmentloading.GpsRecordDto;
-
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.ParseInt;
@@ -25,6 +22,12 @@ import org.supercsv.io.CsvBeanReader;
 import org.supercsv.prefs.CsvPreference;
 import org.supercsv.util.CsvContext;
 
+import com.google.inject.Inject;
+
+import nl.esciencecenter.eecology.classification.commands.Printer;
+import nl.esciencecenter.eecology.classification.configuration.Constants;
+import nl.esciencecenter.eecology.classification.segmentloading.GpsRecordDto;
+
 /**
  * Reads in a csv file from disc and returns a list of GpsFix objects.
  *
@@ -32,7 +35,14 @@ import org.supercsv.util.CsvContext;
  *
  */
 public class GpsRecordDtoCsvLoader {
-    private final Map<String, CellProcessor> cellProcessorsByHeader = createCellProcessorsByHeader();
+    private final Printer printer;
+    private final Map<String, CellProcessor> cellProcessorsByHeader;
+
+    @Inject
+    public GpsRecordDtoCsvLoader(Printer printer) {
+        this.printer = printer;
+        cellProcessorsByHeader = createCellProcessorsByHeader();
+    }
 
     /**
      * Reads in a csv file from disc and returns a list of GpsFix objects.
@@ -66,8 +76,8 @@ public class GpsRecordDtoCsvLoader {
         try {
             fileReader = new FileReader(csvFileName);
         } catch (FileNotFoundException e) {
-            throw new GpsRecordLoadingException("Csv file with gps records was not found at the specified location ("
-                    + csvFileName + ").", e);
+            throw new GpsRecordLoadingException(
+                    "Csv file with gps records was not found at the specified location (" + csvFileName + ").", e);
         }
         return fileReader;
     }
@@ -98,8 +108,8 @@ public class GpsRecordDtoCsvLoader {
     private String[] getHeadersFromFile(CsvBeanReader beanReader) throws IOException {
         Stream<String> allHeadersInFile = Arrays.stream(beanReader.getHeader(true)).map(h -> h.trim());
         Set<String> familiarHeaders = getCellProcessorsByHeader().keySet();
-        List<String> familiarHeadersInFile = allHeadersInFile.map(h -> familiarHeaders.contains(h) ? h : null).collect(
-                Collectors.toList());
+        List<String> familiarHeadersInFile = allHeadersInFile.map(h -> familiarHeaders.contains(h) ? h : null)
+                .collect(Collectors.toList());
         List<String> missingHeaders = familiarHeaders.stream().filter(f -> familiarHeadersInFile.contains(f) == false)
                 .collect(Collectors.toList());
         if (missingHeaders.size() > 0) {
@@ -134,23 +144,26 @@ public class GpsRecordDtoCsvLoader {
         cellProcessors.put("latitude", new NotNull(new ParseDouble()));
         cellProcessors.put("longitude", new NotNull(new ParseDouble()));
         cellProcessors.put("altitude", new NotNull(new ParseInt()));
-        cellProcessors.put("pressure", new Optional(new ParseInt()));
-        cellProcessors.put("temperature", new Optional(new ParseDouble()));
-        cellProcessors.put("satellites_used", new Optional(new ParseInt()));
+        cellProcessors.put("pressure", new NullWarningCellProcessor(new Optional(new ParseInt()), printer, "pressure"));
+        cellProcessors.put("temperature", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "temperature"));
+        cellProcessors.put("satellites_used",
+                new NullWarningCellProcessor(new Optional(new ParseInt()), printer, "satellites_used"));
         cellProcessors.put("gps_fixtime", new NotNull(new ParseDouble()));
         cellProcessors.put("positiondop", new NotNull(new ParseDouble()));
-        cellProcessors.put("h_accuracy", new Optional(new ParseDouble()));
-        cellProcessors.put("v_accuracy", new Optional(new ParseDouble()));
-        cellProcessors.put("x_speed", new Optional(new ParseDouble()));
-        cellProcessors.put("y_speed", new Optional(new ParseDouble()));
-        cellProcessors.put("z_speed", new Optional(new ParseDouble()));
-        cellProcessors.put("speed_accuracy", new Optional(new ParseDouble()));
+        cellProcessors.put("h_accuracy", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "h_accuracy"));
+        cellProcessors.put("v_accuracy", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "v_accuracy"));
+        cellProcessors.put("x_speed", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "x_speed"));
+        cellProcessors.put("y_speed", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "y_speed"));
+        cellProcessors.put("z_speed", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "z_speed"));
+        cellProcessors.put("speed_accuracy",
+                new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "speed_accuracy"));
         cellProcessors.put("location", new NotNull());
         cellProcessors.put("userflag", new NotNull(new ParseInt()));
-        cellProcessors.put("speed_2d", new Optional(new ParseDouble()));
-        cellProcessors.put("speed_3d", new Optional(new ParseDouble()));
-        cellProcessors.put("direction", new Optional(new ParseDouble()));
-        cellProcessors.put("altitude_agl", new Optional(new ParseDouble()));
+        cellProcessors.put("speed_2d", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "speed_2d"));
+        cellProcessors.put("speed_3d", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "speed_3d"));
+        cellProcessors.put("direction", new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "direction"));
+        cellProcessors.put("altitude_agl",
+                new NullWarningCellProcessor(new Optional(new ParseDouble()), printer, "altitude_agl"));
         return cellProcessors;
     };
 
@@ -167,4 +180,5 @@ public class GpsRecordDtoCsvLoader {
         message.append("Could not load gps records from csv file.");
         throw new GpsRecordLoadingException(message.toString(), e);
     }
+
 }

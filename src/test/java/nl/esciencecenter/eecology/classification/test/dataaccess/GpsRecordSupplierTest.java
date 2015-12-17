@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import nl.esciencecenter.eecology.classification.commands.Printer;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordAnnotationCsvLoader;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordDtoCsvLoader;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordSupplier;
 import nl.esciencecenter.eecology.classification.segmentloading.GpsRecord;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class GpsRecordSupplierTest {
     private final String path = "src/test/java/resources/annotatedgpstest/";
@@ -34,6 +35,6 @@ public class GpsRecordSupplierTest {
     public void setUp() {
         supplier = new GpsRecordSupplier();
         supplier.setAnnotationLoader(new GpsRecordAnnotationCsvLoader());
-        supplier.setRecordLoader(new GpsRecordDtoCsvLoader());
+        supplier.setRecordLoader(new GpsRecordDtoCsvLoader(new Printer()));
     }
 }

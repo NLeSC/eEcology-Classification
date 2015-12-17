@@ -1,17 +1,19 @@
 package nl.esciencecenter.eecology.classification.test.dataaccess;
 
+import static org.easymock.EasyMock.createNiceMock;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import nl.esciencecenter.eecology.classification.commands.Printer;
 import nl.esciencecenter.eecology.classification.configuration.Constants;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordDtoCsvLoader;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordLoadingException;
 import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordLoadingMissingColumnsException;
 import nl.esciencecenter.eecology.classification.segmentloading.GpsRecordDto;
-
-import org.junit.Before;
-import org.junit.Test;
 
 public class GpsRecordDtoCsvLoaderTest {
 
@@ -21,6 +23,7 @@ public class GpsRecordDtoCsvLoaderTest {
     private final String testWithMissingColumnFileName = path + "testgpsfixesmissingcolumns.csv";
     private GpsRecordDtoCsvLoader gpsFixAnnotationCsvLoader;
     private final double errorMargin = 0.00001;
+    private Printer printer;
 
     @Test
     public void load_canBeCalled() {
@@ -52,7 +55,8 @@ public class GpsRecordDtoCsvLoaderTest {
         List<GpsRecordDto> results = gpsFixAnnotationCsvLoader.load(testFileName);
 
         // Assert
-        assertEquals("2011-05-31T17:13:21.000+0000", results.get(10).getTimeStamp().toString(Constants.DATE_TIME_PATTERN_ISO8601));
+        assertEquals("2011-05-31T17:13:21.000+0000",
+                results.get(10).getTimeStamp().toString(Constants.DATE_TIME_PATTERN_ISO8601));
     }
 
     @Test
@@ -132,6 +136,7 @@ public class GpsRecordDtoCsvLoaderTest {
 
     @Before
     public void setUp() {
-        gpsFixAnnotationCsvLoader = new GpsRecordDtoCsvLoader();
+        printer = createNiceMock(Printer.class);
+        gpsFixAnnotationCsvLoader = new GpsRecordDtoCsvLoader(printer);
     }
 }

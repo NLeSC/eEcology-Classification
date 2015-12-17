@@ -5,15 +5,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordAnnotationCsvLoader;
-import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordDtoCsvLoader;
-import nl.esciencecenter.eecology.classification.dataaccess.AnnotatedGpsRecordSupplier;
-import nl.esciencecenter.eecology.classification.segmentloading.GpsRecord;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
+
+import nl.esciencecenter.eecology.classification.commands.Printer;
+import nl.esciencecenter.eecology.classification.dataaccess.AnnotatedGpsRecordSupplier;
+import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordAnnotationCsvLoader;
+import nl.esciencecenter.eecology.classification.dataaccess.GpsRecordDtoCsvLoader;
+import nl.esciencecenter.eecology.classification.segmentloading.GpsRecord;
 
 public class AnnotatedGpsRecordSupplierTest {
     private final String path = "src/test/java/resources/annotatedgpstest/";
@@ -122,6 +123,6 @@ public class AnnotatedGpsRecordSupplierTest {
     public void setUp() {
         supplier = new AnnotatedGpsRecordSupplier();
         supplier.setAnnotationLoader(new GpsRecordAnnotationCsvLoader());
-        supplier.setRecordLoader(new GpsRecordDtoCsvLoader());
+        supplier.setRecordLoader(new GpsRecordDtoCsvLoader(new Printer()));
     }
 }
