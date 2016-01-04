@@ -27,6 +27,8 @@ var subsamplePercentage = 100;
 var features = [];
 var selectedFeatures = [];
 var selectedLabels = [];
+var availableSets = ["train", "test", "validation", "unclassified"]
+var	selectedSets = ["train"];
 var allData = [];
 var selectedData = [];
 var data = [];
@@ -51,6 +53,16 @@ var onFeatureSelectionChange = function(event){
     } else {        
         selectedFeatures = selectedFeatures.filter(function(f){return f != event;});
     }
+    setDefaultSubsamplePercentage();
+    updatePlots();
+}
+var onSetSelectionChange = function(event){
+    if (this.checked){
+        selectedSets = availableSets.filter(function(f){return selectedSets.indexOf(f) != -1 || f == event;});
+    } else {        
+        selectedSets = selectedSets.filter(function(f){return f != event;});
+    }
+    setSelectedData();
     setDefaultSubsamplePercentage();
     updatePlots();
 }
@@ -79,8 +91,9 @@ var loadAndHandleData = function(){
 		allData = loadedData;
 		updateFeatures();
 		setSelectedData();
+        addSetSelectionControls();
 		setDefaultSubsamplePercentage();
-		addFeatureSelectionControls();	
+		addFeatureSelectionControls();
 		updatePlots();
 	});
 }
@@ -129,7 +142,7 @@ var get256Color = function(floatColor){
 }
 
 var setSelectedData = function(){
-	selectedData = allData.filter(function(d){return selectedLabels.indexOf(d.class_id) != -1; } );
+	selectedData = allData.filter(function(d){return selectedLabels.indexOf(d.class_id) != -1 && selectedSets.indexOf(d.set) != -1; } );
 }
 
 var setDefaultSubsamplePercentage = function(){
@@ -153,6 +166,22 @@ var addFeatureSelectionControls = function(){
     .attr("checked", "true");
 }
 
+var addSetSelectionControls = function(){	
+    var trackers = d3.select("#setlist").selectAll('input').data(availableSets);  
+    trackers.enter()
+    .append("li")
+    .append("label")
+    .text(function(d) { 
+        return d;
+    })
+    .append("input")
+    .attr("type", "checkbox")
+    .on("change", onSetSelectionChange)
+    .filter(function(checkBox) { 
+        return selectedSets.indexOf(checkBox) != -1; })
+    .attr("checked", "true");
+}
+
 var updateFeatures = function(){
     features = d3.keys(allData[0]).filter(function(d) { return d != "device_info_serial" && 
 		  d != "date_time" && 
@@ -168,8 +197,11 @@ var updateFeatures = function(){
     selectedFeatures = features.slice(0, defaultFeatureCount);
 }
 
-var updateData = function(){  
-    data = selectedData.filter(function(d){return 100 * Math.random() < subsamplePercentage;});
+var updateData = function(){
+    // reset seed to prevent unnecessary selection changes that confuse the user
+    randomSeed = 1;
+
+    data = selectedData.filter(function(d){return 100 * random() < subsamplePercentage;});
 };
 
 var addPlots = function(){
@@ -301,6 +333,13 @@ var addPlots = function(){
 		d3.select(self.frameElement).style("height", size * selectedFeatures.length + padding + 20 + "px");
 }
 
-var tooltip = d3.select("body").append("div")   
-    .attr("class", "tooltip")               
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
     .style("opacity", 0);
+
+// Seedable random generator ()
+var randomSeed = 1; // Cannot be a multiple of Pi (like 0)
+function random() {
+    var x = Math.sin(randomSeed++) * 100000; // The first digits have unwanted patterns
+    return x - Math.floor(x);
+}
