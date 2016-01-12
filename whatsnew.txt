@@ -1,3 +1,7 @@
+2016-01-05
+- Features of unclassified data are written to csv file
+- Feature scatter plots page has option to make a select of either of train/test/validation sets
+
 2015-09-28
 - Selecting a classifier algorithm is now selected using a new format
 
