@@ -110,6 +110,11 @@ use_gps_records_instead_of_accelerometer_data = true
                             <pre>
 measurement_segment_size = 20
                             </pre>
+                            <p>Segments can either be overlapping or non overlapping. The number of overlapping measurements can be set.</p>
+                            <pre>
+accelerometer_overlap_size = 19
+                            </pre>
+                            <p>Note that the step size between two segments can not be set explicitly. It is set indirectly because it is defined by subtracting the overlap from the segment size.</p>
                             <p>Only a homogeneous segment can be created. This means that there will never be created a segment that contains measurements with various time stamps, device ids or different labels. If there are too few consecutive homogeneous measurements to form a segment, these measurements are all discarded. If a device recorded many measurements at a given time, multiple segments can be created with the same device and time stamp. In some situations, these instances cannot be regarded as independent. To prevent multiple segments from being created from data of a single device and time stamp, see the line below.</p>
                             <pre>
 segments_must_have_unique_id_timestamp_combination = true
