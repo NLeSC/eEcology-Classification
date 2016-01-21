@@ -1,3 +1,6 @@
+2016-01-21
+- Possibility to have overlapping segments of accelerometer measurements.
+
 2016-01-05
 - Features of unclassified data are written to csv file
 - Feature scatter plots page has option to make a select of either of train/test/validation sets
