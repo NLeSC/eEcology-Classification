@@ -8,10 +8,12 @@ import java.util.Set;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
+import nl.esciencecenter.eecology.classification.commands.Printer;
+
 /**
- * Segments a group of (accelerometer data) measurements into windows. The size of each window can be set. The windows are
- * non-overlapping. Windows are homogeneous, meaning they can only hold measurements belonging to the same device, taken at the
- * same time, and given the same label.
+ * Segments a group of (accelerometer data) measurements into windows. The size of each window can be set. Windows are
+ * homogeneous, meaning they can only hold measurements belonging to the same device, taken at the same time, and given the same
+ * label.
  *
  * @author Christiaan Meijer, NLeSc
  *
@@ -19,19 +21,21 @@ import com.google.inject.name.Named;
 public class Segmenter {
     @Inject
     private SegmentFactory segmentFactory;
+    private Printer printer;
 
     @Inject
     @Named("segments_must_have_unique_id_timestamp_combination")
     private boolean segmentsMustHaveUniqueIdTimeStampCombination;
 
-    private int segmentSize = 1;
+    private int overlapSize;
+    private int segmentSize;
     private boolean ignoreLabel;
     private Set<String> uniqueIdTimeStamps;
 
     @Inject
-    // Injecting segmentSize in constructor to be able to use setter.
-    public Segmenter(@Named("measurement_segment_size") int segmentSize) {
-        setSegmentSize(segmentSize);
+    // Injecting sizes in constructor to be able to use setter.
+    public Segmenter(@Named("measurement_segment_size") int segmentSize, @Named("accelerometer_overlap_size") int overlapSize) {
+        setSegmentSizeAndOverlap(segmentSize, overlapSize);
     }
 
     public void setSegmentsMustHaveUniqueIdTimeStampCombination(boolean segmentsMustHaveUniqueIdTimeStampCombination) {
@@ -42,8 +46,25 @@ public class Segmenter {
         this.segmentFactory = segmentFactory;
     }
 
-    public void setSegmentSize(int segmentSize) {
+    public void setPrinter(Printer printer) {
+        this.printer = printer;
+    }
+
+    public void setSegmentSizeAndOverlap(int segmentSize, int overlapSize) {
         this.segmentSize = Math.max(1, segmentSize);
+        this.overlapSize = Math.min(this.segmentSize - 1, Math.max(0, overlapSize));
+        if (this.overlapSize != overlapSize || this.segmentSize != segmentSize && printer != null) {
+            printer.warn("Incorrect segment size and overlap size set: adjusted to segment size " + this.segmentSize
+                    + " and overlap size " + this.overlapSize + ".");
+        }
+    }
+
+    public int getSegmentSize() {
+        return segmentSize;
+    }
+
+    public int getOverlapSize() {
+        return overlapSize;
     }
 
     /**
@@ -93,7 +114,7 @@ public class Segmenter {
         LinkedList<IndependentMeasurement> measurementsToGroup = new LinkedList<IndependentMeasurement>(measurements);
         uniqueIdTimeStamps = new HashSet<String>();
         while (measurementsToGroup.size() >= segmentSize) {
-            List<IndependentMeasurement> currentGroup = popSegmentCompatibleMeasurementsWithoutOverlap(measurementsToGroup);
+            List<IndependentMeasurement> currentGroup = popSegmentCompatibleMeasurementsWithOverlap(measurementsToGroup);
             addNewSegmentIfCorrect(currentGroup, segments);
         }
         return segments;
@@ -119,17 +140,21 @@ public class Segmenter {
         return idTimeStamp;
     }
 
-    private List<IndependentMeasurement> popSegmentCompatibleMeasurementsWithoutOverlap(
-            LinkedList<IndependentMeasurement> measurementsToSegment) {
+    private List<IndependentMeasurement>
+            popSegmentCompatibleMeasurementsWithOverlap(LinkedList<IndependentMeasurement> measurementsToSegment) {
         List<IndependentMeasurement> currentSegment = new LinkedList<IndependentMeasurement>();
         IndependentMeasurement firstMeasurement = measurementsToSegment.getFirst();
         for (int i = 0; i < segmentSize; i++) {
-            IndependentMeasurement currentMeasurement = measurementsToSegment.peek();
+            IndependentMeasurement currentMeasurement = measurementsToSegment.get(i);
             if (areCompatible(firstMeasurement, currentMeasurement)) {
-                currentSegment.add(measurementsToSegment.pop());
+                currentSegment.add(currentMeasurement);
             } else {
                 break;
             }
+        }
+        int stepSize = segmentSize - overlapSize;
+        for (int i = 0; i < stepSize; i++) {
+            measurementsToSegment.removeFirst();
         }
         return currentSegment;
     }

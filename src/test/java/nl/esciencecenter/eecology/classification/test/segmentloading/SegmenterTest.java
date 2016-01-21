@@ -10,24 +10,26 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+
 import nl.esciencecenter.eecology.classification.dataaccess.SchemaProvider;
 import nl.esciencecenter.eecology.classification.machinelearning.LabelDetail;
 import nl.esciencecenter.eecology.classification.segmentloading.IndependentMeasurement;
 import nl.esciencecenter.eecology.classification.segmentloading.Segment;
 import nl.esciencecenter.eecology.classification.segmentloading.SegmentFactory;
 import nl.esciencecenter.eecology.classification.segmentloading.Segmenter;
-
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import nl.esciencecenter.eecology.classification.test.dataaccess.PrinterFixture;
 
 public class SegmenterTest {
 
     private Segmenter segmenter;
     private final double errorMargin = 0.00001;
+    private PrinterFixture printer;
 
     @Test
-    public void getLabeledSegments__argumentNull_noExceptionThrown() {
+    public void getLabeledSegments_argumentNull_noExceptionThrown() {
         // Act
         segmenter.createLabeledSegments(null);
     }
@@ -49,7 +51,7 @@ public class SegmenterTest {
         // Arrange
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(getMeasurementWithLabel(0));
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
 
         // Act
         List<Segment> output = segmenter.createLabeledSegments(input);
@@ -65,7 +67,7 @@ public class SegmenterTest {
         IndependentMeasurement measurement = getMeasurementWithLabel(0);
         measurement.setX(1234.56);
         input.add(measurement);
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
 
         // Act
         List<Segment> output = segmenter.createLabeledSegments(input);
@@ -77,7 +79,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_10InputssegmentSize3_segmentSize3() {
         // Arrange
-        segmenter.setSegmentSize(3);
+        segmenter.setSegmentSizeAndOverlap(3, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < 10; i++) {
             input.add(getMeasurementWithLabel(0));
@@ -95,7 +97,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_4InputssegmentSize1_1segment() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < 4; i++) {
             input.add(getMeasurementWithLabel(0));
@@ -111,7 +113,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_10InputssegmentSize2_5segments() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < 10; i++) {
             IndependentMeasurement measurement = getMeasurementWithLabel(0);
@@ -129,12 +131,8 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_10000InputssegmentSize20_500segments() {
         // Arrange
-        segmenter.setSegmentSize(20);
-        List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
-        for (int i = 0; i < 10000; i++) {
-            IndependentMeasurement measurement = getMeasurementWithLabel(0);
-            input.add(measurement);
-        }
+        segmenter.setSegmentSizeAndOverlap(20, 0);
+        List<IndependentMeasurement> input = getMeasurementsWithLabel0(10000);
 
         // Act
         List<Segment> output = segmenter.createLabeledSegments(input);
@@ -146,7 +144,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_2InputsWithDifferentIdssegmentSize2_0segment() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
 
         input.add(getMeasurementWithDeviceId(1));
@@ -162,7 +160,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_2InputsWithDifferentLabelssegmentSize2_0segment() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
 
         input.add(getMeasurementWithLabel(1));
@@ -176,9 +174,9 @@ public class SegmenterTest {
     }
 
     @Test
-    public void getLabeledSegments__measurementWithoutLabel_noSegment() {
+    public void getLabeledSegments_measurementWithoutLabel_noSegment() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(new IndependentMeasurement());
 
@@ -192,7 +190,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_2InputsWithDifferentTimeStampssegmentSize2_0segment() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
 
         DateTime time1 = new DateTime(2014, 2, 7, 11, 49, 00);
@@ -211,7 +209,7 @@ public class SegmenterTest {
     public void getLabeledSegments_20InputsWithOnly2DifferentTimeStampsSegmentSize2_2segment() {
         // Arrange
         segmenter.setSegmentsMustHaveUniqueIdTimeStampCombination(true);
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
 
         DateTime time1 = new DateTime(2014, 2, 7, 11, 49, 00);
@@ -234,7 +232,7 @@ public class SegmenterTest {
     public void getLabeledSegments_20InputsWithOnly3DifferentDeviceIdsSegmentSize2_3segment() {
         // Arrange
         segmenter.setSegmentsMustHaveUniqueIdTimeStampCombination(true);
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
 
         int label = 0;
@@ -260,7 +258,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_1InputsWithLabel_segmentHasCorrectLabel() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(getMeasurementWithLabel(5));
 
@@ -274,7 +272,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_1InputsWithDeviceId_segmentHasCorrectDeviceId() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         IndependentMeasurement measurement = getMeasurementWithLabel(0);
         measurement.setDeviceId(320);
@@ -290,7 +288,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_1InputsWithTimeStamp_segmentHasCorrectTimeStamp() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         IndependentMeasurement measurement = getMeasurementWithLabel(0);
         DateTime timeStamp = new DateTime(2014, 3, 2, 23, 59, 14);
@@ -307,7 +305,7 @@ public class SegmenterTest {
     @Test
     public void getLabeledSegments_1labeled1UnlabeledSize2_noSegments() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(getMeasurementWithLabel(0));
         input.add(new IndependentMeasurement());
@@ -322,7 +320,7 @@ public class SegmenterTest {
     @Test
     public void createSegmentsIgnoringLabel_1unlabeled_1segment() {
         // Arrange
-        segmenter.setSegmentSize(1);
+        segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(new IndependentMeasurement()); // unlabeled
 
@@ -336,7 +334,7 @@ public class SegmenterTest {
     @Test
     public void createSegmentsIgnoringLabel_1unlabeled1labeledSize2_1segment() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(new IndependentMeasurement()); // unlabeled
         input.add(getMeasurementWithLabel(8));
@@ -351,7 +349,7 @@ public class SegmenterTest {
     @Test
     public void createSegmentsIgnoringLabel_1labeled1unlabeledSize2_segmentIsUnlabeled() {
         // Arrange
-        segmenter.setSegmentSize(2);
+        segmenter.setSegmentSizeAndOverlap(2, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         input.add(getMeasurementWithLabel(3));
         input.add(new IndependentMeasurement()); // unlabeled
@@ -367,7 +365,7 @@ public class SegmenterTest {
     public void createSegmentsIgnoringLabel_8measurements_getNumberOfMeasurementsCorrect() {
         // Arrange
         int segmentSize = 8;
-        segmenter.setSegmentSize(segmentSize);
+        segmenter.setSegmentSizeAndOverlap(segmentSize, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < segmentSize; i++) {
             input.add(getMeasurementWithLabel(3));
@@ -384,7 +382,7 @@ public class SegmenterTest {
     public void createSegmentsIgnoringLabel_8measurementsAndSegmentSize0_return8SegmentsOf1() {
         // Arrange
         int numberOfMeasurements = 8;
-        segmenter.setSegmentSize(0);
+        segmenter.setSegmentSizeAndOverlap(0, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < numberOfMeasurements; i++) {
             input.add(getMeasurementWithLabel(4));
@@ -401,7 +399,7 @@ public class SegmenterTest {
     public void createSegmentsIgnoringLabel_4measurementsWithoutIndex_segmentHasNoFirstIndex() {
         // Arrange
         int numberOfMeasurements = 4;
-        segmenter.setSegmentSize(4);
+        segmenter.setSegmentSizeAndOverlap(4, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
         for (int i = 0; i < numberOfMeasurements; i++) {
             input.add(getMeasurementWithLabel(4));
@@ -417,7 +415,7 @@ public class SegmenterTest {
     @Test
     public void createSegmentsIgnoringLabel_4measurementsWithIndex_segmentHasFirstIndex() {
         // Arrange
-        segmenter.setSegmentSize(4);
+        segmenter.setSegmentSizeAndOverlap(4, 0);
         List<IndependentMeasurement> input = get4LabeledMeasurementsWithIndices8through11();
 
         // Act
@@ -430,7 +428,7 @@ public class SegmenterTest {
     @Test
     public void createSegmentsIgnoringLabel_4measurementsWithIndex_segmentHasCorrectFirstIndex() {
         // Arrange
-        segmenter.setSegmentSize(4);
+        segmenter.setSegmentSizeAndOverlap(4, 0);
         List<IndependentMeasurement> input = get4LabeledMeasurementsWithIndices8through11();
 
         // Act
@@ -440,15 +438,93 @@ public class SegmenterTest {
         assertEquals(8, segments.get(0).getFirstIndex());
     }
 
+    @Test
+    public void setOverlapSize_segmentSize6Overlap4_getOverlap4() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(6, 4);
+
+        // Assert
+        assertEquals(4, segmenter.getOverlapSize());
+    }
+
+    @Test
+    public void setOverlapSize_segmentSize6OverlapNeg1_getOverlap0() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(6, -1);
+
+        // Assert
+        assertEquals(0, segmenter.getOverlapSize());
+    }
+
+    @Test
+    public void setOverlapSize_segmentSize6OverlapNeg1_warningPrinted() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(6, -1);
+
+        // Assert
+        assertEquals(1, printer.hasWarned());
+    }
+
+    @Test
+    public void setOverlapSize_segmentSizeNeg1Overlap0_warningPrinted() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(-1, 0);
+
+        // Assert
+        assertEquals(1, printer.hasWarned());
+    }
+
+    @Test
+    public void setOverlapSize_segmentSizeNeg2Overlap0_getSegmentSize1() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(-2, 0);
+
+        // Assert
+        assertEquals(0, segmenter.getOverlapSize());
+    }
+
+    @Test
+    public void setOverlapSize_segmentSize4Overlap6_getOverlap3() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(4, 6);
+
+        // Assert
+        assertEquals(3, segmenter.getOverlapSize());
+    }
+
+    @Test
+    public void createSegmentsIgnoringLabel_measurements10size4Overlap3_7segments() {
+        // Arrange
+        segmenter.setSegmentSizeAndOverlap(4, 3);
+        List<IndependentMeasurement> input = getMeasurementsWithLabel0(10);
+
+        // Act
+        List<Segment> segments = segmenter.createSegmentsIgnoringLabel(input);
+
+        // Assert
+        assertEquals(7, segments.size());
+    }
+
     @Before
     public void setUp() {
-        segmenter = new Segmenter(0);
+        segmenter = new Segmenter(0, 0);
         SegmentFactory segmentFactory = new SegmentFactory();
         SchemaProvider labelMapReader = createNiceMock(SchemaProvider.class);
         expect(labelMapReader.getSchema()).andReturn(getMap()).anyTimes();
         replay(labelMapReader);
         segmentFactory.setLabelMapReader(labelMapReader);
         segmenter.setSegmentFactory(segmentFactory);
+        printer = new PrinterFixture();
+        segmenter.setPrinter(printer);
+    }
+
+    private List<IndependentMeasurement> getMeasurementsWithLabel0(int numberOfMeasurements) {
+        List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
+        for (int i = 0; i < numberOfMeasurements; i++) {
+            IndependentMeasurement measurement = getMeasurementWithLabel(0);
+            input.add(measurement);
+        }
+        return input;
     }
 
     private List<IndependentMeasurement> get4LabeledMeasurementsWithIndices8through11() {
