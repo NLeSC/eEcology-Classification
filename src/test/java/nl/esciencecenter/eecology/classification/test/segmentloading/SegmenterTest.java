@@ -254,6 +254,27 @@ public class SegmenterTest {
         // Assert
         assertEquals(3, output.size());
     }
+    
+    @Test
+    public void getLabeledSegments_12320InputsWithOnly3DifferentDeviceIdsSegmentSize2_3segment() {
+        // Arrange
+        //segmenter.setSegmentsMustHaveUniqueIdTimeStampCombination(true);
+        segmenter.setSegmentSizeAndOverlap(3, 0);
+        List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
+        for (int i = 0; i < 4; i++) {
+            input.add(getMeasurementWithLabel(1));
+        }
+
+        for (int i = 0; i < 3; i++) {
+        	input.add(getMeasurementWithLabel(2));
+        }
+
+        // Act
+        List<Segment> output = segmenter.createLabeledSegments(input);
+
+        // Assert
+        assertEquals(2, output.size());
+    }
 
     @Test
     public void getLabeledSegments_1InputsWithLabel_segmentHasCorrectLabel() {

@@ -152,12 +152,18 @@ public class Segmenter {
                 break;
             }
         }
-        int stepSize = segmentSize - overlapSize;
-        for (int i = 0; i < stepSize; i++) {
-            measurementsToSegment.removeFirst();
-        }
+        
+        removeItemsFromList(measurementsToSegment, currentSegment.size());
         return currentSegment;
     }
+
+	private void removeItemsFromList(LinkedList<IndependentMeasurement> measurementsToSegment, int currentSegmentSize) {
+		int stepSize = segmentSize - overlapSize;
+		int measurementsToPop = Math.min(stepSize, currentSegmentSize);
+        for (int i = 0; i < measurementsToPop; i++) {
+            measurementsToSegment.removeFirst();
+        }
+	}
 
     private boolean areCompatible(IndependentMeasurement firstMeasurement, IndependentMeasurement currentMeasurement) {
         boolean deviceIdIsCompatible = currentMeasurement.getDeviceId() == firstMeasurement.getDeviceId();
