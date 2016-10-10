@@ -144,28 +144,31 @@ public class Segmenter {
             popSegmentCompatibleMeasurementsWithOverlap(LinkedList<IndependentMeasurement> measurementsToSegment) {
         List<IndependentMeasurement> currentSegment = new LinkedList<IndependentMeasurement>();
         IndependentMeasurement firstMeasurement = measurementsToSegment.getFirst();
+        boolean failedToFormCompatibleSegment = false;
         for (int i = 0; i < segmentSize; i++) {
             IndependentMeasurement currentMeasurement = measurementsToSegment.get(i);
             if (areCompatible(firstMeasurement, currentMeasurement)) {
                 currentSegment.add(currentMeasurement);
             } else {
+            	failedToFormCompatibleSegment = true;
                 break;
             }
         }
         
-        removeItemsFromList(measurementsToSegment, currentSegment.size());
+        removeItems(measurementsToSegment, failedToFormCompatibleSegment, currentSegment.size());
         return currentSegment;
     }
 
-	private void removeItemsFromList(LinkedList<IndependentMeasurement> measurementsToSegment, int currentSegmentSize) {
+	private void removeItems(LinkedList<IndependentMeasurement> measurementsToSegment, boolean failed,
+			int currentSegmentSize) {
 		int stepSize = segmentSize - overlapSize;
-		int measurementsToPop = Math.min(stepSize, currentSegmentSize);
-        for (int i = 0; i < measurementsToPop; i++) {
-            measurementsToSegment.removeFirst();
-        }
+		int measurementsToPop = failed ? currentSegmentSize : stepSize;
+		for (int i = 0; i < measurementsToPop; i++) {
+		    measurementsToSegment.removeFirst();
+		}
 	}
 
-    private boolean areCompatible(IndependentMeasurement firstMeasurement, IndependentMeasurement currentMeasurement) {
+	private boolean areCompatible(IndependentMeasurement firstMeasurement, IndependentMeasurement currentMeasurement) {
         boolean deviceIdIsCompatible = currentMeasurement.getDeviceId() == firstMeasurement.getDeviceId();
         boolean labelIsCompatible = currentMeasurement.isLabeled() == firstMeasurement.isLabeled()
                 && (currentMeasurement.isLabeled() == false || currentMeasurement.getLabel() == firstMeasurement.getLabel());
