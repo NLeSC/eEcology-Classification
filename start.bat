@@ -1,2 +1,2 @@
-@java -jar classification-1.1.2.jar
+@java -jar classification-1.2.1.jar
 @pause
