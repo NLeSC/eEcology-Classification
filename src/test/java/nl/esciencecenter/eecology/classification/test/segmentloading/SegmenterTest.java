@@ -95,7 +95,7 @@ public class SegmenterTest {
     }
 
     @Test
-    public void getLabeledSegments_4InputssegmentSize1_1segment() {
+    public void getLabeledSegments_4InputssegmentSize1_4segments() {
         // Arrange
         segmenter.setSegmentSizeAndOverlap(1, 0);
         List<IndependentMeasurement> input = new LinkedList<IndependentMeasurement>();
