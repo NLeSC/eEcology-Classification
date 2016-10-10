@@ -206,7 +206,7 @@ public class SegmenterTest {
     }
 
     @Test
-    public void getLabeledSegments_20InputsWithOnly2DifferentTimeStampsSegmentSize2_2segment() {
+    public void getLabeledSegments_30InputsWithOnly2DifferentTimeStampsSegmentSize2_2segment() {
         // Arrange
         segmenter.setSegmentsMustHaveUniqueIdTimeStampCombination(true);
         segmenter.setSegmentSizeAndOverlap(2, 0);
